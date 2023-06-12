@@ -15,3 +15,4 @@ Charge up supers, then unleash them to destroy any who oppose you.
 ## In Progress:
 ### Custom Menu Logos
 More customization options!
+Update: Vanilla logos setup
