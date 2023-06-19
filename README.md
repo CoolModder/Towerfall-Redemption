@@ -2,6 +2,7 @@
 # Towerfall-Redemption
 ***You NEED FortRise for this to work! Get it from https://github.com/Terria-K/FortRise***
 ***Thank you, Terria and RedDude! This would not be possible without your support!***
+
 Enjoy new arrows, mechanics, towers, hazards, and gui!
 ## Todo:
 ### Pets
