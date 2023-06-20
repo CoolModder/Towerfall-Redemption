@@ -2,9 +2,12 @@
 # Towerfall-Redemption
 ***You NEED FortRise for this to work! Get it from https://github.com/Terria-K/FortRise***
 ***Thank you, Terria and RedDude! This would not be possible without your support!***
+
 Enjoy new arrows, mechanics, towers, hazards, and gui!
-##Done:
+
+## Done:
 Custom Logos!!!
+
 ## Todo:
 ### Pets
 New creatures from the Dark World have arrived! Use the new net arrows to capture them. Trap and free them to gain their powerful boosts!
