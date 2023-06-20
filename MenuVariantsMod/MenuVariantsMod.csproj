@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <LangVersion>11</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;0104;1061;0246;0118;0123</NoWarn>
+    <WarningLevel>0</WarningLevel>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;0104;1061;0246;0118;0123</NoWarn>
+    <WarningLevel>0</WarningLevel>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MonoMod" Version="22.5.1.1" />
+    <PackageReference Include="MonoMod.RuntimeDetour" Version="22.5.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Content/Atlas/**/*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="meta.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>..\..\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="FNA">
+      <HintPath>..\..\FNA.dll</HintPath>
+    </Reference>
+    <Reference Include="MMHOOK_TowerFall">
+      <HintPath>..\..\MMHOOK_TowerFall.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="TowerFall">
+      <HintPath>..\..\TowerFall.exe</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Content\Atlas\" />
+    <Folder Include="Content\images\" />
+  </ItemGroup>
+</Project>
