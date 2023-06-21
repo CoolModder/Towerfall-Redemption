@@ -15,6 +15,8 @@ New creatures from the Dark World have arrived! Use the new net arrows to captur
 ### Monsters
 It seems some of the pet's parents came with them. These new beasts will destroy all who oppose them, so be wary.
 ## In Progress:
+### TowerBall 
+Enjoy the old april fools mod, brought back for fortrise! Shoot hoops and slam!
 ### Custom Arrows
 Enjoy many custom arrows, all ready to shake up the competition!
 ### Supers
