@@ -1,5 +1,0 @@
-<TextureAtlas imagePath="atlas.png">
-    <SubTexture name="title/TowerSus" x="14" y="275" width="256" height="78"/>
-    <SubTexture name="title/TowerSusLight" x="14" y="197" width="256" height="78"/>
-	<SubTexture name="title/TowerSusBg" x="11" y="9" width="272" height="125"/>
-</TextureAtlas>
