@@ -7,7 +7,7 @@
 Enjoy new arrows, mechanics, towers, hazards, and gui!
 
 ## Done:
-Custom Logos!!!
+Custom Logos + Bezels!!!
 
 ## Todo:
 ### Pets
