@@ -24,8 +24,6 @@ namespace MenuVariantsMod
             var _customLogos = "Content" + _separator + "Mod" + _separator + "CustomLogos" + _separator;
             string[] directories = Directory.GetDirectories(_customLogos);
             string[] array = directories;
-            MenuVariantModModule.MenuVariantNames.Add("ASCENSION");
-            MenuVariantModModule.MenuVariantNames.Add("DARK WORLD");
             LogoList = new List<CustomLogo>();
             foreach (string text in array)
             {

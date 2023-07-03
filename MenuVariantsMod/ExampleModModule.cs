@@ -37,14 +37,14 @@ public class MenuVariantModModule : FortModule
 
     public override void Load()
     {
-        Debugger.Launch();
         var _separator = Path.DirectorySeparatorChar.ToString();
         var _customLogos = "Content" + _separator + "Mod" + _separator + "CustomLogos" + _separator;
         Directory.CreateDirectory(_customLogos);
+        MenuVariantModModule.MenuVariantNames.Add("ASCENSION");
+        MenuVariantModModule.MenuVariantNames.Add("DARK WORLD");
         LogoLoad.Load();
         BezelLoad.Load();
-        Console.WriteLine("Custom Logos are here (to annoy you with configs!)");
-        Console.WriteLine("Sorry, you will have to restart to load the new logo. I don't want to break the game...");
+        Console.WriteLine("Custom Logos are here");
         On.TowerFall.Logo.ctor += MyLogo.ctor;
         On.TowerFall.TFGame.LoadContent += MyBezel.MyLoad;
         typeof(ModExports).ModInterop();
@@ -57,14 +57,13 @@ public class MenuVariantModModule : FortModule
     }
     public override void CreateModSettings(List<OptionsButton> optionList)
     {
-        var optionButton = new OptionsButton("MENU MODE");
+        var optionButton = new OptionsButton("TITLE MODE");
         optionButton.SetCallbacks(
             ()=> {optionButton.State = SettingName();}, 
             ()=> {Settings.MenuVariant--; SettingName(); }, 
             ()=>{Settings.MenuVariant++; SettingName(); },
             null
         );
-        optionButton.X = 150; 
         optionList.Add(optionButton);
         var optionBezelButton = new OptionsButton("BEZEL MODE");
         optionBezelButton.SetCallbacks(
@@ -79,10 +78,12 @@ public class MenuVariantModModule : FortModule
         {
             optionBezelButton.CanLeft = Settings.BezelVariant > 0;
             optionBezelButton.CanRight = Settings.BezelVariant < BezelLoad.BezelNames.Count - 1;
+            Refresher.RefreshBezel();
             return BezelLoad.BezelNames[Settings.BezelVariant];
         }
         string SettingName()
         {
+            Refresher.RefreshLogo();
             optionButton.CanLeft = Settings.MenuVariant > 0;
             optionButton.CanRight = Settings.MenuVariant < MenuVariantNames.Count - 1;
             return MenuVariantNames[Settings.MenuVariant];

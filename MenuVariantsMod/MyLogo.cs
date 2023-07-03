@@ -29,9 +29,10 @@ public class MyLogo : Logo
     public static float lightMult = 1f;
     public static SineWave lightSine;
 
-
+    public static Logo Instance;
     public static void ctor(On.TowerFall.Logo.orig_ctor orig, Logo self) 
     {
+        Instance = self;
         var LogoData = DynamicData.For(self);
         orig(self);
         self.RemoveAll();
