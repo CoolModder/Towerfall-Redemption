@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="menuAtlas.png">
+  <SubTexture name="gamemodes/TowerBall" x="11" y="218" width="39" height="70" />
+</TextureAtlas>
