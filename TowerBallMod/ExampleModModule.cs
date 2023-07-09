@@ -18,6 +18,7 @@ public class ExampleModModule : FortModule
     public string LoadPath;
     public static ExampleModModule Instance;
     public static SFX BasketBallBounce;
+    public static bool TowerBallMode;
     public ExampleModModule() 
     {
         Instance = this;

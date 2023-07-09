@@ -31,6 +31,15 @@ internal class MyPlayer : Player
     [HarmonyPostfix]
     public static void ctor(Player __instance)
     {
+        if(__instance.Level.Session.MatchSettings.CurrentModeName == "TowerBallRoundLogic")
+        {
+
+             ExampleModModule.TowerBallMode = true;
+        }
+        else
+        {
+            ExampleModModule.TowerBallMode = false;
+        }
         HasBasketBall[__instance.PlayerIndex] = 0;
         touchedGroundSinceCollect[__instance.PlayerIndex] = true;
         currentHoldFrames[__instance.PlayerIndex] = 0f;
@@ -44,30 +53,34 @@ internal class MyPlayer : Player
     [HarmonyPrefix]
     public static void ShootArrow(Player __instance, bool __state)
     {
-        PlayerArrows[__instance.PlayerIndex] = __instance.Arrows;
-        Console.Write(HasBasketBall[__instance.PlayerIndex]);
-        if (HasBasketBall[__instance.PlayerIndex] > 0)
-        {
-            DynamicData.For(__instance).Set("Arrows", new ArrowList(new ArrowTypes[] {RiseCore.ArrowsID["BasketBall"] })); 
-            ((TowerBallRoundLogic)__instance.Level.Session.RoundLogic).lastThrower = __instance.PlayerIndex;
-            HasBasketBall[__instance.PlayerIndex] = 0;
+        if (ExampleModModule.TowerBallMode) { 
+            PlayerArrows[__instance.PlayerIndex] = __instance.Arrows;
+            if (HasBasketBall[__instance.PlayerIndex] > 0)
+            {
+                DynamicData.For(__instance).Set("Arrows", new ArrowList(new ArrowTypes[] { RiseCore.ArrowsID["BasketBall"] }));
+                ((TowerBallRoundLogic)__instance.Level.Session.RoundLogic).lastThrower = __instance.PlayerIndex;
+                HasBasketBall[__instance.PlayerIndex] = 0;
+            }
         }
     }
 
     [HarmonyPatch(typeof(Player), "ShootArrow")]
     [HarmonyPostfix]
     public static void PostShootArrow(Player __instance)
-    { 
-        DynamicData.For(__instance).Set("Arrows", PlayerArrows[__instance.PlayerIndex]);
-        Console.Write(HasBasketBall[__instance.PlayerIndex]);
+    {
+        if (ExampleModModule.TowerBallMode)
+        {
+            DynamicData.For(__instance).Set("Arrows", PlayerArrows[__instance.PlayerIndex]);
+        }
     }
 
     [HarmonyPatch(typeof(Player), "CollectArrows")]
     [HarmonyPrefix]
     public static bool CollectArrows(Player __instance, bool __result, params ArrowTypes[] arrows)
-    {
-        if (arrows != null && arrows.Length == 1 && arrows[0] == RiseCore.ArrowsID["BasketBall"])
+    { 
+        if (arrows != null && arrows.Length == 1 && arrows[0] == RiseCore.ArrowsID["BasketBall"] && ExampleModModule.TowerBallMode)
         {
+            Console.WriteLine();
             HasBasketBall[__instance.PlayerIndex] = 1;
             touchedGroundSinceCollect[__instance.PlayerIndex] = true;
             __result = true;
@@ -80,22 +93,25 @@ internal class MyPlayer : Player
     [HarmonyPrefix]
     public static void Die(Player __instance, DeathCause deathCause, int killerIndex, bool brambled = false, bool laser = false)
     {
-        Level level = __instance.Level;
-        while (HasBasketBall[__instance.PlayerIndex] > 0)
+        if (ExampleModModule.TowerBallMode)
         {
-            if (deathCause == DeathCause.JumpedOn && level.GetPlayer(killerIndex) != null)
+            Level level = __instance.Level;
+            while (HasBasketBall[__instance.PlayerIndex] > 0)
             {
-                HasBasketBall[killerIndex]++;
+                if (deathCause == DeathCause.JumpedOn && level.GetPlayer(killerIndex) != null)
+                {
+                    HasBasketBall[killerIndex]++;
+                }
+                else
+                {
+                    ((TowerBallRoundLogic)level.Session.RoundLogic).DropBall(__instance, __instance.Position + Player.ArrowOffset, __instance.Facing);
+                }
+                HasBasketBall[__instance.PlayerIndex]--;
             }
-            else
+            if (currentHoldFrames[__instance.PlayerIndex] > 0f)
             {
-                ((TowerBallRoundLogic)level.Session.RoundLogic).DropBall(__instance, __instance.Position + Player.ArrowOffset, __instance.Facing);
+                currentHoldFrames[__instance.PlayerIndex] = 0f;
             }
-            HasBasketBall[__instance.PlayerIndex]--;
-        }
-        if (currentHoldFrames[__instance.PlayerIndex] > 0f)
-        {
-            currentHoldFrames[__instance.PlayerIndex] = 0f;
         }
     }
 
@@ -103,48 +119,49 @@ internal class MyPlayer : Player
     [HarmonyPrefix]
     public static void OnExplode(Player __instance, Explosion explosion, Vector2 normal)
     {
-        while (HasBasketBall[__instance.PlayerIndex] > 0)
-        {
-            ((TowerBallRoundLogic)__instance.Level.Session.RoundLogic).DropBall(__instance, __instance.Position, __instance.Facing);
-            HasBasketBall[__instance.PlayerIndex]--;
+        if (ExampleModModule.TowerBallMode) { 
+            while (HasBasketBall[__instance.PlayerIndex] > 0)
+            {
+                ((TowerBallRoundLogic)__instance.Level.Session.RoundLogic).DropBall(__instance, __instance.Position, __instance.Facing);
+                HasBasketBall[__instance.PlayerIndex]--;
+            }      
         }
     }
 
     [HarmonyPatch(typeof(Player), "Update")]
-    [HarmonyPostfix]
+    [HarmonyPrefix]
     public static void Update(Player __instance, ref Sprite<string> ___bowSprite)
     {
-        BasketBallImages[__instance.PlayerIndex].Position = __instance.Position + Player.ArrowOffset + new Vector2((float)__instance.Facing * 4f, 2f);
-        if ((__instance.CharacterIndex == 8 && __instance.AltSelect == ArcherData.ArcherTypes.Normal) || (__instance.CharacterIndex == 6 && __instance.AltSelect == ArcherData.ArcherTypes.Alt) || (__instance.CharacterIndex == 7 && __instance.AltSelect == ArcherData.ArcherTypes.Alt))
+        if (ExampleModModule.TowerBallMode)
         {
-            ___bowSprite.Visible = HasBasketBall[__instance.PlayerIndex] <= 0 && __instance.Aiming;
-        }
-        else
-        {
-            ___bowSprite.Visible = HasBasketBall[__instance.PlayerIndex] <= 0;
-        }
-        if (__instance.Level.Session.MatchSettings.Variants.StartWithToyArrows[__instance.PlayerIndex] && HasBasketBall[__instance.PlayerIndex] > 1)
-        {
-            HasBasketBall[__instance.PlayerIndex] = 1;
-        }
-        if (TFGame.PlayerInputs[__instance.PlayerIndex].MenuAlt2)
-        {
-        }
-        if (__instance.State == PlayerStates.LedgeGrab)
-        {
-            touchedGroundSinceCollect[__instance.PlayerIndex] = false;
-        }
-        else
-        {
-            touchedGroundSinceCollect[__instance.PlayerIndex] &= !__instance.OnGround;
-        }
-        if (HasBasketBall[__instance.PlayerIndex] > 0)
-        {
-            currentHoldFrames[__instance.PlayerIndex] += Engine.TimeMult;
-        }
-        else if (currentHoldFrames[__instance.PlayerIndex] > 0f)
-        {
-            currentHoldFrames[__instance.PlayerIndex] = 0f;
+            BasketBallImages[__instance.PlayerIndex].Position = __instance.Position + Player.ArrowOffset + new Vector2((float)__instance.Facing * 4f, 2f);
+            if ((__instance.CharacterIndex == 8 && __instance.AltSelect == ArcherData.ArcherTypes.Normal) || (__instance.CharacterIndex == 6 && __instance.AltSelect == ArcherData.ArcherTypes.Alt) || (__instance.CharacterIndex == 7 && __instance.AltSelect == ArcherData.ArcherTypes.Alt))
+            {
+                ___bowSprite.Visible = HasBasketBall[__instance.PlayerIndex] <= 0 && __instance.Aiming;
+            }
+            else
+            {
+                ___bowSprite.Visible = HasBasketBall[__instance.PlayerIndex] <= 0;
+            }
+            if (TFGame.PlayerInputs[__instance.PlayerIndex].MenuAlt2)
+            {
+            }
+            if (__instance.State == PlayerStates.LedgeGrab)
+            {
+                touchedGroundSinceCollect[__instance.PlayerIndex] = false;
+            }
+            else
+            {
+                touchedGroundSinceCollect[__instance.PlayerIndex] &= !__instance.OnGround;
+            }
+            if (HasBasketBall[__instance.PlayerIndex] > 0)
+            {
+                currentHoldFrames[__instance.PlayerIndex] += Engine.TimeMult;
+            }
+            else if (currentHoldFrames[__instance.PlayerIndex] > 0f)
+            {
+                currentHoldFrames[__instance.PlayerIndex] = 0f;
+            }
         }
     }
 
@@ -154,7 +171,7 @@ internal class MyPlayer : Player
     {
         Level level = __instance.Level;
         __state = false;
-        if (HasBasketBall[__instance.PlayerIndex] > 0 && TFGame.PlayerInputs[__instance.PlayerIndex].GetState().JumpPressed && __instance.CollideCheck(GameTags.JumpThru, __instance.Position + Vector2.UnitY) && !__instance.CollideCheck(GameTags.Solid, __instance.Position + Vector2.UnitY * 3f))
+        if (HasBasketBall[__instance.PlayerIndex] > 0 && TFGame.PlayerInputs[__instance.PlayerIndex].GetState().JumpPressed && __instance.CollideCheck(GameTags.JumpThru, __instance.Position + Vector2.UnitY) && !__instance.CollideCheck(GameTags.Solid, __instance.Position + Vector2.UnitY * 3f) && ExampleModModule.TowerBallMode)
         {
             Entity entity = __instance.CollideFirst(GameTags.JumpThru, __instance.Position + Vector2.UnitY);
             if (entity is BasketBallBasket)
@@ -199,10 +216,11 @@ internal class MyPlayer : Player
     [HarmonyFinalizer]
     public static void Render(Player __instance)
     {
-        if (HasBasketBall[__instance.PlayerIndex] > 0)
+        if (HasBasketBall[__instance.PlayerIndex] > 0 && ExampleModModule.TowerBallMode)
         {
             BasketBallImages[__instance.PlayerIndex].Render();
         }
     }
+
 }
 
