@@ -20,7 +20,15 @@ Port of Towerball to Fortrise! May contain bugs.
 Credits: Original mod by Suyoo (at https://suyo.be/towerball/), Ported by CoolModder. 
 Ball Sound by Zmobie licensed under the Creative Commons 0 License. http://www.freesound.org/people/zmobie/sounds/319765/
 
+
 Latest Release: https://github.com/CoolModder/Towerfall-Redemeption/releases/tag/v.0.9.2-Ball
+### Warlord 
+How the canceled gamemode could of been... Grab the helm and survive to win, or kill the warlord and be the last one left to score
+![20230710192012_1](https://github.com/CoolModder/Towerfall-Redemption/assets/132532001/cef0f5b5-eb83-4aa7-9d2e-c4ad8b0c1454)
+Credits: CoolModder
+
+
+Latest Release: 
 ## Todo:
 ### Custom Arrows
 Enjoy many custom arrows, all ready to shake up the competition!
