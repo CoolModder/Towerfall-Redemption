@@ -28,7 +28,7 @@ How the canceled gamemode could of been... Grab the helm and survive to win, or 
 Credits: CoolModder
 
 
-Latest Release: 
+Latest Release: https://github.com/CoolModder/Towerfall-Redemption/releases/tag/v1.0.0-Warlord
 ## Todo:
 ### Custom Arrows
 Enjoy many custom arrows, all ready to shake up the competition!
