@@ -50,3 +50,5 @@ Getting those last bugs out!
 Sick of the bland gems on the screen?
 ### Supers
 Charge up supers, then unleash them to destroy any who oppose you.
+### Fixing Archer Loader (https://github.com/RedDude/ArcherLoader/releases/tag/v1.1.0) for custom gamemodes
+Very Important, and is much needed.
