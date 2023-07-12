@@ -29,6 +29,13 @@ Credits: CoolModder
 
 
 Latest Release: https://github.com/CoolModder/Towerfall-Redemption/releases/tag/v1.0.0-Warlord
+
+### No Seek Quest
+Challenge yourself to beat Co-op without arrow seek!
+
+Credits: CoolModdder, concept by Jan-Kleks
+
+Latest Release: https://github.com/CoolModder/Towerfall-Redemption/releases/tag/v1.0.0-NoSeek
 ## Todo:
 ### Custom Arrows
 Enjoy many custom arrows, all ready to shake up the competition!
