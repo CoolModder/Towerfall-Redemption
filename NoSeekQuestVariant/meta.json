@@ -1,0 +1,7 @@
+{
+	"name": "No Seek Quest",
+	"version": "1.0.0",
+	"author": "CoolModder",
+	"description": "Challenge yourself, and deal with aiming perfectly to win",
+	"dll": "NoSeekQuestVariant.dll"
+}
