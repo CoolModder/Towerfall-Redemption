@@ -1,4 +1,3 @@
-
 # Towerfall-Redemption
 ***You NEED FortRise for this to work! Get it from https://github.com/Terria-K/FortRise***
 
@@ -44,11 +43,7 @@ New creatures from the Dark World have arrived! Use the new net arrows to captur
 ### Monsters
 It seems some of the pet's parents came with them. These new beasts will destroy all who oppose them, so be wary.
 ## In Progress:
-### TowerBall
-Getting those last bugs out!
 ### Gui Overhaul
 Sick of the bland gems on the screen?
 ### Supers
 Charge up supers, then unleash them to destroy any who oppose you.
-### Fixing Archer Loader (https://github.com/RedDude/ArcherLoader/releases/tag/v1.1.0) for custom gamemodes
-Very Important, and is much needed.
