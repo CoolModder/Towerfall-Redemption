@@ -54,18 +54,18 @@ public class ExampleModModule : FortModule
 
     public override void Load()
     {
-        Debugger.Launch();
-        var harmony = new Harmony("com.CoolModder.TowerBall");
+        
         MyPlayerCorpse.Load();
-        harmony.PatchAll();
         typeof(ModExports).ModInterop();
         MyVersusLevelSystem.Load();
+        MyPlayer.Load();
     }
 
     public override void Unload()
     {
         MyPlayerCorpse.Unload();
         MyVersusLevelSystem.Unload();
+        MyPlayer.Unload();
     }
 }
 

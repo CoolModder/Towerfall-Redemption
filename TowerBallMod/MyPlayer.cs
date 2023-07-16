@@ -7,7 +7,6 @@ using MonoMod.Utils;
 using TowerBall;
 using TowerFall;
 using FortRise;
-[HarmonyPatch]
 internal class MyPlayer : Player
 {
 
@@ -27,11 +26,11 @@ internal class MyPlayer : Player
     {
     }
 
-    [HarmonyPatch(typeof(Player), "Added")]
-    [HarmonyPostfix]
-    public static void ctor(Player __instance)
+ 
+    public static void ctor(On.TowerFall.Player.orig_Added orig, TowerFall.Player self)
     {
-        if(__instance.Level.Session.MatchSettings.CurrentModeName == "TowerBallRoundLogic")
+        orig(self);
+        if(self.Level.Session.MatchSettings.CurrentModeName == "TowerBallRoundLogic")
         {
 
              ExampleModModule.TowerBallMode = true;
@@ -40,63 +39,54 @@ internal class MyPlayer : Player
         {
             ExampleModModule.TowerBallMode = false;
         }
-        HasBasketBall[__instance.PlayerIndex] = 0;
-        touchedGroundSinceCollect[__instance.PlayerIndex] = true;
-        currentHoldFrames[__instance.PlayerIndex] = 0f;
-        BasketBallImages[__instance.PlayerIndex] = new OutlineImage(ExampleModModule.Atlas["towerball/ball"])
+        HasBasketBall[self.PlayerIndex] = 0;
+        touchedGroundSinceCollect[self.PlayerIndex] = true;
+        currentHoldFrames[self.PlayerIndex] = 0f;
+        BasketBallImages[self.PlayerIndex] = new OutlineImage(ExampleModModule.Atlas["towerball/ball"])
         {
             Origin = new Vector2(5f, 5f)
         };
     }
 
-    [HarmonyPatch(typeof(Player), "ShootArrow")]
-    [HarmonyPrefix]
-    public static void ShootArrow(Player __instance, bool __state)
+    
+    public static void ShootArrow(On.TowerFall.Player.orig_ShootArrow orig, global::TowerFall.Player self)
     {
         if (ExampleModModule.TowerBallMode) { 
-            PlayerArrows[__instance.PlayerIndex] = __instance.Arrows;
-            if (HasBasketBall[__instance.PlayerIndex] > 0)
+            PlayerArrows[self.PlayerIndex] = self.Arrows;
+            if (HasBasketBall[self.PlayerIndex] > 0)
             {
-                DynamicData.For(__instance).Set("Arrows", new ArrowList(new ArrowTypes[] { RiseCore.ArrowsID["BasketBall"] }));
-                ((TowerBallRoundLogic)__instance.Level.Session.RoundLogic).lastThrower = __instance.PlayerIndex;
-                HasBasketBall[__instance.PlayerIndex] = 0;
+                DynamicData.For(self).Set("Arrows", new ArrowList(new ArrowTypes[] { RiseCore.ArrowsID["BasketBall"] }));
+                ((TowerBallRoundLogic)self.Level.Session.RoundLogic).lastThrower = self.PlayerIndex;
+                HasBasketBall[self.PlayerIndex] = 0;
             }
         }
-    }
-
-    [HarmonyPatch(typeof(Player), "ShootArrow")]
-    [HarmonyPostfix]
-    public static void PostShootArrow(Player __instance)
-    {
+        orig(self);
         if (ExampleModModule.TowerBallMode)
         {
-            DynamicData.For(__instance).Set("Arrows", PlayerArrows[__instance.PlayerIndex]);
+            DynamicData.For(self).Set("Arrows", PlayerArrows[self.PlayerIndex]);
         }
     }
 
-    [HarmonyPatch(typeof(Player), "CollectArrows")]
-    [HarmonyPrefix]
-    public static bool CollectArrows(Player __instance, bool __result, params ArrowTypes[] arrows)
+    public static bool CollectArrows(On.TowerFall.Player.orig_CollectArrows orig, global::TowerFall.Player self, ArrowTypes[] arrows)
     { 
         if (arrows != null && arrows.Length == 1 && arrows[0] == RiseCore.ArrowsID["BasketBall"] && ExampleModModule.TowerBallMode)
         {
             Console.WriteLine();
-            HasBasketBall[__instance.PlayerIndex] = 1;
-            touchedGroundSinceCollect[__instance.PlayerIndex] = true;
-            __result = true;
-            return false;
+            HasBasketBall[self.PlayerIndex] = 1;
+            touchedGroundSinceCollect[self.PlayerIndex] = true;
+            
+            return true;
         }
-        return true;
+        return orig(self, arrows);
     }
 
-    [HarmonyPatch(typeof(Player), "Die", new Type[] {typeof(DeathCause), typeof(int), typeof(bool), typeof(bool)})]
-    [HarmonyPrefix]
-    public static void Die(Player __instance, DeathCause deathCause, int killerIndex, bool brambled = false, bool laser = false)
+    public static PlayerCorpse Die(On.TowerFall.Player.orig_Die_DeathCause_int_bool_bool orig, global::TowerFall.Player self, DeathCause deathCause, int killerIndex, bool brambled, bool laser)
     {
+        
         if (ExampleModModule.TowerBallMode)
         {
-            Level level = __instance.Level;
-            while (HasBasketBall[__instance.PlayerIndex] > 0)
+            Level level = self.Level;
+            while (HasBasketBall[self.PlayerIndex] > 0)
             {
                 if (deathCause == DeathCause.JumpedOn && level.GetPlayer(killerIndex) != null)
                 {
@@ -104,89 +94,74 @@ internal class MyPlayer : Player
                 }
                 else
                 {
-                    ((TowerBallRoundLogic)level.Session.RoundLogic).DropBall(__instance, __instance.Position + Player.ArrowOffset, __instance.Facing);
+                    ((TowerBallRoundLogic)level.Session.RoundLogic).DropBall(self, self.Position + Player.ArrowOffset, self.Facing);
                 }
-                HasBasketBall[__instance.PlayerIndex]--;
+                HasBasketBall[self.PlayerIndex]--;
             }
-            if (currentHoldFrames[__instance.PlayerIndex] > 0f)
+            if (currentHoldFrames[self.PlayerIndex] > 0f)
             {
-                currentHoldFrames[__instance.PlayerIndex] = 0f;
+                currentHoldFrames[self.PlayerIndex] = 0f;
             }
         }
+        return orig(self, deathCause, killerIndex, brambled, laser);
     }
 
-    [HarmonyPatch(typeof(Player), "OnExplode")]
-    [HarmonyPrefix]
-    public static void OnExplode(Player __instance, Explosion explosion, Vector2 normal)
+    public static void Update(On.TowerFall.Player.orig_Update orig, global::TowerFall.Player self)
     {
-        if (ExampleModModule.TowerBallMode) { 
-            while (HasBasketBall[__instance.PlayerIndex] > 0)
-            {
-                ((TowerBallRoundLogic)__instance.Level.Session.RoundLogic).DropBall(__instance, __instance.Position, __instance.Facing);
-                HasBasketBall[__instance.PlayerIndex]--;
-            }      
-        }
-    }
-
-    [HarmonyPatch(typeof(Player), "Update")]
-    [HarmonyPrefix]
-    public static void Update(Player __instance, ref Sprite<string> ___bowSprite)
-    {
+        orig(self);
         if (ExampleModModule.TowerBallMode)
-        {
-            BasketBallImages[__instance.PlayerIndex].Position = __instance.Position + Player.ArrowOffset + new Vector2((float)__instance.Facing * 4f, 2f);
-            if ((__instance.CharacterIndex == 8 && __instance.AltSelect == ArcherData.ArcherTypes.Normal) || (__instance.CharacterIndex == 6 && __instance.AltSelect == ArcherData.ArcherTypes.Alt) || (__instance.CharacterIndex == 7 && __instance.AltSelect == ArcherData.ArcherTypes.Alt))
+        {   
+            BasketBallImages[self.PlayerIndex].Position = self.Position + Player.ArrowOffset + new Vector2((float)self.Facing * 4f, 2f);
+            if ((self.CharacterIndex == 8 && self.AltSelect == ArcherData.ArcherTypes.Normal) || (self.CharacterIndex == 6 && self.AltSelect == ArcherData.ArcherTypes.Alt) || (self.CharacterIndex == 7 && self.AltSelect == ArcherData.ArcherTypes.Alt))
             {
-                ___bowSprite.Visible = HasBasketBall[__instance.PlayerIndex] <= 0 && __instance.Aiming;
+                (DynamicData.For(self).Get("bowSprite") as Sprite<string>).Visible = HasBasketBall[self.PlayerIndex] <= 0 && self.Aiming;
             }
             else
             {
-                ___bowSprite.Visible = HasBasketBall[__instance.PlayerIndex] <= 0;
+                (DynamicData.For(self).Get("bowSprite") as Sprite<string>).Visible = HasBasketBall[self.PlayerIndex] <= 0;
             }
-            if (TFGame.PlayerInputs[__instance.PlayerIndex].MenuAlt2)
+            if (TFGame.PlayerInputs[self.PlayerIndex].MenuAlt2)
             {
             }
-            if (__instance.State == PlayerStates.LedgeGrab)
+            if (self.State == PlayerStates.LedgeGrab)
             {
-                touchedGroundSinceCollect[__instance.PlayerIndex] = false;
+                touchedGroundSinceCollect[self.PlayerIndex] = false;
             }
             else
             {
-                touchedGroundSinceCollect[__instance.PlayerIndex] &= !__instance.OnGround;
+                touchedGroundSinceCollect[self.PlayerIndex] &= !self.OnGround;
             }
-            if (HasBasketBall[__instance.PlayerIndex] > 0)
+            if (HasBasketBall[self.PlayerIndex] > 0)
             {
-                currentHoldFrames[__instance.PlayerIndex] += Engine.TimeMult;
+                currentHoldFrames[self.PlayerIndex] += Engine.TimeMult;
             }
-            else if (currentHoldFrames[__instance.PlayerIndex] > 0f)
+            else if (currentHoldFrames[self.PlayerIndex] > 0f)
             {
-                currentHoldFrames[__instance.PlayerIndex] = 0f;
+                currentHoldFrames[self.PlayerIndex] = 0f;
             }
         }
     }
 
-    [HarmonyPatch(typeof(Player), "DuckingUpdate")]
-    [HarmonyPrefix]
-    public static void DuckingUpdate(Player __instance, bool __state)
+    public static int DuckingUpdate(On.TowerFall.Player.orig_DuckingUpdate orig, global::TowerFall.Player self)
     {
-        Level level = __instance.Level;
-        __state = false;
-        if (HasBasketBall[__instance.PlayerIndex] > 0 && TFGame.PlayerInputs[__instance.PlayerIndex].GetState().JumpPressed && __instance.CollideCheck(GameTags.JumpThru, __instance.Position + Vector2.UnitY) && !__instance.CollideCheck(GameTags.Solid, __instance.Position + Vector2.UnitY * 3f) && ExampleModModule.TowerBallMode)
+        Level level = self.Level;
+        var __state = false;
+        if (HasBasketBall[self.PlayerIndex] > 0 && TFGame.PlayerInputs[self.PlayerIndex].GetState().JumpPressed && self.CollideCheck(GameTags.JumpThru, self.Position + Vector2.UnitY) && !self.CollideCheck(GameTags.Solid, self.Position + Vector2.UnitY * 3f) && ExampleModModule.TowerBallMode)
         {
-            Entity entity = __instance.CollideFirst(GameTags.JumpThru, __instance.Position + Vector2.UnitY);
+            Entity entity = self.CollideFirst(GameTags.JumpThru, self.Position + Vector2.UnitY);
             if (entity is BasketBallBasket)
             {
-                bool flag2 = __instance.Position.X > 160f;
-                Sounds.sfx_devTimeFinalDummy.Play(__instance.X);
-                TowerBallRoundLogic towerBallRoundLogic = (TowerBallRoundLogic)__instance.Level.Session.RoundLogic;
-                while (HasBasketBall[__instance.PlayerIndex] > 0)
+                bool flag2 = self.Position.X > 160f;
+                Sounds.sfx_devTimeFinalDummy.Play(self.X);
+                TowerBallRoundLogic towerBallRoundLogic = (TowerBallRoundLogic)self.Level.Session.RoundLogic;
+                while (HasBasketBall[self.PlayerIndex] > 0)
                 {
-                    towerBallRoundLogic.IncreaseScore(__instance.PlayerIndex, towerBallRoundLogic.lastThrower, dunk: true, allyoop: false, clean: false, (!flag2) ? 1 : 0);
-                    towerBallRoundLogic.AddDeadBall(__instance.Position, __instance.Speed);
-                    HasBasketBall[__instance.PlayerIndex]--;
+                    towerBallRoundLogic.IncreaseScore(self.PlayerIndex, towerBallRoundLogic.lastThrower, dunk: true, allyoop: false, clean: false, (!flag2) ? 1 : 0);
+                    towerBallRoundLogic.AddDeadBall(self.Position, self.Speed);
+                    HasBasketBall[self.PlayerIndex]--;
                 }
                 towerBallRoundLogic.SpawnBallChest(300);
-                Explosion.Spawn(level, entity.Position + new Vector2(7.5f, 0f), __instance.PlayerIndex, plusOneKill: false, triggerBomb: false, bombTrap: false);
+                Explosion.Spawn(level, entity.Position + new Vector2(7.5f, 0f), self.PlayerIndex, plusOneKill: false, triggerBomb: false, bombTrap: false);
                 towerBallRoundLogic.AddSlamNotification(entity.Position + (flag2 ? new Vector2(-10f, 0f) : new Vector2(10f, 0f)));
                 if ((bool)level.KingIntro)
                 {
@@ -196,30 +171,45 @@ internal class MyPlayer : Player
                 __state = true;
             }
         }
-    }
-    [HarmonyPatch(typeof(Player), "DuckingUpdate")]
-    [HarmonyPostfix]
-    public static void DuckingUpdatePost(Player __instance, bool __state)
-    { 
+        
         if (__state)
         {
-            __instance.Position.Y += 6f;
+            self.Position.Y += 6f;
         }
-        if (__state && __instance.HasShield)
+        if (__state && self.HasShield)
         {
-            __instance.Position.Y += 10f;
+            self.Position.Y += 10f;
         }
+        return orig(self);
     }
 
-    [HarmonyPatch(typeof(Player), "HUDRender")]
-    [HarmonyPrefix]
-    [HarmonyFinalizer]
-    public static void Render(Player __instance)
+    public static void Render(On.TowerFall.Player.orig_HUDRender orig, global::TowerFall.Player self, bool wrapped)
     {
-        if (HasBasketBall[__instance.PlayerIndex] > 0 && ExampleModModule.TowerBallMode)
+        orig(self, wrapped);
+        if (HasBasketBall[self.PlayerIndex] > 0 && ExampleModModule.TowerBallMode)
         {
-            BasketBallImages[__instance.PlayerIndex].Render();
+            BasketBallImages[self.PlayerIndex].Render();
         }
+    }
+    public static void Load()
+    {
+        On.TowerFall.Player.Added += ctor;
+        On.TowerFall.Player.Die_DeathCause_int_bool_bool += Die;
+        On.TowerFall.Player.Update += Update;
+        On.TowerFall.Player.ShootArrow += ShootArrow;
+        On.TowerFall.Player.DuckingUpdate += DuckingUpdate;
+        On.TowerFall.Player.HUDRender += Render;
+        On.TowerFall.Player.CollectArrows += CollectArrows;
+    }
+    public static void Unload()
+    {
+        On.TowerFall.Player.Added -= ctor;
+        On.TowerFall.Player.Die_DeathCause_int_bool_bool -= Die;
+        On.TowerFall.Player.Update -= Update;
+        On.TowerFall.Player.HUDRender -= Render;
+        On.TowerFall.Player.DuckingUpdate -= DuckingUpdate;
+        On.TowerFall.Player.ShootArrow -= ShootArrow;
+        On.TowerFall.Player.CollectArrows -= CollectArrows;
     }
 
 }
