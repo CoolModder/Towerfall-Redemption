@@ -28,7 +28,7 @@ How the canceled gamemode could of been... Grab the helm and survive to win, or 
 Credits: CoolModder
 
 
-Latest Release: https://github.com/CoolModder/Towerfall-Redemption/releases/tag/v1.0.0-Warlord
+Latest Release: https://github.com/CoolModder/Towerfall-Redemption/releases/tag/v1.5.0-Warlord
 
 ### No Seek Quest
 Challenge yourself to beat Co-op without arrow seek!
