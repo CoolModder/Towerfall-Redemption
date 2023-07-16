@@ -8,7 +8,6 @@ using TowerFall;
 using FortRise;
 using Warlord;
 
-[HarmonyPatch]
 internal class MyPlayer : Player
 {
     public static Dictionary<int, int> HasWarlordHelm = new Dictionary<int, int>(16);
@@ -21,24 +20,21 @@ internal class MyPlayer : Player
    
     }
 
-    [HarmonyPatch(typeof(Player), "Added")]
-    [HarmonyPostfix]
-    public static void ctor(Player __instance)
-    {
-        HasWarlordHelm[__instance.PlayerIndex] = 0;
-        HoldWarlordHelm[__instance.PlayerIndex] = 0;
-        SkullHead[__instance.PlayerIndex] = new OutlineImage(ExampleModModule.Atlas["warlord/helmPlayer"])
+
+    public static void ctor(On.TowerFall.Player.orig_Added orig, TowerFall.Player self) { 
+        orig(self);
+        HasWarlordHelm[self.PlayerIndex] = 0;
+        HoldWarlordHelm[self.PlayerIndex] = 0;
+        SkullHead[self.PlayerIndex] = new OutlineImage(ExampleModModule.Atlas["warlord/helmPlayer"])
         {
             Origin = new Vector2(0f, 0f)
         };
     }
-
-    [HarmonyPatch(typeof(Player), "Die", new Type[] {typeof(DeathCause), typeof(int), typeof(bool), typeof(bool)})]
-    [HarmonyPrefix]
-    public static void Die(Player __instance, DeathCause deathCause, int killerIndex, bool brambled = false, bool laser = false)
+    public static PlayerCorpse Die(On.TowerFall.Player.orig_Die_DeathCause_int_bool_bool orig, global::TowerFall.Player self, DeathCause deathCause, int killerIndex, bool brambled, bool laser)
     {
-        Level level = __instance.Level;
-        while (HasWarlordHelm[__instance.PlayerIndex] > 0)
+       
+        Level level = self.Level;
+        while (HasWarlordHelm[self.PlayerIndex] > 0)
         {
             if (deathCause == DeathCause.JumpedOn && level.GetPlayer(killerIndex) != null)
             {
@@ -46,50 +42,62 @@ internal class MyPlayer : Player
             }
             else
             {
-                ((TowerBallRoundLogic)level.Session.RoundLogic).DropHelm(__instance, __instance.Position + Player.ArrowOffset, __instance.Facing);
+                ((TowerBallRoundLogic)level.Session.RoundLogic).DropHelm(self, self.Position + Player.ArrowOffset, self.Facing);
             }
-            HasWarlordHelm[__instance.PlayerIndex]--;
+            HasWarlordHelm[self.PlayerIndex]--;
         }
+        return orig(self, deathCause, killerIndex, brambled, laser);
     }
 
 
-    [HarmonyPatch(typeof(Player), "Update")]
-    [HarmonyPrefix]
-    public static void Update(Player __instance, ref Sprite<string> ___bowSprite)
+    public static void Update(On.TowerFall.Player.orig_Update orig, global::TowerFall.Player self)
     {
-        Level level = __instance.Level;
-        Entity entity = __instance.CollideFirst(GameTags.Hat);
+        Level level = self.Level;
+        Entity entity = self.CollideFirst(GameTags.Hat);
         if (entity != null)
         {
             if (entity is WarlordHelm)
             { 
-                HasWarlordHelm[__instance.PlayerIndex]++;
+                HasWarlordHelm[self.PlayerIndex]++;
                 entity.RemoveSelf();
             }
         }
         
        
-        if(HasWarlordHelm[__instance.PlayerIndex] > 0)
+        if(HasWarlordHelm[self.PlayerIndex] > 0)
         {
             
-            HoldWarlordHelm[__instance.PlayerIndex]++;
+            HoldWarlordHelm[self.PlayerIndex]++;
 
-            if (HoldWarlordHelm[__instance.PlayerIndex] >= 1000 * ExampleModModule.Settings.TimeToScore)
+            if (HoldWarlordHelm[self.PlayerIndex] >= 1000 * ExampleModModule.Settings.TimeToScore)
             {
-                ((TowerBallRoundLogic)level.Session.RoundLogic).IncreaseScore(__instance);
+                ((TowerBallRoundLogic)level.Session.RoundLogic).IncreaseScore(self);
             }
         }
+        orig(self);
     }
-    [HarmonyPatch(typeof(Player), "HUDRender")]
-    [HarmonyPrefix]
-    [HarmonyFinalizer]
-    public static void Render(Player __instance)
+    public static void Render(On.TowerFall.Player.orig_HUDRender orig, global::TowerFall.Player self, bool wrapped)
     {
-        if (HasWarlordHelm[__instance.PlayerIndex] > 0)
+        orig(self, wrapped);
+        if (HasWarlordHelm[self.PlayerIndex] > 0)
         {
-            SkullHead[__instance.PlayerIndex].Position = new Vector2(__instance.Position.X - 8f, __instance.Position.Y - 38f);
-            SkullHead[__instance.PlayerIndex].Render();
+            SkullHead[self.PlayerIndex].Position = new Vector2(self.Position.X - 8f, self.Position.Y - 38f);
+            SkullHead[self.PlayerIndex].Render();
         }
+    }
+    public static void Load()
+    {
+        On.TowerFall.Player.Added += ctor;
+        On.TowerFall.Player.Die_DeathCause_int_bool_bool += Die;
+        On.TowerFall.Player.Update += Update;
+        On.TowerFall.Player.HUDRender += Render;
+    }
+    public static void Unload()
+    {
+        On.TowerFall.Player.Added -= ctor;
+        On.TowerFall.Player.Die_DeathCause_int_bool_bool -= Die;
+        On.TowerFall.Player.Update -= Update;
+        On.TowerFall.Player.HUDRender -= Render;
     }
 }
 

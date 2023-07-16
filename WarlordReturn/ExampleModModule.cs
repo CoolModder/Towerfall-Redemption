@@ -30,14 +30,14 @@ public class ExampleModModule : FortModule
 
     public override void Load()
     {
-        Debugger.Launch();
-        var harmony = new Harmony("com.CoolModder.TowerBall");
-        harmony.PatchAll();
+        
         typeof(ModExports).ModInterop();
+        MyPlayer.Load();
     }
 
     public override void Unload()
     {
+        MyPlayer.Unload();
     }
 }
 
