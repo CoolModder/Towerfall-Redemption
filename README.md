@@ -36,14 +36,16 @@ Credits: CoolModdder, concept by Jan-Kleks
 
 Latest Release: https://github.com/CoolModder/Towerfall-Redemption/releases/tag/v1.0.0-NoSeek
 ## Todo:
-### Custom Arrows
-Enjoy many custom arrows, all ready to shake up the competition!
+
 ### Pets
 New creatures from the Dark World have arrived! Use the new net arrows to capture them. Trap and free them to gain their powerful boosts!
 ### Monsters
 It seems some of the pet's parents came with them. These new beasts will destroy all who oppose them, so be wary.
-## In Progress:
 ### Gui Overhaul
 Sick of the bland gems on the screen?
 ### Supers
 Charge up supers, then unleash them to destroy any who oppose you.
+
+## In Progress:
+### Custom Arrows
+Enjoy many custom arrows, all ready to shake up the competition!
