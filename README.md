@@ -15,7 +15,8 @@ Credits: CoolModder
 Latest Release: https://github.com/CoolModder/Towerfall-Redemeption/releases/tag/V2.5.0-Menu
 
 ### Oops, All Arrows Mod
-Enjoy the chaos of new arrows
+Enjoy the chaos of new arrows!
+List of Arrows: https://github.com/CoolModder/Towerfall-Redemption/wiki/Custom-Arrow-Types
 
 Credits: CoolModder
 
