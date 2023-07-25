@@ -13,6 +13,13 @@ Credits: CoolModder
 
 
 Latest Release: https://github.com/CoolModder/Towerfall-Redemeption/releases/tag/V2.5.0-Menu
+
+### Oops, All Arrows Mod
+Enjoy the chaos of new arrows
+
+Credits: CoolModder
+
+Latest Release:  https://github.com/CoolModder/Towerfall-Redemption/releases/tag/v1.0.0-Arrow
 ### TowerBall
 Port of Towerball to Fortrise! 
 ![20230706192939_1](https://github.com/CoolModder/Towerfall-Redemeption/assets/132532001/8d84431f-db3e-4252-bcb8-498c295bf26f)
