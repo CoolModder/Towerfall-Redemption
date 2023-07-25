@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:17ae4c45f3b5f167234396b9fa52870d:93fbe2740e1e975defc65a72a783b76b:cde709370900f12288f3449eded86f07$ -->
+<TextureAtlas imagePath="SlimeArrow.png">
+	<SubTexture name="SlimeArrowHud" x="5" y="35" width="5" height="9"/>
+	<SubTexture name="Slime" x="18" y="34" width="11" height="11"/>
+	<SubTexture name="SlimeArrow" x="1" y="4" width="13" height="4"/>
+	<SubTexture name="SlimeArrowBuried" x="1" y="9" width="13" height="4"/>
+	<SubTexture name="SlimeArrowPickup" x="2" y="18" width="12" height="12"/>
+</TextureAtlas>

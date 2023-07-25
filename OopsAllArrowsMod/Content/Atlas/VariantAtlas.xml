@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:17ae4c45f3b5f167234396b9fa52870d:93fbe2740e1e975defc65a72a783b76b:cde709370900f12288f3449eded86f07$ -->
+<TextureAtlas imagePath="VariantAtlas.png">
+	<SubTexture name="variants/startWithIceArrows" x="1" y="1" width="14" height="14"/>
+	<SubTexture name="variants/startWithSlimeArrows" x="1" y="33" width="14" height="14"/>
+	<SubTexture name="variants/startWithBaitArrows" x="1" y="65" width="14" height="14"/>
+	<SubTexture name="variants/startWithPrismTrapArrows" x="1" y="97" width="14" height="14"/>
+	<SubTexture name="variants/startWithLandMineArrows" x="1" y="129" width="14" height="14"/>
+	<SubTexture name="variants/excludeIceArrows" x="1" y="17" width="14" height="14"/>
+	<SubTexture name="variants/excludeSlimeArrows" x="1" y="49" width="14" height="14"/>
+	<SubTexture name="variants/excludeBaitArrows" x="1" y="81" width="14" height="14"/>
+	<SubTexture name="variants/excludePrismTrapArrows" x="1" y="113" width="14" height="14"/>
+	<SubTexture name="variants/excludeLandMineArrows" x="1" y="145" width="14" height="14"/>
+	<SubTexture name="variants/spawnInTowers" x="17" y="17" width="14" height="14"/>
+</TextureAtlas>
