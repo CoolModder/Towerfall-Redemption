@@ -1,4 +1,14 @@
 # Towerfall-Redemption
+<!-- Shield -->
+
+[![Contributors][contributors-shield]][contributors-url]
+[![Download][download-shield]][download-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+
+<!-- ABOUT THE PROJECT -->
 ***You NEED FortRise for this to work! Get it from https://github.com/Terria-K/FortRise***
 
 ***Thank you, Terria and RedDude! This would not be possible without your support!***
