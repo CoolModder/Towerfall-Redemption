@@ -66,3 +66,16 @@ Charge up supers, then unleash them to destroy any who oppose you.
 ## In Progress:
 ### Custom Arrows
 Enjoy many custom arrows, all ready to shake up the competition!
+
+[contributors-shield]: https://img.shields.io/github/contributors/Fcornaire/TF.EX.svg?style=for-the-badge
+[contributors-url]: https://github.com/Fcornaire/TF.EX/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/Fcornaire/TF.EX.svg?style=for-the-badge
+[forks-url]: https://github.com/Fcornaire/TF.EX/network/members
+[stars-shield]: https://img.shields.io/github/stars/Fcornaire/TF.EX.svg?style=for-the-badge
+[stars-url]: https://github.com/Fcornaire/TF.EX/stargazers
+[issues-shield]: https://img.shields.io/github/issues/Fcornaire/TF.EX.svg?style=for-the-badge
+[issues-url]: https://github.com/Fcornaire/TF.EX/issues
+[license-shield]: https://img.shields.io/github/license/Fcornaire/TF.EX.svg?style=for-the-badge
+[download-shield]: https://img.shields.io/github/downloads/Fcornaire/TF.EX/total?style=for-the-badge
+[download-url]: https://github.com/Fcornaire/TF.EX/releases
+[license-url]: https://github.com/Fcornaire/TF.EX/blob/master/LICENSE.txt
