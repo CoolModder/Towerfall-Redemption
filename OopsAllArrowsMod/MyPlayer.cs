@@ -51,7 +51,7 @@ namespace OopsAllArrowsMod
             var PlayerData = DynamicData.For(self);
             if (SlimePlayer[self.PlayerIndex])
             {
-                if ((bool)PlayerData.Get("inMud"))
+                if (PlayerData.Get("inMud") != null )
                 {
                     return 0.2f;
                 }
@@ -124,7 +124,6 @@ namespace OopsAllArrowsMod
         }
         public static void Load()
         {
-            Debugger.Launch();
             Hook_MyPlayerRun = new Hook(typeof(Player).GetProperty("MaxRunSpeed", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetGetMethod(true), MyMaxPlayerRunningSpeed);
 
             On.TowerFall.Player.Update += NormalUpdate;
