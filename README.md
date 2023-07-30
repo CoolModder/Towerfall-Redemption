@@ -6,7 +6,6 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
 
 <!-- ABOUT THE PROJECT -->
 ***You NEED FortRise for this to work! Get it from https://github.com/Terria-K/FortRise***
