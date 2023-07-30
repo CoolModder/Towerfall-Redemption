@@ -23,7 +23,7 @@ Credits: CoolModder
 
 Latest Release: https://github.com/CoolModder/Towerfall-Redemeption/releases/tag/V2.5.0-Menu
 
-### Oops, All Arrows Mod
+### Oops, All Arrows Modhttps://github.com/CoolModder/Towerfall-Redemption/blob/main/README.md
 Enjoy the chaos of new arrows!
 List of Arrows: https://github.com/CoolModder/Towerfall-Redemption/wiki/Custom-Arrow-Types
 
@@ -68,14 +68,12 @@ Charge up supers, then unleash them to destroy any who oppose you.
 Enjoy many custom arrows, all ready to shake up the competition!
 
 [contributors-shield]: https://img.shields.io/github/contributors/Fcornaire/TF.EX.svg?style=for-the-badge
-[contributors-url]: https://github.com/Fcornaire/TF.EX/graphs/contributors
+[contributors-url]: https://github.com/CoolModder/Towerfall-Redemption/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/Fcornaire/TF.EX.svg?style=for-the-badge
-[forks-url]: https://github.com/Fcornaire/TF.EX/network/members
+[forks-url]: https://github.com/CoolModder/Towerfall-Redemption/network/members
 [stars-shield]: https://img.shields.io/github/stars/Fcornaire/TF.EX.svg?style=for-the-badge
-[stars-url]: https://github.com/Fcornaire/TF.EX/stargazers
+[stars-url]: https://github.com/CoolModder/Towerfall-Redemption/stargazers
 [issues-shield]: https://img.shields.io/github/issues/Fcornaire/TF.EX.svg?style=for-the-badge
-[issues-url]: https://github.com/Fcornaire/TF.EX/issues
-[license-shield]: https://img.shields.io/github/license/Fcornaire/TF.EX.svg?style=for-the-badge
+[issues-url]: https://github.com/CoolModder/Towerfall-Redemption/issues
 [download-shield]: https://img.shields.io/github/downloads/Fcornaire/TF.EX/total?style=for-the-badge
-[download-url]: https://github.com/Fcornaire/TF.EX/releases
-[license-url]: https://github.com/Fcornaire/TF.EX/blob/master/LICENSE.txt
+[download-url]: https://github.com/CoolModder/Towerfall-Redemption/releases
