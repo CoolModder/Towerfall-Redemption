@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:17ae4c45f3b5f167234396b9fa52870d:93fbe2740e1e975defc65a72a783b76b:cde709370900f12288f3449eded86f07$ -->
+<TextureAtlas imagePath="Boomerang.png">
+	<SubTexture name="BoomerangArrowHud" x="5" y="35" width="5" height="9"/>
+	<SubTexture name="BoomerangArrow" x="1" y="4" width="26" height="4"/>
+	<SubTexture name="BoomerangArrowBuried" x="1" y="9" width="13" height="4"/>
+	<SubTexture name="BoomerangArrowPickup" x="2" y="18" width="12" height="12"/>
+</TextureAtlas>

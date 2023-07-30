@@ -11,7 +11,7 @@ using MonoMod.RuntimeDetour;
 using System.Security.Cryptography.X509Certificates;
 using System.ComponentModel;
 using System.Diagnostics;
-
+using FortRise;
 namespace OopsAllArrowsMod
 {
     class MyPlayer : Player
@@ -51,7 +51,7 @@ namespace OopsAllArrowsMod
             var PlayerData = DynamicData.For(self);
             if (SlimePlayer[self.PlayerIndex])
             {
-                if (PlayerData.Get("InMud") != null)
+                if ((bool)PlayerData.Get("inMud"))
                 {
                     return 0.2f;
                 }
@@ -62,18 +62,84 @@ namespace OopsAllArrowsMod
             }
             return orig(self);
         }
+        public static void CollectArrows(On.TowerFall.Player.orig_CatchArrow orig, global::TowerFall.Player self, global::TowerFall.Arrow arrow)
+        {
+            if (!self.Level.Session.MatchSettings.Variants.GetCustomVariant("InfiniteWarping"))
+            {
+                var playerdata = DynamicData.For(self);
+                Arrow newarrow;
+                if (arrow.CanCatch(self) && !arrow.IsCollectible && arrow.CannotHit != self && (!self.HasShield || !arrow.Dangerous) && arrow != playerdata.Get("lastCaught"))
+                {
+                    if (arrow.ArrowType == RiseCore.ArrowsID["FreakyArrow"])
+                    {
+                        arrow.OnPlayerCatch(self);
+                        Sounds.sfx_cyanWarp.Play();
+                        arrow.RemoveSelf();
+
+                    }
+                    else { 
+                        orig(self, arrow); 
+                    }
+                }
+                else
+                {
+                    orig(self, arrow);
+                }
+            }
+            else
+            {
+                orig(self, arrow);
+            }
+        }
+        public static bool CollectArrowPatchs(On.TowerFall.Player.orig_CollectArrows orig, global::TowerFall.Player self, ArrowTypes[] arrows)
+        {
+            if (arrows != null && arrows.Length == 1 && arrows[0] == RiseCore.ArrowsID["MiniMechArrow"])
+            {
+                return true;
+            }
+            return orig(self, arrows);
+        }
+        public static void AddedHook(On.TowerFall.Player.orig_Added orig, TowerFall.Player self)
+        {
+            orig(self);
+            if (self.Level.Session.MatchSettings.Variants.GetCustomVariant("VarietyPack")[self.PlayerIndex])
+            {
+                ArrowTypes[] arrows = new ArrowTypes[self.Arrows.Count];
+                Random rand = new Random();
+                for (int i = 0; i < self.Arrows.Count; i++)
+                {
+                    
+                    int ArrowType = rand.Next(9+ExampleModModule.CustomArrowList.Count);
+                    if (ArrowType < 10)
+                    { 
+                        arrows[i] = (ArrowTypes)(ArrowType+1);
+                    }
+                    else
+                    {
+                        arrows[i] = ExampleModModule.CustomArrowList[ArrowType-9].CustomArrow;
+                    }
+                }
+                DynamicData.For(self).Set("Arrows", new ArrowList(arrows));
+            }
+        }
         public static void Load()
         {
             Debugger.Launch();
             Hook_MyPlayerRun = new Hook(typeof(Player).GetProperty("MaxRunSpeed", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetGetMethod(true), MyMaxPlayerRunningSpeed);
 
             On.TowerFall.Player.Update += NormalUpdate;
+            On.TowerFall.Player.CatchArrow += CollectArrows;
+            On.TowerFall.Player.Added += AddedHook;
+            On.TowerFall.Player.CollectArrows += CollectArrowPatchs;
         }
         public static void Unload()
         {
             
             Hook_MyPlayerRun.Dispose();
             On.TowerFall.Player.Update -= NormalUpdate;
+            On.TowerFall.Player.CatchArrow -= CollectArrows;
+            On.TowerFall.Player.Added -= AddedHook;
+            On.TowerFall.Player.CollectArrows -= CollectArrowPatchs;
         }
     }
 }

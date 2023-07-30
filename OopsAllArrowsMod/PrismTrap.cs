@@ -27,7 +27,6 @@ public class PrismTrap : Actor
     }
     public static IEnumerator CreatePrismTrap(Level level, Vector2 at, float rotation, int ownerIndex, Action onComplete)
     {
-        Console.Write("Why");
         PrismTrap MyPrismTrap = new PrismTrap(at, rotation);
         MyPrismTrap.OwnerIndex = ownerIndex;
         level.Add(MyPrismTrap);

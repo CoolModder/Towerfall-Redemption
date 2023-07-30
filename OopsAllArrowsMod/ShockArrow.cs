@@ -8,39 +8,28 @@ using TowerFall;
 
 namespace OopsAllArrowsMod;
 
-[CustomArrows("LandMineArrow", "CreateGraphicPickup")]
-public class LandMineArrow : Arrow
+[CustomArrows("ShockArrow", "CreateGraphicPickup")]
+public class ShockArrow : Arrow
 {
     // This is automatically been set by the mod loader
     public override ArrowTypes ArrowType { get; set; }
     private bool used, canDie;
     private Image normalImage;
     private Image buriedImage;
-    private bool canExplode;
+
 
     public static ArrowInfo CreateGraphicPickup() 
     {
-        var graphic = new Sprite<int>(ExampleModModule.LandMineAtlas["LandMineArrowPickup"], 12, 12, 0);
+        var graphic = new Sprite<int>(ExampleModModule.ShockAtlas["ShockArrowPickup"], 12, 12, 0);
         graphic.Add(0, 0.3f, new int[2] { 0, 0 });
         graphic.Play(0, false);
         graphic.CenterOrigin();
-        var arrowInfo = ArrowInfo.Create(graphic, ExampleModModule.LandMineAtlas["LandMineArrowHud"]);
-        arrowInfo.Name = "Land Mine Arrows";
+        var arrowInfo = ArrowInfo.Create(graphic, ExampleModModule.ShockAtlas["ShockArrowHud"]);
+        arrowInfo.Name = "Shock Arrows";
         return arrowInfo;
     }
-    public override void HitLava()
-    {
-        Explosion.Spawn(base.Level, Position, base.PlayerIndex, false, triggerBomb: false, bombTrap: false);
-        RemoveSelf();
-    }
 
-    public override void OnPlayerCollide(Player player)
-    {
-        Collidable = false;
-        Explosion.Spawn(player.Level, Position, PlayerIndex, false, false, false);
-        RemoveSelf();
-    }
-    public LandMineArrow() : base()
+    public ShockArrow() : base()
     {
     }
     protected override void Init(LevelEntity owner, Vector2 position, float direction)
@@ -51,9 +40,9 @@ public class LandMineArrow : Arrow
     }
     protected override void CreateGraphics()
     {
-        normalImage = new Image(ExampleModModule.LandMineAtlas["LandMineArrow"]);
+        normalImage = new Image(ExampleModModule.ShockAtlas["ShockArrow"]);
         normalImage.Origin = new Vector2(13f, 3f);
-        buriedImage = new Image(ExampleModModule.LandMineAtlas["LandMineArrowBuried"]);
+        buriedImage = new Image(ExampleModModule.ShockAtlas["ShockArrowBuried"]);
         buriedImage.Origin = new Vector2(13f, 3f);
         Graphics = new Image[2] { normalImage, buriedImage };
         Add(Graphics);
@@ -86,7 +75,7 @@ public class LandMineArrow : Arrow
         if (!used)
         {
             this.used = true;
-            Add(new Coroutine(LandMine.CreateLandMine(Level, Position, buriedImage.Rotation, PlayerIndex, () => canDie = true)));
+            Add(new Coroutine(Shock.CreateShock(Level, Position, buriedImage.Rotation, PlayerIndex, () => canDie = true)));
         }
 
         base.HitWall(platform);
@@ -98,11 +87,6 @@ public class LandMineArrow : Arrow
         if (canDie)
         { 
             RemoveSelf();
-        }
-        if ((bool)BuriedIn)
-        {
-            Explosion.Spawn(base.Level, Position, PlayerIndex, true, false, false);
-            canDie = true;
         }
     }
 }

@@ -39,6 +39,7 @@ public class BaitArrow : Arrow
         base.Init(owner, position, direction);
         used = (canDie = false);
         StopFlashing();
+  
     }
     protected override void CreateGraphics()
     {
@@ -74,7 +75,8 @@ public class BaitArrow : Arrow
     }
     protected override void HitWall(TowerFall.Platform platform)
     {
-        if (!used && Level.Session.CurrentLevel.Ending)
+        Console.WriteLine("Hit");
+        if (!used && !Level.Session.CurrentLevel.Ending)
         {
             this.used = true;
             Vector2 PortalPosition = new Vector2(-1000, -1000);
@@ -91,7 +93,14 @@ public class BaitArrow : Arrow
             Level.Add(MyPortal, SnackPortal);
             MyPortal.Appear();
             SnackPortal.Appear();
-            MyPortal.SpawnEnemy(Calc.Random.Choose<string>("Bat", "Slime"));
+            if (!Level.Session.MatchSettings.Variants.GetCustomVariant("ChaoticBaits"))
+            {
+                MyPortal.SpawnEnemy(Calc.Random.Choose<string>("Bat", "Slime", "Crow", "Cultist"));
+            }
+            else
+            {
+                MyPortal.SpawnEnemy(Calc.Random.Choose<string>("TechnoMage", "ScytheCultist", "BombBat", "Worm"));
+            }
             canDie = true;
         }
 
@@ -111,4 +120,5 @@ public class BaitArrow : Arrow
             RemoveSelf();
         }
     }
+
 }

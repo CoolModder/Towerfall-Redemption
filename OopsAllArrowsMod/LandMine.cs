@@ -29,7 +29,6 @@ public class LandMine : Actor
     }
     public static IEnumerator CreateLandMine(Level level, Vector2 at, float rotation, int ownerIndex, Action onComplete)
     {
-        Console.Write("Why");
         LandMine MyLandMine = new LandMine(at, rotation);
         MyLandMine.OwnerIndex = ownerIndex;
         level.Add(MyLandMine);

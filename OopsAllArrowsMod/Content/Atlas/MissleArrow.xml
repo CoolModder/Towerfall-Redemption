@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:17ae4c45f3b5f167234396b9fa52870d:93fbe2740e1e975defc65a72a783b76b:cde709370900f12288f3449eded86f07$ -->
+<TextureAtlas imagePath="LandMine.png">
+	<SubTexture name="MissleArrowHud" x="5" y="35" width="5" height="10"/>
+	<SubTexture name="MissleArrow" x="1" y="4" width="13" height="4"/>
+	<SubTexture name="MissleArrowBuried" x="1" y="9" width="13" height="4"/>
+	<SubTexture name="MissleArrowPickup" x="2" y="18" width="12" height="12"/>
+</TextureAtlas>
