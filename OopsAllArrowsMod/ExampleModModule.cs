@@ -56,7 +56,7 @@ public class ExampleModModule : FortModule
     }
     public override void Load()
     {
-        
+        MechArrow.Load();
         MyPlayer.Load();
         StartArrowPatch.Load();
         MyTreasueChest.Load();
@@ -144,6 +144,7 @@ public class ExampleModModule : FortModule
     }
     public override void Unload()
     {
+        MechArrow.Unload();
         MyPlayer.Unload();
         StartArrowPatch.Unload();
         MyTreasueChest.Unload();
