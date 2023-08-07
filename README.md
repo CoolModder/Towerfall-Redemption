@@ -18,7 +18,7 @@ Latest Release: https://github.com/CoolModder/Towerfall-Redemeption/releases/tag
 ### Oops, All Arrows Modhttps://github.com/CoolModder/Towerfall-Redemption/blob/main/README.md
 Enjoy the chaos of ten new arrows, with more on the way!
 
-List of Arrows: https://github.com/CoolModder/Towerfall-Redemption/wiki/Custom-Arrow-Types
+List of Arrows and Variants: [Oops, All Arrows Mod Wiki Page](https://github.com/CoolModder/Towerfall-Redemption/wiki/Oops,-All-Arrows-Mod)
 
 ![](giphy.gif)
 
