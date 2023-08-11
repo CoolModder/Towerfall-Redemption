@@ -1,0 +1,7 @@
+{
+	"name": "Example Custom Arrow",
+	"version": "1.0.0",
+	"author": "CoolModder",
+	"description": "A test for creating custom arrows.",
+	"dll": "ExampleArrow.dll"
+}
