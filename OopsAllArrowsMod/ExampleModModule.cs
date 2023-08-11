@@ -30,6 +30,7 @@ public class ExampleModModule : FortModule
     public static ExampleModModule Instance;
     public List<Variant> ArrowVariantList = new List<Variant>();
     public static List<CustomArrowFormat> CustomArrowList;
+    public static List<CustomPickupFormat> CustomPickupList;
     public ExampleModModule() 
     {
         Instance = this;
@@ -65,6 +66,7 @@ public class ExampleModModule : FortModule
     public override void OnVariantsRegister(MatchVariants variants, bool noPerPlayer = false)
     {
         CustomArrowList = new List<CustomArrowFormat>();
+        CustomPickupList = new List<CustomPickupFormat>();
         var info = new VariantInfo(ExampleModModule.VariantAtlas);
         var IceArrow = variants.AddVariant("StartWithIceArrows", info with { Header = "OOPS, ALL ARROWS" }, VariantFlags.PerPlayer | VariantFlags.CanRandom, noPerPlayer);
         var SlimeArrow = variants.AddVariant("StartWithSlimeArrows", info, VariantFlags.PerPlayer | VariantFlags.CanRandom, noPerPlayer);
@@ -78,16 +80,16 @@ public class ExampleModModule : FortModule
         var BoomerangArrow = variants.AddVariant("StartWithBoomerangArrows", info, VariantFlags.PerPlayer | VariantFlags.CanRandom, noPerPlayer);
         //var CrystalArrow = variants.AddVariant("StartWithCrystalArrows", info, VariantFlags.PerPlayer | VariantFlags.CanRandom, noPerPlayer);
         //var ShockArrow = variants.AddVariant("StartWithShockArrows", info, VariantFlags.PerPlayer | VariantFlags.CanRandom, noPerPlayer);
-        var IceExclude = variants.AddVariant("ExcludeIceArrows", info, VariantFlags.PerPlayer, noPerPlayer);
-        var SlimeExclude = variants.AddVariant("ExcludeSlimeArrows", info, VariantFlags.PerPlayer, noPerPlayer);
-        var BaitExclude = variants.AddVariant("ExcludeBaitArrows", info, VariantFlags.PerPlayer, noPerPlayer);
-        var PrismTrapExclude = variants.AddVariant("ExcludePrismTrapArrows", info, VariantFlags.PerPlayer, noPerPlayer);
-        var LandMineExclude = variants.AddVariant("ExcludeLandMineArrows", info, VariantFlags.PerPlayer, noPerPlayer);
-        var MissleExclude = variants.AddVariant("ExcludeMissleArrows", info, VariantFlags.PerPlayer, noPerPlayer);
-        var FreakyExclude = variants.AddVariant("ExcludeFreakyArrows", info, VariantFlags.PerPlayer | VariantFlags.CanRandom, noPerPlayer);
-        var TornadoExclude = variants.AddVariant("ExcludeTornadoArrows", info, VariantFlags.PerPlayer | VariantFlags.CanRandom, noPerPlayer);
-        var MechExclude = variants.AddVariant("ExcludeMechArrows", info, VariantFlags.PerPlayer | VariantFlags.CanRandom, noPerPlayer);
-        var BoomerangExclude = variants.AddVariant("ExcludeBoomerangArrows", info, VariantFlags.PerPlayer | VariantFlags.CanRandom, noPerPlayer);
+        var IceExclude = variants.AddVariant("ExcludeIceArrows", info,  VariantFlags.CanRandom, noPerPlayer);
+        var SlimeExclude = variants.AddVariant("ExcludeSlimeArrows", info,  VariantFlags.CanRandom, noPerPlayer);
+        var BaitExclude = variants.AddVariant("ExcludeBaitArrows", info,  VariantFlags.CanRandom, noPerPlayer);
+        var PrismTrapExclude = variants.AddVariant("ExcludePrismTrapArrows", info,  VariantFlags.CanRandom, noPerPlayer);
+        var LandMineExclude = variants.AddVariant("ExcludeLandMineArrows", info, VariantFlags.CanRandom, noPerPlayer);
+        var MissleExclude = variants.AddVariant("ExcludeMissleArrows", info,  VariantFlags.CanRandom, noPerPlayer);
+        var FreakyExclude = variants.AddVariant("ExcludeFreakyArrows", info, VariantFlags.CanRandom, noPerPlayer);
+        var TornadoExclude = variants.AddVariant("ExcludeTornadoArrows", info, VariantFlags.CanRandom, noPerPlayer);
+        var MechExclude = variants.AddVariant("ExcludeMechArrows", info, VariantFlags.CanRandom, noPerPlayer);
+        var BoomerangExclude = variants.AddVariant("ExcludeBoomerangArrows", info, VariantFlags.CanRandom, noPerPlayer);
         //var CrystalExclude = variants.AddVariant("ExcludeCrystalArrows", info, VariantFlags.PerPlayer | VariantFlags.CanRandom, noPerPlayer);
         //var ShockExclude = variants.AddVariant("ExcludeShockArrows", info, VariantFlags.PerPlayer, noPerPlayer);
         var SpawnInTowers = variants.AddVariant("SpawnInTowers", info, VariantFlags.CanRandom, true);
@@ -96,25 +98,25 @@ public class ExampleModModule : FortModule
         var Chaos = variants.AddVariant("ChaoticBaits", info with { Description = "SUMMONS THE RECKONING" }, VariantFlags.CanRandom, true);
         var VarietyPack = variants.AddVariant("VarietyPack", info with { Description = "START WITH MULTIPLE KINDS OF ARROWS" }, VariantFlags.PerPlayer | VariantFlags.CanRandom, true);
         var sonicgobrrr = variants.AddVariant("SonicBoom", info with { Description = "WHY DID I STICK A LANDMINE ON A BOOMERANG?" },  VariantFlags.CanRandom, true);
-        AutoLinkArrow(variants, IceArrow);
-        AutoLinkArrow(variants, SlimeArrow);
-        AutoLinkArrow(variants, BaitArrow);
-        AutoLinkArrow(variants, PrismTrapArrow);
-        AutoLinkArrow(variants, LandMineArrow);
-        AutoLinkArrow(variants, MissleArrow);
-        AutoLinkArrow(variants, FreakyArrow);
-        AutoLinkArrow(variants, TornadoArrow);
-        AutoLinkArrow(variants, MechArrow);
-        AutoLinkArrow(variants, BoomerangArrow);
-        //AutoLinkArrow(variants, CrystalArrow);
-        AutoLinkArrow(variants, VarietyPack);
-        //AutoLinkArrow(variants, ShockArrow);
+        AutoLinkArrowStartVariants(variants, IceArrow);
+        AutoLinkArrowStartVariants(variants, SlimeArrow);
+        AutoLinkArrowStartVariants(variants, BaitArrow);
+        AutoLinkArrowStartVariants(variants, PrismTrapArrow);
+        AutoLinkArrowStartVariants(variants, LandMineArrow);
+        AutoLinkArrowStartVariants(variants, MissleArrow);
+        AutoLinkArrowStartVariants(variants, FreakyArrow);
+        AutoLinkArrowStartVariants(variants, TornadoArrow);
+        AutoLinkArrowStartVariants(variants, MechArrow);
+        AutoLinkArrowStartVariants(variants, BoomerangArrow);
+        //AutoLinkArrowStartVariants(variants, CrystalArrow);
+        AutoLinkArrowStartVariants(variants, VarietyPack);
+        //AutoLinkArrowStartVariants(variants, ShockArrow);
         CustomArrowList.Add(new CustomArrowFormat(RiseCore.ArrowsID["IceArrow"], "StartWithIceArrows", "ExcludeIceArrows", "DARKFANG", 1));
         CustomArrowList.Add(new CustomArrowFormat(RiseCore.ArrowsID["SlimeArrow"], "StartWithSlimeArrows", "ExcludeSlimeArrows", "THORNWOOD", 2));
         CustomArrowList.Add(new CustomArrowFormat(RiseCore.ArrowsID["BaitArrow"], "StartWithBaitArrows", "ExcludeBaitArrows", "MOONSTONE", 3));
         CustomArrowList.Add(new CustomArrowFormat(RiseCore.ArrowsID["PrismTrapArrow"], "StartWithPrismTrapArrows", "ExcludePrismTrapArrows", "ASCENSION", 4));
         CustomArrowList.Add(new CustomArrowFormat(RiseCore.ArrowsID["LandMineArrow"], "StartWithLandMineArrows", "ExcludeLandMineArrows", "TOWERFORGE", 5));
-        CustomArrowList.Add(new CustomArrowFormat(RiseCore.ArrowsID["MissleArrow"], "StartWithMissleArrows", "ExcludeMissleArrows", "KINGSCOURT", 6));
+        CustomArrowList.Add(new CustomArrowFormat(RiseCore.ArrowsID["MissleArrow"], "StartWithMissleArrows", "ExcludeMissleArrows", "KING'S COURT", 6));
         CustomArrowList.Add(new CustomArrowFormat(RiseCore.ArrowsID["FreakyArrow"], "StartWithFreakyArrows", "ExcludeFreakyArrows", "CATACLYSM", 7));
         CustomArrowList.Add(new CustomArrowFormat(RiseCore.ArrowsID["TornadoArrow"], "StartWithTornadoArrows", "ExcludeTornadoArrows", "FLIGHT", 8));
         CustomArrowList.Add(new CustomArrowFormat(RiseCore.ArrowsID["MechArrow"], "StartWithMechArrows", "ExcludeMechArrows", "BACKFIRE", 9));
@@ -123,7 +125,7 @@ public class ExampleModModule : FortModule
         //CustomArrowList.Add(new CustomArrowFormat(RiseCore.ArrowsID["ShockArrow"], "StartWithShockArrows", "ExcludeShockArrows", "SUNKENCITY", 6));
     }
 
-    public void AutoLinkArrow(MatchVariants variants, Variant VariantToBeLinked)
+    public void AutoLinkArrowStartVariants(MatchVariants variants, Variant VariantToBeLinked)
     {
         variants.CreateCustomLinks(VariantToBeLinked, variants.StartWithBoltArrows);
         variants.CreateCustomLinks(VariantToBeLinked, variants.StartWithBombArrows);
@@ -150,6 +152,48 @@ public class ExampleModModule : FortModule
         MyTreasueChest.Unload();
     }
 }
+[ModExportName("com.fortrise.OopsArrowsMod")]
+public static class ModExports
+{
+    public static void AutoLinkArrowStartVariants(MatchVariants variants, Variant VariantToBeLinked)
+    {
+        variants.CreateCustomLinks(VariantToBeLinked, variants.StartWithBoltArrows);
+        variants.CreateCustomLinks(VariantToBeLinked, variants.StartWithBombArrows);
+        variants.CreateCustomLinks(VariantToBeLinked, variants.StartWithBrambleArrows);
+        variants.CreateCustomLinks(VariantToBeLinked, variants.StartWithDrillArrows);
+        variants.CreateCustomLinks(VariantToBeLinked, variants.StartWithFeatherArrows);
+        variants.CreateCustomLinks(VariantToBeLinked, variants.StartWithLaserArrows);
+        variants.CreateCustomLinks(VariantToBeLinked, variants.StartWithPrismArrows);
+        variants.CreateCustomLinks(VariantToBeLinked, variants.StartWithRandomArrows);
+        variants.CreateCustomLinks(VariantToBeLinked, variants.StartWithSuperBombArrows);
+        variants.CreateCustomLinks(VariantToBeLinked, variants.StartWithTriggerArrows);
+        variants.CreateCustomLinks(VariantToBeLinked, variants.StartWithToyArrows);
+        foreach (var OtherArrow in ExampleModModule.Instance.ArrowVariantList)
+        {
+            variants.CreateCustomLinks(VariantToBeLinked, OtherArrow);
+        }
+        ExampleModModule.Instance.ArrowVariantList.Add(VariantToBeLinked);
+    }
+    public static void AddCustomArrow(ArrowTypes Arrow, string StartVariant, string ExcludeVariant, string TowerTheme)
+    {
+        ExampleModModule.CustomArrowList.Add(new CustomArrowFormat(Arrow, StartVariant, ExcludeVariant, TowerTheme, ExampleModModule.CustomArrowList.Count + 1));
+    }
+
+    public static void AddCustomArrowSpawn(ArrowTypes Arrow, string StartVariant, string ExcludeVariant, string TowerTheme, string SpawnWith)
+    {
+        ExampleModModule.CustomArrowList.Add(new CustomArrowFormat(Arrow, StartVariant, ExcludeVariant, TowerTheme, ExampleModModule.CustomArrowList.Count + 1, SpawnWith));
+    }
+    public static void AddCustomPickup(Pickups Pickup, string ExcludeVariant)
+    {
+        ExampleModModule.CustomPickupList.Add(new CustomPickupFormat(Pickup, ExcludeVariant));
+    }
+
+    public static void AddCustomPickupSpawn(Pickups Pickup, string ExcludeVariant, string SpawnWith)
+    {
+        ExampleModModule.CustomPickupList.Add(new CustomPickupFormat(Pickup, ExcludeVariant, SpawnWith));
+    }
+}
+
 
 // Harmony can be supported
 
@@ -172,9 +216,3 @@ public class MyPatcher
 Example of interppting with libraries
 Learn more: https://github.com/MonoMod/MonoMod/blob/master/README-ModInterop.md
 */
-
-[ModExportName("ExampleModExport")]
-public static class ModExports 
-{
-    public static int Add(int x, int y) => x + y;
-}

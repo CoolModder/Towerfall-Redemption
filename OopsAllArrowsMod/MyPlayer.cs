@@ -102,6 +102,7 @@ namespace OopsAllArrowsMod
         public static void AddedHook(On.TowerFall.Player.orig_Added orig, TowerFall.Player self)
         {
             orig(self);
+            SlimePlayer[self.PlayerIndex] = false;
             if (self.Level.Session.MatchSettings.Variants.GetCustomVariant("VarietyPack")[self.PlayerIndex])
             {
                 ArrowTypes[] arrows = new ArrowTypes[self.Arrows.Count];

@@ -14,14 +14,15 @@ namespace OopsAllArrowsMod
         public string Exclude;
         public string Level;
         public int PickupID;
-        public CustomArrowFormat(ArrowTypes arrow, string start, string exclude, string spawnLevel, int Pickup)
+        public string SpawnVariant;
+        public CustomArrowFormat(ArrowTypes arrow, string start, string exclude, string spawnLevel, int Pickup, string spawnVariant = "SpawnInTowers")
         {
             CustomArrow = arrow;
             StartWith = start;
             Exclude = exclude;
             Level = spawnLevel;
             PickupID = Pickup;
-
+            SpawnVariant = spawnVariant;
         }
     }
 }
