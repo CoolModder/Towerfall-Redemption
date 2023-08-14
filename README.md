@@ -22,7 +22,7 @@ List of Arrows and Variants: [Oops, All Arrows Mod Wiki Page](https://github.com
 
 ![](giphy.gif)
 
-Credits: CoolModder, Footage from LuckySeven and UJelly12, Custom Archer Loader by RedDude
+Credits: CoolModder, Footage from LuckySeven and UJelly12
 
 Latest Release:  https://github.com/CoolModder/Towerfall-Redemption/releases/tag/v2.2.0-Arrows
 ### TowerBall
