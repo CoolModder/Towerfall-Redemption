@@ -29,8 +29,8 @@ public class ExampleModModule : FortModule
     public static SpriteData ShockSpriteData;
     public static ExampleModModule Instance;
     public List<Variant> ArrowVariantList = new List<Variant>();
-    public static List<CustomArrowFormat> CustomArrowList;
-    public static List<CustomPickupFormat> CustomPickupList;
+    public static List<CustomArrowFormat> CustomArrowList = new List<CustomArrowFormat>();
+    public static List<CustomPickupFormat> CustomPickupList = new List<CustomPickupFormat>();
     public ExampleModModule() 
     {
         Instance = this;
@@ -62,11 +62,10 @@ public class ExampleModModule : FortModule
         StartArrowPatch.Load();
         MyTreasueChest.Load();
         typeof(ModExports).ModInterop();
+        typeof(ExplosiveImports).ModInterop();
     }
     public override void OnVariantsRegister(MatchVariants variants, bool noPerPlayer = false)
     {
-        CustomArrowList = new List<CustomArrowFormat>();
-        CustomPickupList = new List<CustomPickupFormat>();
         var info = new VariantInfo(ExampleModModule.VariantAtlas);
         var IceArrow = variants.AddVariant("StartWithIceArrows", info with { Header = "OOPS, ALL ARROWS" }, VariantFlags.PerPlayer | VariantFlags.CanRandom, noPerPlayer);
         var SlimeArrow = variants.AddVariant("StartWithSlimeArrows", info, VariantFlags.PerPlayer | VariantFlags.CanRandom, noPerPlayer);
@@ -194,7 +193,12 @@ public static class ModExports
     }
 }
 
-
+[ModImportName("ExplosionLibraryExport")]
+public static class ExplosiveImports
+{
+    public static Func<Level, Vector2, int, bool, bool, bool, bool> SpawnSmall;
+    public static Func<Level, Vector2, int, bool, bool> SpawnSmallSuper;
+}
 // Harmony can be supported
 
 [HarmonyPatch(typeof(MainMenu), "BoolToString")]
