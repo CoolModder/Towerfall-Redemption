@@ -114,7 +114,12 @@ public class TowerBallRoundLogic : CustomVersusRoundLogic
 	public override void OnPlayerDeath(Player player, PlayerCorpse corpse, int playerIndex, DeathCause cause, Vector2 position, int killerIndex)
 	{
 		//respawns[playerIndex] = new PlayerRespawner(playerIndex, player.Allegiance, this);
-		RespawnPlayer(playerIndex, player.Allegiance);
+		Entity entity = new Entity();
+		Alarm.Set(entity, 70, () => {
+			RespawnPlayer(playerIndex, player.Allegiance);
+			entity.RemoveSelf();
+		});
+		Session.CurrentLevel.Add(entity);
 		if ((bool)Session.CurrentLevel.KingIntro)
 		{
 			Session.CurrentLevel.KingIntro.Laugh();
