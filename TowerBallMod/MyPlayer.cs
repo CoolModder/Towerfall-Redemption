@@ -1,12 +1,12 @@
-using System.Collections.Generic;
 using System.Reflection;
-using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Monocle;
 using MonoMod.Utils;
 using TowerBall;
 using TowerFall;
 using FortRise;
+using System.Collections.Generic;
+
 internal class MyPlayer : Player
 {
 
@@ -30,10 +30,9 @@ internal class MyPlayer : Player
     public static void ctor(On.TowerFall.Player.orig_Added orig, TowerFall.Player self)
     {
         orig(self);
-        if(self.Level.Session.MatchSettings.CurrentModeName == "TowerBallRoundLogic")
+        if(self.Level.Session.MatchSettings.CurrentModeName == "TowerBall/TowerBallRoundLogic")
         {
-
-             ExampleModModule.TowerBallMode = true;
+            ExampleModModule.TowerBallMode = true;
         }
         else
         {
@@ -55,7 +54,8 @@ internal class MyPlayer : Player
             PlayerArrows[self.PlayerIndex] = self.Arrows;
             if (HasBasketBall[self.PlayerIndex] > 0)
             {
-                DynamicData.For(self).Set("Arrows", new ArrowList(new ArrowTypes[] { RiseCore.ArrowsID["BasketBall"] }));
+                var arrowsRegistry = RiseCore.ArrowsRegistry["TowerBall/BasketBall"];
+                DynamicData.For(self).Set("Arrows", new ArrowList(new ArrowTypes[] { arrowsRegistry.Types }));
                 ((TowerBallRoundLogic)self.Level.Session.RoundLogic).lastThrower = self.PlayerIndex;
                 HasBasketBall[self.PlayerIndex] = 0;
             }
@@ -69,9 +69,9 @@ internal class MyPlayer : Player
 
     public static bool CollectArrows(On.TowerFall.Player.orig_CollectArrows orig, global::TowerFall.Player self, ArrowTypes[] arrows)
     { 
-        if (arrows != null && arrows.Length == 1 && arrows[0] == RiseCore.ArrowsID["BasketBall"] && ExampleModModule.TowerBallMode)
+        var arrowsRegistry = RiseCore.ArrowsRegistry["TowerBall/BasketBall"];
+        if (arrows != null && arrows.Length == 1 && arrows[0] ==  arrowsRegistry.Types && ExampleModModule.TowerBallMode)
         {
-            Console.WriteLine();
             HasBasketBall[self.PlayerIndex] = 1;
             touchedGroundSinceCollect[self.PlayerIndex] = true;
             

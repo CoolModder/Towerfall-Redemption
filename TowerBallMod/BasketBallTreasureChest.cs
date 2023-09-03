@@ -1,13 +1,13 @@
-using System;
-
 using Microsoft.Xna.Framework;
 using Monocle;
 using TowerFall;
 using FortRise;
 using System.Xml;
+using System;
 
 namespace TowerBall;
-[CustomLevelEntity("BaskerBallTreasureChest")]
+
+
 public class BasketBallTreasureChest : TreasureChest
 {
 	private Counter openCounter;
@@ -17,7 +17,7 @@ public class BasketBallTreasureChest : TreasureChest
 	public BasketBallTreasureChest(XmlElement xml, Vector2 position)
 		: base(position, Types.Special, AppearModes.Normal, new Pickups[0])
 	{
-		Console.Write("BasketBall!");
+		Logger.Log("[TowerBall] BasketBall!");
 		openCounter = new Counter();
 		openCounter.Set(60);
 		spawnCounter = new Counter();
@@ -52,7 +52,8 @@ public class BasketBallTreasureChest : TreasureChest
 			{
 				Allegiance allegiance = player.Allegiance;
 				player.Allegiance = Allegiance.Neutral;
-				Arrow entity = Arrow.Create(RiseCore.ArrowsID["BasketBall"], player, Position, (float)Math.PI / 2f);
+				var arrowRegistry = RiseCore.ArrowsRegistry["TowerBall/BasketBall"];
+				Arrow entity = Arrow.Create(arrowRegistry.Types, player, Position, (float)Math.PI / 2f);
 				player.Allegiance = allegiance;
 				Level.Add(entity);
 			}

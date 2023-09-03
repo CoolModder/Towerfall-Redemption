@@ -1,6 +1,4 @@
-using Monocle;
 using FortRise;
-using TowerFall;
 
 namespace TowerBall;
 

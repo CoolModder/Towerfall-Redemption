@@ -1,10 +1,11 @@
-using System;
 using Microsoft.Xna.Framework;
 using Monocle;
 using TowerFall;
 using FortRise;
+using System;
+
 namespace TowerBall;
-[CustomArrows("BasketBall", "CreateGraphicPickup")]
+[CustomArrows("TowerBall/BasketBall", "CreateGraphicPickup")]
  public class BasketBall : ToyArrow
 {
 	public int AssistIndex;
@@ -102,7 +103,8 @@ namespace TowerBall;
 			{
 				if ((int)cantCollectCounter <= 0 && (player.Allegiance == ThrownTeam || ThrownTeam == Allegiance.Neutral))
 				{
-					player.CollectArrows(RiseCore.ArrowsID["BasketBall"]);
+					var arrowRegistry = RiseCore.ArrowsRegistry["TowerBall/BasketBall"];
+					player.CollectArrows(arrowRegistry.Types);
 					RemoveSelf();
 					return false;
 				}
@@ -220,11 +222,9 @@ namespace TowerBall;
 
     public static ArrowInfo CreateGraphicPickup()
     {
-        var graphic = new Sprite<int>(TFGame.Atlas["pickups/bombArrows"], 12, 12, 0);
-        graphic.Add(0, 0.3f, new int[2] { 0, 1 });
-        graphic.Play(0, false);
+		var graphic = new Image(ExampleModModule.Atlas["towerball/ball"]);
         graphic.CenterOrigin();
-        var arrowInfo = ArrowInfo.Create(graphic, TFGame.Atlas["player/arrowHUD/brambleArrow"]);
+        var arrowInfo = ArrowInfo.Create(graphic, ExampleModModule.Atlas["towerball/ball"]);
         arrowInfo.Name = "!!!!HACKER!!!!";
         return arrowInfo;
     }

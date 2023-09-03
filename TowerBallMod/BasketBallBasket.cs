@@ -5,7 +5,8 @@ using FortRise;
 using System.Xml;
 
 namespace TowerBall;
-[CustomLevelEntity("BasketBallBasket")]
+
+
 public class BasketBallBasket : JumpThru
 {
 	public OutlineImage rim;
@@ -45,7 +46,7 @@ public class BasketBallBasket : JumpThru
 		{
 			rim.OutlineColor = new Color(164, 228, 252);
 		}
-		Console.Write("BASKETS LOADED");
+		Logger.Log("[TowerBall] BASKETS LOADED");
 		Add(net);
 		Add(rim);
 	}
@@ -67,19 +68,5 @@ public class BasketBallBasket : JumpThru
 	public void DoNetJump()
 	{
 		netJump = Tween.Create(Tween.TweenMode.Oneshot, Ease.BounceOut, 40, start: true);
-	}
-
-	public void Move(Vector2 v)
-	{
-	}
-
-	public void MoveTo(Vector2 v)
-	{
-	}
-
-	public void Render()
-	{
-		net.Render();
-		rim.Render();
 	}
 }
