@@ -279,7 +279,7 @@ namespace TowerBall;
 		forceState();
 		if (base.State == ArrowStates.Gravity)
 		{
-			Speed.X = Calc.Approach(prevXSpeed, 0f, 0.025f * Engine.TimeMult);
+			Speed.X = Calc.Approach(prevXSpeed, 0f, 0.01f * Engine.TimeMult);
 		}
 		else
 		{
