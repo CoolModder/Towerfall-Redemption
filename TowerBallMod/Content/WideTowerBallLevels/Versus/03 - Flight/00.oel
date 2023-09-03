@@ -115,5 +115,15 @@
     <TeamSpawnA id="16" x="190" y="110" />
     <Basket id="0" x="60" y="80" />
     <Basket id="1" x="360" y="80" />
+    <TeamSpawnA id="17" x="100" y="100" />
+    <TeamSpawnA id="18" x="150" y="60" />
+    <TeamSpawnA id="19" x="40" y="80" />
+    <TeamSpawnA id="20" x="160" y="190" />
+    <TeamSpawnA id="21" x="30" y="220" />
+    <TeamSpawnB id="22" x="270" y="60" />
+    <TeamSpawnB id="23" x="320" y="100" />
+    <TeamSpawnB id="24" x="380" y="80" />
+    <TeamSpawnB id="25" x="390" y="220" />
+    <TeamSpawnB id="26" x="260" y="190" />
   </Entities>
 </level>
