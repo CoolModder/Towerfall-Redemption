@@ -1,13 +1,12 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Monocle;
 using TowerFall;
 using FortRise;
-using System.Security.Policy;
+using System.Collections.Generic;
+using System;
 
 namespace TowerBall;
-[CustomRoundLogic("TowerBallRoundLogic")]
+[CustomRoundLogic("TowerBall/TowerBallRoundLogic")]
 public class TowerBallRoundLogic : CustomVersusRoundLogic
 {
 	public Vector2 ballPos;
@@ -53,7 +52,7 @@ public class TowerBallRoundLogic : CustomVersusRoundLogic
 		List<Vector2> xMLPositions = Session.CurrentLevel.GetXMLPositions("BigTreasureChest");
 		ballPos = xMLPositions[new Random().Next(xMLPositions.Count)];
 		SpawnBallChest();
-		List<Vector2> xMLPositions2 = Session.CurrentLevel.GetXMLPositions("PlayerSpawn");
+		List<Vector2> xMLPositions2 = Session.CurrentLevel.GetXMLPositions("Basket");
 		base.Session.CurrentLevel.Add(new BasketBallBasket(null, xMLPositions2[0]));
 		base.Session.CurrentLevel.Add(new BasketBallBasket(null, xMLPositions2[1]));
 		hud = base.Session.CurrentLevel.Add(new TowerBallHUD(this));
@@ -95,11 +94,12 @@ public class TowerBallRoundLogic : CustomVersusRoundLogic
         }
 	}
 
-	public bool TeamCheckForRoundOver(out Allegiance surviving)
-	{
-		surviving = Allegiance.Neutral;
-		return false;
-	}
+	// What is this use for?
+	// public bool TeamCheckForRoundOver(out Allegiance surviving)
+	// {
+	// 	surviving = Allegiance.Neutral;
+	// 	return false;
+	// }
 
 	public Player RespawnPlayer(int playerIndex, Allegiance team)
 	{
@@ -114,7 +114,12 @@ public class TowerBallRoundLogic : CustomVersusRoundLogic
 	public override void OnPlayerDeath(Player player, PlayerCorpse corpse, int playerIndex, DeathCause cause, Vector2 position, int killerIndex)
 	{
 		//respawns[playerIndex] = new PlayerRespawner(playerIndex, player.Allegiance, this);
-		RespawnPlayer(playerIndex, player.Allegiance);
+		Entity entity = new Entity();
+		Alarm.Set(entity, 70, () => {
+			RespawnPlayer(playerIndex, player.Allegiance);
+			entity.RemoveSelf();
+		});
+		Session.CurrentLevel.Add(entity);
 		if ((bool)Session.CurrentLevel.KingIntro)
 		{
 			Session.CurrentLevel.KingIntro.Laugh();
@@ -223,7 +228,8 @@ public class TowerBallRoundLogic : CustomVersusRoundLogic
 
 	public void DropBall(Player p, Vector2 pos, Facing face)
 	{
-		Arrow arrow = Arrow.Create(RiseCore.ArrowsID["BasketBall"], p, pos, (face == Facing.Right) ? 0f : ((float)Math.PI));
+		var arrowsRegistry = RiseCore.ArrowsRegistry["TowerBall/BasketBall"];
+		Arrow arrow = Arrow.Create(arrowsRegistry.Types, p, pos, (face == Facing.Right) ? 0f : ((float)Math.PI));
 		arrow.Drop((int)face);
 		arrow.Speed.Y *= 0.5f;
 		arrowQueue.Add(arrow);
@@ -231,7 +237,8 @@ public class TowerBallRoundLogic : CustomVersusRoundLogic
 
 	public void DropBall(Player p, Vector2 pos)
 	{
-		Arrow arrow = Arrow.Create(RiseCore.ArrowsID["BasketBall"], p, pos, 4.712389f);
+		var arrowsRegistry = RiseCore.ArrowsRegistry["TowerBall/BasketBall"];
+		Arrow arrow = Arrow.Create(arrowsRegistry.Types, p, pos, 4.712389f);
 		arrow.Drop(0);
 		arrow.Speed.X = (arrow.Speed.Y = 0f);
 		arrowQueue.Add(arrow);
