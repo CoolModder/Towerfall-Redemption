@@ -69,4 +69,10 @@ public class BasketBallBasket : JumpThru
 	{
 		netJump = Tween.Create(Tween.TweenMode.Oneshot, Ease.BounceOut, 40, start: true);
 	}
+
+	public override void Render()
+	{
+		net.Render();
+		rim.Render();
+	}
 }
