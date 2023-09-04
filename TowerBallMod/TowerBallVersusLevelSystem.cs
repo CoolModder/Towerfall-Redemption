@@ -84,7 +84,7 @@ public class TowerBallVersusLevelSystem : VersusLevelSystem
 			randomSeed += (int)c;
 		}
 		RiseCore.Resource resource;
-		if (RiseCore.ResourceTree.TreeMap.TryGetValue(data_lastLevel, out resource))
+		if (RiseCore.ResourceTree.TreeMap.TryGetValue(data_lastLevel.Replace("Levels", "TowerBallLevels"), out resource))
 		{
 			using (Stream stream = resource.Stream)
 			{
