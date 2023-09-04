@@ -49,13 +49,22 @@ public class TowerBallVersusLevelSystem : VersusLevelSystem
         {
             randomSeed += (int)c;
         }
-        string fixedLastLevel = data_lastLevel.Replace('\\', '/').Replace("Levels", "TowerBallLevels");
+        string fixedLastLevel = data_lastLevel
+            .Replace("DarkWorldContent", "Content")
+            .Replace('\\', '/')
+            .Replace("Levels", "TowerBallLevels");
         using var fs = ExampleModModule.Instance.Content.MapResource[TransformToTowerBallLevel(fixedLastLevel)].Stream;
         return Calc.LoadXML(fs)["level"];
     }
 
     private string TransformToTowerBallLevel(string lastLevel) 
     {
+        if (VersusTowerData.Procedural) 
+        {
+            if (lastLevel.Contains("14"))
+                return lastLevel.Replace("14", "13");
+            return lastLevel;
+        }
         var level = lastLevel.Substring(0, lastLevel.Length - 6);
         return level += "00.oel";
     }

@@ -6,7 +6,7 @@ using System;
 
 namespace TowerBall;
 [CustomArrows("TowerBall/BasketBall", "CreateGraphicPickup")]
- public class BasketBall : ToyArrow
+public class BasketBall : ToyArrow
 {
 	public int AssistIndex;
 
@@ -89,6 +89,7 @@ namespace TowerBall;
 	{
 		cantCollectCounter.Set(10);
 	}
+
 
 	protected override bool CheckForTargetCollisions()
 	{
@@ -279,7 +280,7 @@ namespace TowerBall;
 		forceState();
 		if (base.State == ArrowStates.Gravity)
 		{
-			Speed.X = Calc.Approach(prevXSpeed, 0f, 0.01f * Engine.TimeMult);
+			Speed.X = Calc.Approach(prevXSpeed, 0f, 0.025f * Engine.TimeMult);
 		}
 		else
 		{
@@ -292,4 +293,8 @@ namespace TowerBall;
 	{
 		base.Render();
 	}
+
+    public override void HitLava()
+    {
+    }
 }
