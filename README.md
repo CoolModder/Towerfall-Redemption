@@ -62,5 +62,9 @@ Charge up supers, then unleash them to destroy any who oppose you.
 ## In Progress:
 ### Custom Arrows
 Enjoy many custom arrows, all ready to shake up the competition!
-### Explosions Library
-Small and meduim explosions, and more! (More of a tool, will have a few variants.)
+### Seasonal Chests
+Chests are replaced for different holidays
+### Menu Variants Mod Update 
+Custom music support!
+### Warlord mod fixes 
+Fix UI bug, etc.
