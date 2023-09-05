@@ -28,7 +28,7 @@ Latest Release:  https://github.com/CoolModder/Towerfall-Redemption/releases/tag
 ### TowerBall
 Port of Towerball to Fortrise! 
 ![20230706192939_1](https://github.com/CoolModder/Towerfall-Redemeption/assets/132532001/8d84431f-db3e-4252-bcb8-498c295bf26f)
-Credits: Original mod by Suyoo (at https://suyo.be/towerball/), Ported by CoolModder. 
+Credits: Original mod by Suyoo (at https://suyo.be/towerball/), Ported by CoolModder, 4.1.0 and WiderSetMod support by Terria
 Ball Sound by Zmobie licensed under the Creative Commons 0 License. http://www.freesound.org/people/zmobie/sounds/319765/
 
 
