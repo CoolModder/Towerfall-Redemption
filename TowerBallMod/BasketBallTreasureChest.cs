@@ -63,7 +63,6 @@ public class BasketBallTreasureChest : TreasureChest
 			openCounter.Update();
 			if (!openCounter)
 			{
-				OpenChest(-1);
 				Flash(30, RemoveSelf);
 				spawnCounter.Set(1);
 			}
