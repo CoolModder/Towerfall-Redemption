@@ -1,17 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
+using TowerFall;
+using MonoMod.RuntimeDetour;
+using System.ComponentModel;
+using FortRise;
+using MonoMod.Utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TowerFall;
-using Monocle;
-using MonoMod.Utils;
-using MonoMod.RuntimeDetour;
-using System.Security.Cryptography.X509Certificates;
-using System.ComponentModel;
-using System.Diagnostics;
-using FortRise;
+
 namespace OopsAllArrowsMod
 {
     class MyPlayer : Player

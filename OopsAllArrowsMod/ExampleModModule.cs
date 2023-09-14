@@ -1,5 +1,4 @@
 ﻿using FortRise;
-using HarmonyLib;
 using Monocle;
 using MonoMod.ModInterop;
 using OopsAllArrowsMod;
@@ -7,6 +6,9 @@ using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using TowerFall;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using System;
+
 namespace OopsAllArrowsMod;
 
 
@@ -40,20 +42,21 @@ public class ExampleModModule : FortModule
 
     public override void LoadContent()
     {
-        IceAtlas = Atlas.Create("Atlas/IceArrow.xml", "Atlas/IceArrow.png", true, ContentAccess.ModContent);
-        VariantAtlas = Atlas.Create("Atlas/VariantAtlas.xml", "Atlas/VariantAtlas.png", true, ContentAccess.ModContent);
-        SlimeAtlas = Atlas.Create("Atlas/SlimeArrow.xml", "Atlas/SlimeArrow.png", true, ContentAccess.ModContent);
-        BaitAtlas = Atlas.Create("Atlas/BaitArrow.xml", "Atlas/BaitArrow.png", true, ContentAccess.ModContent);
-        PrismTrapAtlas = Atlas.Create("Atlas/PrismTrapArrow.xml", "Atlas/PrismTrapArrow.png", true, ContentAccess.ModContent);
-        LandMineAtlas = Atlas.Create("Atlas/LandMineArrow.xml", "Atlas/LandMineArrow.png", true, ContentAccess.ModContent);
-        ShockAtlas = Atlas.Create("Atlas/ShockArrow.xml", "Atlas/ShockArrow.png", true, ContentAccess.ModContent);
-        ShockSpriteData = SpriteData.Create("Atlas/spriteShockData.xml", ShockAtlas, ContentAccess.ModContent);
-        MissleAtlas = Atlas.Create("Atlas/MissleArrow.xml", "Atlas/MissleArrow.png", true, ContentAccess.ModContent);
-        FreakyAtlas = Atlas.Create("Atlas/FreakyArrow.xml", "Atlas/FreakyArrow.png", true, ContentAccess.ModContent);
-        TornadoAtlas = Atlas.Create("Atlas/TornadoArrow.xml", "Atlas/TornadoArrow.png", true, ContentAccess.ModContent);
-        CrystalAtlas = Atlas.Create("Atlas/CrystalArrow.xml", "Atlas/CrystalArrow.png", true, ContentAccess.ModContent);
-        MechAtlas = Atlas.Create("Atlas/MechArrow.xml", "Atlas/MechArrow.png", true, ContentAccess.ModContent);
-        BoomerangAtlas = Atlas.Create("Atlas/BoomerangArrow.xml", "Atlas/BoomerangArrow.png", true, ContentAccess.ModContent);
+        // From Terria: I recommend just having a one atlas, cuz that's point of an atlas and takes up less memory.
+        IceAtlas = Content.LoadAtlas("Atlas/IceArrow.xml", "Atlas/IceArrow.png");
+        VariantAtlas = Content.LoadAtlas("Atlas/VariantAtlas.xml", "Atlas/VariantAtlas.png");
+        SlimeAtlas = Content.LoadAtlas("Atlas/SlimeArrow.xml", "Atlas/SlimeArrow.png");
+        BaitAtlas = Content.LoadAtlas("Atlas/BaitArrow.xml", "Atlas/BaitArrow.png");
+        PrismTrapAtlas = Content.LoadAtlas("Atlas/PrismTrapArrow.xml", "Atlas/PrismTrapArrow.png");
+        LandMineAtlas = Content.LoadAtlas("Atlas/LandMineArrow.xml", "Atlas/LandMineArrow.png");
+        ShockAtlas = Content.LoadAtlas("Atlas/ShockArrow.xml", "Atlas/ShockArrow.png");
+        ShockSpriteData = Content.LoadSpriteData("Atlas/spriteShockData.xml", ShockAtlas);
+        MissleAtlas = Content.LoadAtlas("Atlas/MissleArrow.xml", "Atlas/MissleArrow.png");
+        FreakyAtlas = Content.LoadAtlas("Atlas/FreakyArrow.xml", "Atlas/FreakyArrow.png");
+        TornadoAtlas = Content.LoadAtlas("Atlas/TornadoArrow.xml", "Atlas/TornadoArrow.png");
+        CrystalAtlas = Content.LoadAtlas("Atlas/CrystalArrow.xml", "Atlas/CrystalArrow.png");
+        MechAtlas = Content.LoadAtlas("Atlas/MechArrow.xml", "Atlas/MechArrow.png");
+        BoomerangAtlas = Content.LoadAtlas("Atlas/BoomerangArrow.xml", "Atlas/BoomerangArrow.png");
     }
     public override void Load()
     {
@@ -110,18 +113,23 @@ public class ExampleModModule : FortModule
         //AutoLinkArrowStartVariants(variants, CrystalArrow);
         AutoLinkArrowStartVariants(variants, VarietyPack);
         //AutoLinkArrowStartVariants(variants, ShockArrow);
-        CustomArrowList.Add(new CustomArrowFormat(RiseCore.ArrowsID["IceArrow"], "StartWithIceArrows", "ExcludeIceArrows", "DARKFANG", 1));
-        CustomArrowList.Add(new CustomArrowFormat(RiseCore.ArrowsID["SlimeArrow"], "StartWithSlimeArrows", "ExcludeSlimeArrows", "THORNWOOD", 2));
-        CustomArrowList.Add(new CustomArrowFormat(RiseCore.ArrowsID["BaitArrow"], "StartWithBaitArrows", "ExcludeBaitArrows", "MOONSTONE", 3));
-        CustomArrowList.Add(new CustomArrowFormat(RiseCore.ArrowsID["PrismTrapArrow"], "StartWithPrismTrapArrows", "ExcludePrismTrapArrows", "ASCENSION", 4));
-        CustomArrowList.Add(new CustomArrowFormat(RiseCore.ArrowsID["LandMineArrow"], "StartWithLandMineArrows", "ExcludeLandMineArrows", "TOWERFORGE", 5));
-        CustomArrowList.Add(new CustomArrowFormat(RiseCore.ArrowsID["MissleArrow"], "StartWithMissleArrows", "ExcludeMissleArrows", "KING'S COURT", 6));
-        CustomArrowList.Add(new CustomArrowFormat(RiseCore.ArrowsID["FreakyArrow"], "StartWithFreakyArrows", "ExcludeFreakyArrows", "CATACLYSM", 7));
-        CustomArrowList.Add(new CustomArrowFormat(RiseCore.ArrowsID["TornadoArrow"], "StartWithTornadoArrows", "ExcludeTornadoArrows", "FLIGHT", 8));
-        CustomArrowList.Add(new CustomArrowFormat(RiseCore.ArrowsID["MechArrow"], "StartWithMechArrows", "ExcludeMechArrows", "BACKFIRE", 9));
-        CustomArrowList.Add(new CustomArrowFormat(RiseCore.ArrowsID["BoomerangArrow"], "StartWithBoomerangArrows", "ExcludeBoomerangArrows", "DREADWOOD", 10));
+        CustomArrowList.Add(new CustomArrowFormat(GetID("IceArrow"), "StartWithIceArrows", "ExcludeIceArrows", "DARKFANG", 1));
+        CustomArrowList.Add(new CustomArrowFormat(GetID("SlimeArrow"), "StartWithSlimeArrows", "ExcludeSlimeArrows", "THORNWOOD", 2));
+        CustomArrowList.Add(new CustomArrowFormat(GetID("BaitArrow"), "StartWithBaitArrows", "ExcludeBaitArrows", "MOONSTONE", 3));
+        CustomArrowList.Add(new CustomArrowFormat(GetID("PrismTrapArrow"), "StartWithPrismTrapArrows", "ExcludePrismTrapArrows", "ASCENSION", 4));
+        CustomArrowList.Add(new CustomArrowFormat(GetID("LandMineArrow"), "StartWithLandMineArrows", "ExcludeLandMineArrows", "TOWERFORGE", 5));
+        CustomArrowList.Add(new CustomArrowFormat(GetID("MissleArrow"), "StartWithMissleArrows", "ExcludeMissleArrows", "KING'S COURT", 6));
+        CustomArrowList.Add(new CustomArrowFormat(GetID("FreakyArrow"), "StartWithFreakyArrows", "ExcludeFreakyArrows", "CATACLYSM", 7));
+        CustomArrowList.Add(new CustomArrowFormat(GetID("TornadoArrow"), "StartWithTornadoArrows", "ExcludeTornadoArrows", "FLIGHT", 8));
+        CustomArrowList.Add(new CustomArrowFormat(GetID("MechArrow"), "StartWithMechArrows", "ExcludeMechArrows", "BACKFIRE", 9));
+        CustomArrowList.Add(new CustomArrowFormat(GetID("BoomerangArrow"), "StartWithBoomerangArrows", "ExcludeBoomerangArrows", "DREADWOOD", 10));
         //CustomArrowList.Add(new CustomArrowFormat(RiseCore.ArrowsID["CrystalArrow"], "StartWithCrystalArrows", "ExcludeCrystalArrows", "TWILIGHTSPIRE", 9));
         //CustomArrowList.Add(new CustomArrowFormat(RiseCore.ArrowsID["ShockArrow"], "StartWithShockArrows", "ExcludeShockArrows", "SUNKENCITY", 6));
+
+        ArrowTypes GetID(string arrowName) 
+        {
+            return RiseCore.ArrowsRegistry[arrowName].Types;
+        }
     }
 
     public void AutoLinkArrowStartVariants(MatchVariants variants, Variant VariantToBeLinked)
@@ -199,24 +207,3 @@ public static class ExplosiveImports
     public static Func<Level, Vector2, int, bool, bool, bool, bool> SpawnSmall;
     public static Func<Level, Vector2, int, bool, bool> SpawnSmallSuper;
 }
-// Harmony can be supported
-
-[HarmonyPatch(typeof(MainMenu), "BoolToString")]
-public class MyPatcher 
-{
-    static void Postfix(ref string __result) 
-    {
-        if (__result == "ON") 
-        {
-            __result = "ENABLED";
-            return;
-        }
-        __result = "DISABLED";
-    }
-}
-
-
-/* 
-Example of interppting with libraries
-Learn more: https://github.com/MonoMod/MonoMod/blob/master/README-ModInterop.md
-*/

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using FortRise;
@@ -75,7 +76,6 @@ public class BaitArrow : Arrow
     }
     protected override void HitWall(TowerFall.Platform platform)
     {
-        Console.WriteLine("Hit");
         if (!used && !Level.Session.CurrentLevel.Ending)
         {
             this.used = true;

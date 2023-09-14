@@ -1,13 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TowerFall;
-using MonoMod;
-using FortRise;
-using Microsoft.Xna.Framework;
-using MonoMod.Utils;
 
 namespace OopsAllArrowsMod
 {

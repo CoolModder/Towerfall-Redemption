@@ -3,7 +3,6 @@ using System.Runtime.CompilerServices;
 using FortRise;
 using Microsoft.Xna.Framework;
 using Monocle;
-using MonoMod.Utils;
 using TowerFall;
 
 namespace OopsAllArrowsMod;
