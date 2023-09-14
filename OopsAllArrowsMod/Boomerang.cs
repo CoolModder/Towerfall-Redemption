@@ -1,10 +1,5 @@
-
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using FortRise;
 using Microsoft.Xna.Framework;
 using Monocle;
-using MonoMod.Utils;
 using TowerFall;
 
 namespace OopsAllArrowsMod;
@@ -48,7 +43,6 @@ public class BoomerangArrow : Arrow
     }
     public void Explode()
     {
-        Console.WriteLine(Direction);
         Turn(3.141593f);
     }
     protected override void CreateGraphics()

@@ -15,8 +15,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MonoMod" Version="22.5.1.1" />
-    <PackageReference Include="MonoMod.RuntimeDetour" Version="22.5.1.1" />
+    <PackageReference Include="MonoMod" Version="22.5.1.1">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="MonoMod.RuntimeDetour" Version="22.5.1.1">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -33,14 +37,14 @@
       <HintPath>..\..\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="FNA">
-      <HintPath>..\..\FNA.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="MMHOOK_TowerFall">
-      <HintPath>..\..\MMHOOK_TowerFall.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="TowerFall">
-      <HintPath>..\..\TowerFall.exe</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
 
