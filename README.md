@@ -24,7 +24,7 @@ List of Arrows and Variants: [Oops, All Arrows Mod Wiki Page](https://github.com
 
 Credits: CoolModder, Footage from LuckySeven and UJelly12
 
-Latest Release:  https://github.com/CoolModder/Towerfall-Redemption/releases/tag/v3.1.0-Arrows
+Latest Release:  https://github.com/CoolModder/Towerfall-Redemption/releases/tag/v4.0.0-Arrows
 ### TowerBall
 Port of Towerball to Fortrise! 
 ![20230706192939_1](https://github.com/CoolModder/Towerfall-Redemeption/assets/132532001/8d84431f-db3e-4252-bcb8-498c295bf26f)
