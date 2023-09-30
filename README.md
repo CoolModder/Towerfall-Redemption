@@ -68,3 +68,6 @@ Chests are replaced for different holidays
 Custom music support!
 ### Warlord mod fixes 
 Fix UI bug, etc.
+## Other things by me:
+### Towerfall Atlas Editior Script for Asesprite
+https://github.com/CoolModder/Asesprite-TF-Atlas-Editior/tree/main
