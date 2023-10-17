@@ -1,0 +1,7 @@
+{
+	"name": "SeasonalChestMod",
+	"version": "1.0.0",
+	"author": "CoolModder",
+	"description": "Adds seasonal chests into the game",
+	"dll": "SeasonalChestMod.dll"
+}

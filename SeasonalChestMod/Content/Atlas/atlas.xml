@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:17ae4c45f3b5f167234396b9fa52870d:93fbe2740e1e975defc65a72a783b76b:cde709370900f12288f3449eded86f07$ -->
+<TextureAtlas imagePath="atlas.png">
+	<SubTexture name="christmasNormal" x="0" y="0" width="40" height="10"/>
+	<SubTexture name="christmasSpecial" x="41" y="0" width="40" height="10"/>
+	<SubTexture name="christmasBig" x="0" y="12" width="80" height="20"/>
+	<SubTexture name="christmasBottomless" x="0" y="32" width="80" height="20"/>
+	<SubTexture name="halloweenNormal" x="0" y="60" width="40" height="10"/>
+	<SubTexture name="halloweenSpecial" x="41" y="60" width="40" height="10"/>
+	<SubTexture name="halloweenBig" x="0" y="72" width="80" height="20"/>
+	<SubTexture name="halloweenBottomless" x="0" y="92" width="80" height="20"/>
+	<SubTexture name="birthdayNormal" x="0" y="102" width="40" height="10"/>
+	<SubTexture name="birthdaySpecial" x="41" y="102" width="40" height="10"/>
+	<SubTexture name="birthdayBig" x="0" y="112" width="80" height="20"/>
+	<SubTexture name="birthdayBottomless" x="0" y="132" width="80" height="20"/>
+	<SubTexture name="patrickNormal" x="0" y="152" width="40" height="10"/>
+	<SubTexture name="patrickSpecial" x="41" y="152" width="40" height="10"/>
+	<SubTexture name="patrickBig" x="0" y="162" width="80" height="20"/>
+	<SubTexture name="patrickBottomless" x="0" y="182" width="80" height="20"/>
+	<SubTexture name="easterNormal" x="0" y="202" width="40" height="10"/>
+	<SubTexture name="easterSpecial" x="41" y="202" width="40" height="10"/>
+	<SubTexture name="easterBig" x="0" y="212" width="80" height="20"/>
+	<SubTexture name="easterBottomless" x="0" y="232" width="80" height="20"/>
+	<SubTexture name="catNormal" x="82" y="2" width="40" height="10"/>
+	<SubTexture name="catSpecial" x="123" y="2" width="40" height="10"/>
+	<SubTexture name="catBig" x="81" y="12" width="160" height="20"/>
+	<SubTexture name="catBottomless" x="81" y="32" width="160" height="20"/>
+	<SubTexture name="thankNormal" x="82" y="52" width="40" height="10"/>
+	<SubTexture name="thankSpecial" x="123" y="52" width="40" height="10"/>
+	<SubTexture name="thankBig" x="80" y="62" width="81" height="20"/>
+	<SubTexture name="thankBottomless" x="80" y="82" width="80" height="20"/>
+</TextureAtlas>
