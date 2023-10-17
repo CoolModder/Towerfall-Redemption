@@ -9,6 +9,7 @@ Enjoy new arrows, mechanics, towers, hazards, and gui!
 ## Done:
 ### Menu Variants Mod
 Adds Custom Titles and Bezels!
+
 ![20230702101436_1](https://github.com/CoolModder/Towerfall-Redemeption/assets/132532001/5d0b1fe2-af5b-42df-b4f2-769ae827c819)
 Credits: CoolModder
 
@@ -36,8 +37,12 @@ Ball Sound by Zmobie licensed under the Creative Commons 0 License. http://www.f
 Latest Release: https://github.com/CoolModder/Towerfall-Redemeption/releases/tag/v2.0.0-Ball
 ### Seasonal Chest Mod
 Change up the chests near holidays!
-![image](https://github.com/CoolModder/Towerfall-Redemption/assets/132532001/9b30740f-94a4-46fc-a827-91fba241179c)
 
+![image](https://github.com/CoolModder/Towerfall-Redemption/assets/132532001/9b30740f-94a4-46fc-a827-91fba241179c)
+Credits: CoolModder
+
+
+Latest Release: https://github.com/CoolModder/Towerfall-Redemeption/releases/tag/V1.0.0-Chest
 ### Warlord 
 How the canceled gamemode could of been... Grab the helm and survive to win, or kill the warlord and be the last one left to score
 ![20230710192012_1](https://github.com/CoolModder/Towerfall-Redemption/assets/132532001/cef0f5b5-eb83-4aa7-9d2e-c4ad8b0c1454)
