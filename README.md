@@ -39,6 +39,7 @@ Latest Release: https://github.com/CoolModder/Towerfall-Redemeption/releases/tag
 Change up the chests near holidays!
 
 ![image](https://github.com/CoolModder/Towerfall-Redemption/assets/132532001/9b30740f-94a4-46fc-a827-91fba241179c)
+
 Credits: CoolModder
 
 
