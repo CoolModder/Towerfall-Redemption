@@ -26,7 +26,7 @@ public class SeasonChestModModule : FortModule
 
     public override void LoadContent()
     {
-        ChestAtlas = Atlas.Create("Atlas/atlas.xml", "Atlas/atlas.png", true, ContentAccess.ModContent);
+        ChestAtlas = Content.CreateAtlas("Atlas/atlas.xml", "Atlas/atlas.png", true, ContentAccess.ModContent);
         seasonalChest = null;
         ChestVariants.Add(new SeasonalChestFormat(new DateTime(DateTime.Now.Year, 12, 18), new DateTime(DateTime.Now.Year, 12, 26), ChestAtlas["christmasNormal"], ChestAtlas["christmasSpecial"], ChestAtlas["christmasBig"], ChestAtlas["christmasBottomless"]));
         ChestVariants.Add(new SeasonalChestFormat(new DateTime(DateTime.Now.Year, 10, 24), new DateTime(DateTime.Now.Year, 11, 1), ChestAtlas["halloweenNormal"], ChestAtlas["halloweenSpecial"], ChestAtlas["halloweenBig"], ChestAtlas["halloweenBottomless"]));
