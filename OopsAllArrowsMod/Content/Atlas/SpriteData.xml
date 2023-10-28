@@ -1,0 +1,12 @@
+<SpriteData>
+  <sprite_string id="Shock">
+    <Texture>Shock</Texture>
+    <FrameWidth>12</FrameWidth>
+    <FrameHeight>12</FrameHeight>
+    <OriginX>8</OriginX>
+    <OriginY>8</OriginY>
+    <Animations>
+      <Anim id="0" Delay=".1" frames="0,1,2,4" loop="True"/>
+    </Animations>
+  </sprite_string>
+</SpriteData>
