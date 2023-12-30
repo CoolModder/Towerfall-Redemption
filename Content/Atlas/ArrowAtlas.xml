@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:17ae4c45f3b5f167234396b9fa52870d:93fbe2740e1e975defc65a72a783b76b:cde709370900f12288f3449eded86f07$ -->
+<TextureAtlas imagePath="SlimeArrow.png">
+	<SubTexture name="SlimeArrowHud" x="67" y="35" width="5" height="9"/>
+	<SubTexture name="Slime" x="66" y="98" width="11" height="11"/>
+	<SubTexture name="SlimeArrow" x="81" y="52" width="13" height="4"/>
+	<SubTexture name="SlimeArrowBuried" x="81" y="57" width="13" height="4"/>
+	<SubTexture name="SlimeArrowPickup" x="114" y="66" width="12" height="12"/>
+	<SubTexture name="ShockArrowHud" x="61" y="35" width="5" height="9"/>
+	<SubTexture name="Shock" x="98" y="98" width="24" height="24"/>
+	<SubTexture name="ShockArrow" x="97" y="84" width="26" height="4"/>
+	<SubTexture name="ShockArrowBuried" x="97" y="89" width="26" height="4"/>
+	<SubTexture name="ShockArrowPickup" x="82" y="34" width="12" height="12"/>
+	<SubTexture name="PrismTrapArrowHud" x="55" y="35" width="5" height="9"/>
+	<SubTexture name="PrismTrapArrow" x="114" y="52" width="13" height="4"/>
+	<SubTexture name="PrismTrap" x="4" y="82" width="6" height="5"/>
+	<SubTexture name="PrismTrapArrowBuried" x="114" y="57" width="13" height="4"/>
+	<SubTexture name="PrismTrapArrowPickup" x="98" y="34" width="12" height="12"/>
+	<SubTexture name="MissleArrowHud" x="49" y="35" width="5" height="9"/>
+	<SubTexture name="MissleArrow" x="114" y="4" width="13" height="4"/>
+	<SubTexture name="MissleArrowBuried" x="114" y="9" width="13" height="4"/>
+	<SubTexture name="MissleArrowPickup" x="114" y="34" width="12" height="12"/>
+	<SubTexture name="MechArrowHud" x="43" y="35" width="5" height="9"/>
+	<SubTexture name="MechArrow" x="97" y="4" width="13" height="4"/>
+	<SubTexture name="MechArrowBuried" x="97" y="9" width="13" height="4"/>
+	<SubTexture name="MiniMechArrow" x="20" y="84" width="7" height="4"/>
+	<SubTexture name="MiniMechArrowBuried" x="20" y="89" width="7" height="4"/>
+	<SubTexture name="MechArrowPickup" x="114" y="18" width="12" height="12"/>
+	<SubTexture name="LandMineArrowHud" x="37" y="35" width="5" height="9"/>
+	<SubTexture name="LandMineArrow" x="82" y="4" width="13" height="4"/>
+	<SubTexture name="LandMine" x="4" y="89" width="6" height="5"/>
+	<SubTexture name="LandMineArrowBuried" x="82" y="9" width="13" height="4"/>
+	<SubTexture name="LandMineArrowPickup" x="98" y="18" width="12" height="12"/>
+	<SubTexture name="IceArrowHud" x="31" y="35" width="5" height="9"/>
+	<SubTexture name="Ice" x="66" y="115" width="12" height="12"/>
+	<SubTexture name="IceArrow" x="66" y="4" width="13" height="4"/>
+	<SubTexture name="IceArrowBuried" x="66" y="9" width="13" height="4"/>
+	<SubTexture name="IceArrowPickup" x="82" y="18" width="12" height="12"/>
+	<SubTexture name="TornadoArrowHud" x="1" y="35" width="5" height="9"/>
+	<SubTexture name="TornadoArrow" x="1" y="4" width="13" height="4"/>
+	<SubTexture name="TornadoArrowBuried" x="1" y="9" width="13" height="4"/>
+	<SubTexture name="TornadoArrowPickup" x="2" y="18" width="12" height="12"/>
+    <SubTexture name="FreakyArrowHud" x="13" y="36" width="5" height="8"/>
+	<SubTexture name="FreakyArrow" x="33" y="4" width="13" height="4"/>
+	<SubTexture name="FreakyArrowBuried" x="33" y="9" width="13" height="4"/>
+	<SubTexture name="FreakyArrowPickup" x="33" y="18" width="24" height="12"/>
+	<SubTexture name="CrystalArrowHud" x="25" y="35" width="5" height="9"/>
+	<SubTexture name="CrystalSpike" x="0" y="96" width="64" height="32"/>
+	<SubTexture name="CrystalArrow" x="50" y="4" width="13" height="4"/>
+	<SubTexture name="CrystalArrowBuried" x="50" y="9" width="13" height="4"/>
+	<SubTexture name="CrystalArrowPickup" x="66" y="18" width="12" height="12"/>
+	<SubTexture name="BoomerangArrowHud" x="19" y="35" width="5" height="9"/>
+	<SubTexture name="BoomerangArrow" x="1" y="52" width="26" height="4"/>
+	<SubTexture name="BoomerangArrowBuried" x="1" y="57" width="13" height="4"/>
+	<SubTexture name="BoomerangArrowPickup" x="2" y="66" width="12" height="12"/>
+	<SubTexture name="BaitArrowHud" x="7" y="35" width="5" height="9"/>
+	<SubTexture name="BaitArrow" x="17" y="4" width="13" height="4"/>
+	<SubTexture name="BaitArrowBuried" x="17" y="9" width="13" height="4"/>
+	<SubTexture name="BaitArrowPickup" x="18" y="18" width="12" height="12"/>
+	<SubTexture name="NyanTrail" x="32" y="51" width="20" height="5"/>
+	<SubTexture name="NyanArrow" x="32" y="57" width="5" height="5"/>
+	<SubTexture name="NyanArrowBuried" x="37" y="57" width="5" height="5"/>
+	<SubTexture name="NyanArrowHud" x="73" y="36" width="5" height="7"/>
+	<SubTexture name="NyanArrowPickup" x="98" y="50" width="12" height="12"/>
+</TextureAtlas>
