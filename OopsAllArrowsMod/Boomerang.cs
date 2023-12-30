@@ -2,6 +2,9 @@ using Microsoft.Xna.Framework;
 using Monocle;
 using TowerFall;
 using FortRise;
+using System;
+using System.Diagnostics;
+
 namespace OopsAllArrowsMod;
 
 [CustomArrows("Boomerang", "CreateGraphicPickup")]
@@ -14,7 +17,6 @@ public class BoomerangArrow : Arrow
     private Sprite<int> buriedImage;
     private Alarm explodeAlarm;
     private const float SPEED = 6f;
-    public Vector2 turnPos;
     protected override float StartSpeed => 6f;
 
     public static ArrowInfo CreateGraphicPickup() 
@@ -39,11 +41,14 @@ public class BoomerangArrow : Arrow
         explodeAlarm = Alarm.Create(Alarm.AlarmMode.Persist, Explode, 23);
         explodeAlarm.Start();
         StopFlashing();
-        turnPos = Owner.Position;
+        
     }
     public void Explode()
-    {
-        Turn(3.141593f);
+    {   
+        if (!base.BuriedIn && !base.StuckTo)
+        {
+            Turn(180);
+        }
     }
     protected override void CreateGraphics()
     {
@@ -52,7 +57,7 @@ public class BoomerangArrow : Arrow
         normalImage.Add(0, 0.1f, new int[2] { 0, 1 });
         normalImage.Play(0, false);
         buriedImage = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["BoomerangArrowBuried"],13,4);
-        buriedImage.Origin = new Vector2(13f, 3f);
+        buriedImage.Origin = new Vector2(10f, 3f);
         buriedImage.Add(0, 0.1f, new int[2] { 0, 0});
         buriedImage.Play(0, false);
         Graphics = new Image[2] { normalImage, buriedImage };
@@ -86,6 +91,7 @@ public class BoomerangArrow : Arrow
         }
 
         base.HitWall(platform);
+        SwapToBuriedGraphics();
     }
     public override bool CanCatch(LevelEntity catcher)
     {
@@ -110,11 +116,9 @@ public class BoomerangArrow : Arrow
     }
     private void Turn(float turnAngle)
     {
-        float num = base.Direction;
-        base.Direction += turnAngle;
-        Sounds.sfx_boltArrowTurn.Play(base.X);
-        base.Direction = WrapMath.WrapAngle(Position, turnPos);
+        float num = (float)(base.Direction * (360 / (Math.PI * 2)));
+        num += turnAngle;
+        base.Direction = (float)(num * ((Math.PI * 2) / 360));
         Speed = Calc.AngleToVector(base.Direction, StartSpeed);
-        base.Direction = num;
     }
 }

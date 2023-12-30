@@ -37,9 +37,9 @@ public class MiniMechArrow : Arrow
     protected override void CreateGraphics()
     {
         normalImage = new Image(OopsArrowsModModule.ArrowAtlas["MiniMechArrow"]);
-        normalImage.Origin = new Vector2(13f, 3f);
+        normalImage.Origin = new Vector2(7f, 3f);
         buriedImage = new Image(OopsArrowsModModule.ArrowAtlas["MiniMechArrowBuried"]);
-        buriedImage.Origin = new Vector2(13f, 3f);
+        buriedImage.Origin = new Vector2(5f, 3f);
         Graphics = new Image[2] { normalImage, buriedImage };
         Add(Graphics);
     }

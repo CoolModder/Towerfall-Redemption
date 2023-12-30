@@ -46,7 +46,7 @@ public class ShockArrow : Arrow
         buriedImage = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["ShockArrowBuried"], 13, 14, 0);
         buriedImage.Add(0, 0.3f, new int[2] { 0, 1 });
         buriedImage.Play(0, false);
-        buriedImage.Origin = new Vector2(13f, 3f);
+        buriedImage.Origin = new Vector2(10f, 3f);
         Graphics = new Image[2] { normalImage, buriedImage };
         Add(Graphics);
     }

@@ -113,6 +113,7 @@ public class MechArrow : TriggerArrow
 
     protected override void HitWall(TowerFall.Platform platform)
     {
+
         base.HitWall(platform);
         cannotPickupCounter.Set(15);
     }
@@ -120,6 +121,7 @@ public class MechArrow : TriggerArrow
     {
         base.Bury(buryIn, moveIn, drawHead);
         cannotPickupCounter.Set(15);
+        
         Speed = Vector2.Zero;
     }
     public override bool IsCollectible
@@ -181,7 +183,7 @@ public class MechArrow : TriggerArrow
         normalImage = new Image(OopsArrowsModModule.ArrowAtlas["MechArrow"]);
         normalImage.Origin = new Vector2(13f, 3f);
         buriedImage = new Image(OopsArrowsModModule.ArrowAtlas["MechArrowBuried"]);
-        buriedImage.Origin = new Vector2(13f, 3f);
+        buriedImage.Origin = new Vector2(10f, 3f);
         Graphics = new Image[2] { normalImage, buriedImage };
         Add(Graphics);
     }

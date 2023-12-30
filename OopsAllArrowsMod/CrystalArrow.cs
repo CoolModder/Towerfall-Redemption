@@ -43,7 +43,7 @@ public class CrystalArrow : Arrow
         normalImage = new Image(OopsArrowsModModule.ArrowAtlas["CrystalArrow"]);
         normalImage.Origin = new Vector2(13f, 3f);
         buriedImage = new Image(OopsArrowsModModule.ArrowAtlas["CrystalArrowBuried"]);
-        buriedImage.Origin = new Vector2(13f, 3f);
+        buriedImage.Origin = new Vector2(10f, 3f);
         Graphics = new Image[2] { normalImage, buriedImage };
         Add(Graphics);
     }

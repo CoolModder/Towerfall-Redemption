@@ -40,7 +40,7 @@ public class TornadoArrow : Arrow
         normalImage = new Image(OopsArrowsModModule.ArrowAtlas["TornadoArrow"]);
         normalImage.Origin = new Vector2(13f, 3f);
         buriedImage = new Image(OopsArrowsModModule.ArrowAtlas["TornadoArrowBuried"]);
-        buriedImage.Origin = new Vector2(13f, 3f);
+        buriedImage.Origin = new Vector2(10f, 3f);
         Graphics = new Image[2] { normalImage, buriedImage };
         Add(Graphics);
     }

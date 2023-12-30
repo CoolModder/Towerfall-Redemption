@@ -9,4 +9,14 @@
       <Anim id="0" Delay=".1" frames="0,1,2,4" loop="True"/>
     </Animations>
   </sprite_string>
+  <sprite_string id="NyanTrail">
+    <Texture>NyanTrail</Texture>
+    <FrameWidth>5</FrameWidth>
+    <FrameHeight>5</FrameHeight>
+    <OriginX>2</OriginX>
+    <OriginY>2</OriginY>
+    <Animations>
+      <Anim id="0" Delay=".1" frames="0,1,2,3" loop="False"/>
+    </Animations>
+  </sprite_string>
 </SpriteData>

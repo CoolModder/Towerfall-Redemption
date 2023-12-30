@@ -38,9 +38,9 @@ public class SlimeArrow : Arrow
     protected override void CreateGraphics()
     {
         normalImage = new Image(OopsArrowsModModule.ArrowAtlas["SlimeArrow"]);
-        normalImage.Origin = new Vector2(11f, 3f);
+        normalImage.Origin = new Vector2(13f, 3f);
         buriedImage = new Image(OopsArrowsModModule.ArrowAtlas["SlimeArrowBuried"]);
-        buriedImage.Origin = new Vector2(11f, 3f);
+        buriedImage.Origin = new Vector2(10f, 3f);
         Graphics = new Image[2] { normalImage, buriedImage };
         Add(Graphics);
     }
