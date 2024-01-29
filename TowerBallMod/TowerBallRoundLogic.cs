@@ -4,6 +4,9 @@ using TowerFall;
 using FortRise;
 using System.Collections.Generic;
 using System;
+using System.Timers;
+using System.Security.AccessControl;
+using System.Diagnostics;
 
 namespace TowerBall;
 [CustomRoundLogic("TowerBall/TowerBallRoundLogic")]
@@ -15,40 +18,56 @@ public class TowerBallRoundLogic : CustomVersusRoundLogic
 
 	public PlayerRespawner[] respawns;
 
-    private Counter endDelay;
+	private Counter endDelay;
 
-    public TowerBallHUD hud;
+	public TowerBallHUD hud;
 
 	public List<Arrow> arrowQueue;
 
 	public int lastThrower;
 
-    public TowerBallRoundLogic(Session session)
+	public Timer roundTimer;
+
+	public bool overtime = false;
+
+	public bool timed = false;
+
+	public int secondsleft;
+	public TowerBallRoundLogic(Session session)
 		: base(session, false)
 	{
 		CanMiasma = false;
 		respawns = new PlayerRespawner[4];
 		arrowQueue = new List<Arrow>();
-        this.endDelay = new Counter();
-        this.endDelay.Set(90);
-    }
+		this.endDelay = new Counter();
+		this.endDelay.Set(90);
+	}
 
-    public static RoundLogicInfo Create()
+	public static RoundLogicInfo Create()
+	{
+		return new RoundLogicInfo
+		{
+			Name = "TowerBall",
+			Icon = ExampleModModule.MenuAtlas["gamemodes/TowerBall"],
+			RoundType = RoundLogicType.TeamDeatchmatch
+		};
+	}
+
+    public override void OnRoundStart()
     {
-        return new RoundLogicInfo
-        {
-            Name = "TowerBall",
-            Icon = ExampleModModule.MenuAtlas["gamemodes/TowerBall"],
-            RoundType = RoundLogicType.TeamDeatchmatch
-        };
+        base.OnRoundStart();
+        SpawnTreasureChestsVersus();
+        if (timed)
+		{
+            roundTimer.Enabled = true;
+        }
     }
-
     public override void OnLevelLoadFinish()
 	{
 		base.OnLevelLoadFinish();
-        base.Session.CurrentLevel.Add(new VersusStart(base.Session));
-        SpawnPlayersTeams();
-        base.Players = TFGame.PlayerAmount;
+		base.Session.CurrentLevel.Add(new VersusStart(base.Session));
+		SpawnPlayersTeams();
+		base.Players = TFGame.PlayerAmount;
 		List<Vector2> xMLPositions = Session.CurrentLevel.GetXMLPositions("BigTreasureChest");
 		ballPos = xMLPositions[new Random().Next(xMLPositions.Count)];
 		SpawnBallChest();
@@ -58,7 +77,22 @@ public class TowerBallRoundLogic : CustomVersusRoundLogic
 		hud = base.Session.CurrentLevel.Add(new TowerBallHUD(this));
 		Session.MatchSettings.Variants.ReturnAsGhosts.Value = false;
 		Session.MatchSettings.Variants.TriggerCorpses.Value = false;
+		overtime = false;
 		Session.MatchSettings.Variants.TeamRevive.Value = false;
+		if (base.Session.MatchSettings.Variants.GetCustomVariant("TimedRounds"))
+		{
+			roundTimer = new Timer(1000);
+			roundTimer.AutoReset = true;
+			secondsleft = 30 * Session.MatchSettings.GoalScore;
+			roundTimer.Elapsed += TimerMinus;
+			
+
+			timed = true;
+		}
+		else
+		{
+			timed = false;
+		}
 	}
 
 	public override void OnUpdate()
@@ -68,39 +102,43 @@ public class TowerBallRoundLogic : CustomVersusRoundLogic
 			base.Session.CurrentLevel.Add(arrowQueue[i]);
 		}
 		arrowQueue.Clear();
-        SessionStats.TimePlayed += Engine.DeltaTicks;
-        base.OnUpdate();
+		SessionStats.TimePlayed += Engine.DeltaTicks;
+		base.OnUpdate();
+	
+        if (secondsleft <= 0 && timed && !base.Session.CurrentLevel.Ending)
+        {
+            RoundEndTimed();
+        } 
         if (!base.RoundStarted || !base.Session.CurrentLevel.Ending || !base.Session.CurrentLevel.CanEnd)
-        {
-            return;
-        }
-        
-        if ((bool)spawnAlarm)
-        {
-            spawnAlarm.Update();
-        }
-        if (base.RoundStarted && base.Session.CurrentLevel.Ending && base.Session.CurrentLevel.CanEnd)
-        {
-            if (this.endDelay)
-            {
-                this.endDelay.Update();
-                return;
-            }
-            base.Session.EndRound();
-        }
+		{
+			return;
+		}
+		
+		if ((bool)spawnAlarm)
+		{
+			spawnAlarm.Update();
+		}
+		if (base.RoundStarted && base.Session.CurrentLevel.Ending && base.Session.CurrentLevel.CanEnd)
+		{
+			if (this.endDelay)
+			{
+				this.endDelay.Update();
+				return;
+			}
+			
+			base.Session.EndRound();
+		}
 		else
 		{
-            InsertCrownEvent();
-        }
+			InsertCrownEvent();
+		}
 	}
 
-	// What is this use for?
-	// public bool TeamCheckForRoundOver(out Allegiance surviving)
-	// {
-	// 	surviving = Allegiance.Neutral;
-	// 	return false;
-	// }
 
+	private void TimerMinus(Object source, System.Timers.ElapsedEventArgs e)
+	{
+		secondsleft--;
+	}
 	public Player RespawnPlayer(int playerIndex, Allegiance team)
 	{
 		List<Vector2> list = ((team != 0) ? Session.CurrentLevel.GetXMLPositions("TeamSpawnB") : Session.CurrentLevel.GetXMLPositions("TeamSpawnA"));
@@ -110,10 +148,40 @@ public class TowerBallRoundLogic : CustomVersusRoundLogic
 		Alarm.Set(player, 60, player.RemoveIndicator);
 		return player;
 	}
-
-	public override void OnPlayerDeath(Player player, PlayerCorpse corpse, int playerIndex, DeathCause cause, Vector2 position, int killerIndex)
+	public void RoundEndTimed()
 	{
-		//respawns[playerIndex] = new PlayerRespawner(playerIndex, player.Allegiance, this);
+		if (Session.Scores[1] == Session.Scores[0])
+		{
+			overtime = true;
+			return;
+		}
+		Allegiance allegiance = Allegiance.Blue;
+		if (Session.Scores[1] == Session.GetHighestScore())
+		{
+			allegiance = Allegiance.Red;
+		}
+		List<LevelEntity> list = new List<LevelEntity>();
+		for (int i = 0; i < 4; i++)
+		{
+			if (TFGame.Players[i] && Session.MatchSettings.Teams[i] == allegiance)
+			{
+				Session.MatchStats[i].GotWin = true;
+				LevelEntity playerOrCorpse = Session.CurrentLevel.GetPlayerOrCorpse(i);
+				if (playerOrCorpse != null)
+				{
+					list.Add(playerOrCorpse);
+				}
+			}
+		}
+		Session.CurrentLevel.LightingLayer.SetSpotlight(list.ToArray());
+		Session.CurrentLevel.OrbLogic.DoSlowMoKill();
+		Session.MatchSettings.LevelSystem.StopVersusMusic();
+		hud.RemoveSelf();
+		base.Session.CurrentLevel.CanEnd = true;
+		base.Session.CurrentLevel.Ending = true;
+	}
+    public override void OnPlayerDeath(Player player, PlayerCorpse corpse, int playerIndex, DeathCause cause, Vector2 position, int killerIndex)
+	{
 		Entity entity = new Entity();
 		Alarm.Set(entity, 70, () => {
 			RespawnPlayer(playerIndex, player.Allegiance);
@@ -162,7 +230,7 @@ public class TowerBallRoundLogic : CustomVersusRoundLogic
 			SessionStats.RegisterVersusKill(killerIndex, playerIndex, deathType == DeathType.Team);
 		}
 	}
-
+	
 	public void IncreaseScore(int playerIndex, int assistPlayerIndex, bool dunk, bool allyoop, bool clean, int teamIndex)
 	{
 		if (endDelay.Value != 90)
@@ -174,9 +242,27 @@ public class TowerBallRoundLogic : CustomVersusRoundLogic
         bool flag = assistPlayerIndex != -1 && assistPlayerIndex != playerIndex && Session.MatchSettings.Teams[playerIndex] == Session.MatchSettings.Teams[assistPlayerIndex];
 		TFGame.PlayerInputs[playerIndex].Rumble(1f, 10);
 		hud.flashAlpha = 1f;
-		if (Session.GetHighestScore() < Session.MatchSettings.GoalScore)
+		if (!timed)
 		{
-			return;
+			if (Session.GetHighestScore() < Session.MatchSettings.GoalScore)
+			{
+                if (base.Session.MatchSettings.Variants.GetCustomVariant("HoopTreasure"))
+                {
+                    SpawnTreasureChestsVersus();
+                }
+                return;
+			}
+		}
+		else
+		{
+			if (!overtime)
+			{
+                if (base.Session.MatchSettings.Variants.GetCustomVariant("HoopTreasure"))
+                {
+                    SpawnTreasureChestsVersus();
+                }
+                return;
+			}
 		}
 		Allegiance allegiance = Allegiance.Blue;
 		if (Session.Scores[1] == Session.GetHighestScore())
@@ -200,8 +286,8 @@ public class TowerBallRoundLogic : CustomVersusRoundLogic
 		Session.CurrentLevel.OrbLogic.DoSlowMoKill();
 		Session.MatchSettings.LevelSystem.StopVersusMusic();
 		Sounds.sfx_finalKill.Play();
-		hud.RemoveSelf();
-		base.Session.CurrentLevel.CanEnd = true;
+        hud.RemoveSelf();
+        base.Session.CurrentLevel.CanEnd = true;
         base.Session.CurrentLevel.Ending = true;
     }
 
@@ -243,9 +329,4 @@ public class TowerBallRoundLogic : CustomVersusRoundLogic
 		arrow.Speed.X = (arrow.Speed.Y = 0f);
 		arrowQueue.Add(arrow);
 	}
-    public override void OnRoundStart()
-    {
-        base.OnRoundStart();
-        SpawnTreasureChestsVersus();
-    }
 }

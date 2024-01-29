@@ -31,7 +31,14 @@ public class ExampleModModule : FortModule
         Atlas = Content.LoadAtlas("Atlas/atlas.xml", "Atlas/atlas.png");
         MenuAtlas = Content.LoadAtlas("Atlas/menuAtlas.xml", "Atlas/menuAtlas.png");
     }
+    public override void OnVariantsRegister(VariantManager manager, bool noPerPlayer = false)
+    {
+        base.OnVariantsRegister(manager, noPerPlayer);
 
+    
+        manager.AddVariant(new CustomVariantInfo("TimedRounds", MenuAtlas["variants/timedRounds"], "Towerball rounds are now timed", CustomVariantFlags.None), true);
+        manager.AddVariant(new CustomVariantInfo("HoopTreasure", MenuAtlas["variants/hoopTreasure"], "Every hoop spawns treasure", CustomVariantFlags.None), true);
+    }
     public override void Load()
     {
         MyPlayerCorpse.Load();

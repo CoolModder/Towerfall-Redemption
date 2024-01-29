@@ -17,12 +17,12 @@ public class BasketBallTreasureChest : TreasureChest
 	public BasketBallTreasureChest(XmlElement xml, Vector2 position)
 		: base(position, Types.Special, AppearModes.Normal, new Pickups[0])
 	{
-		Logger.Log("[TowerBall] BasketBall!");
 		openCounter = new Counter();
 		openCounter.Set(60);
 		spawnCounter = new Counter();
 		Flash(15);
-	}
+        
+    }
 
 	public bool ReadyToAppear()
 	{
