@@ -2,15 +2,27 @@ using Microsoft.Xna.Framework;
 using Monocle;
 using TowerFall;
 using FortRise;
-using System.Collections.Generic;
-using System;
-using System.Timers;
-using System.Security.AccessControl;
-using System.Diagnostics;
+using STimer = System.Timers.Timer;
 
 namespace TowerBall;
-[CustomRoundLogic("TowerBall/TowerBallRoundLogic")]
-public class TowerBallRoundLogic : CustomVersusRoundLogic
+
+public class TowerBall : CustomGameMode
+{
+    public override RoundLogic CreateRoundLogic(Session session)
+    {
+		return new TowerBallRoundLogic(session);
+    }
+
+    public override void Initialize()
+    {
+		NameColor = Color.Yellow;
+		Icon = ExampleModModule.MenuAtlas["gamemodes/TowerBall"];
+    }
+
+    public override void InitializeSounds() {}
+}
+
+public class TowerBallRoundLogic : RoundLogic
 {
 	public Vector2 ballPos;
 
@@ -26,7 +38,7 @@ public class TowerBallRoundLogic : CustomVersusRoundLogic
 
 	public int lastThrower;
 
-	public Timer roundTimer;
+	public STimer roundTimer;
 
 	public bool overtime = false;
 
@@ -41,16 +53,6 @@ public class TowerBallRoundLogic : CustomVersusRoundLogic
 		arrowQueue = new List<Arrow>();
 		this.endDelay = new Counter();
 		this.endDelay.Set(90);
-	}
-
-	public static RoundLogicInfo Create()
-	{
-		return new RoundLogicInfo
-		{
-			Name = "TowerBall",
-			Icon = ExampleModModule.MenuAtlas["gamemodes/TowerBall"],
-			RoundType = RoundLogicType.TeamDeatchmatch
-		};
 	}
 
     public override void OnRoundStart()
@@ -81,7 +83,7 @@ public class TowerBallRoundLogic : CustomVersusRoundLogic
 		Session.MatchSettings.Variants.TeamRevive.Value = false;
 		if (base.Session.MatchSettings.Variants.GetCustomVariant("TimedRounds"))
 		{
-			roundTimer = new Timer(1000);
+			roundTimer = new STimer(1000);
 			roundTimer.AutoReset = true;
 			secondsleft = 30 * Session.MatchSettings.GoalScore;
 			roundTimer.Elapsed += TimerMinus;
