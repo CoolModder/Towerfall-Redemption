@@ -15,8 +15,10 @@ public class TowerBall : CustomGameMode
 
     public override void Initialize()
     {
-		NameColor = Color.Yellow;
+		Name = "TowerBall";
+		NameColor = Color.OrangeRed;
 		Icon = ExampleModModule.MenuAtlas["gamemodes/TowerBall"];
+		TeamMode = true;
     }
 
     public override void InitializeSounds() {}
@@ -67,7 +69,6 @@ public class TowerBallRoundLogic : RoundLogic
     public override void OnLevelLoadFinish()
 	{
 		base.OnLevelLoadFinish();
-		SpawnPlayersTeams();
 		base.Session.CurrentLevel.Add(new VersusStart(base.Session));
 		SpawnPlayersTeams();
 		base.Players = TFGame.PlayerAmount;
