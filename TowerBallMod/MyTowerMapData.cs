@@ -1,5 +1,4 @@
-using System;
-using Monocle;
+using FortRise;
 using MonoMod.Utils;
 using TowerFall;
 
@@ -19,7 +18,8 @@ public static class MyTowerMapData
 
     private static TowerFall.LevelSystem GetLevelSystem_patch(On.TowerFall.TowerMapData.orig_GetLevelSystem orig, TowerFall.TowerMapData self)
     {
-        if (MainMenu.VersusMatchSettings.CurrentModeName == "TowerBall/TowerBallRoundLogic")
+        var levelData = self.DynGetData<LevelData>("levelData");
+        if (levelData is VersusTowerData && MainMenu.VersusMatchSettings.Mode == ModRegisters.GameModeType<TowerBall>())
         {
             return new TowerBallVersusLevelSystem(DynamicData.For(self).Get<LevelData>("levelData") as VersusTowerData);
         }
