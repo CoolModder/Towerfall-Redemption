@@ -67,6 +67,7 @@ public class TowerBallRoundLogic : RoundLogic
     public override void OnLevelLoadFinish()
 	{
 		base.OnLevelLoadFinish();
+		SpawnPlayersTeams();
 		base.Session.CurrentLevel.Add(new VersusStart(base.Session));
 		SpawnPlayersTeams();
 		base.Players = TFGame.PlayerAmount;
