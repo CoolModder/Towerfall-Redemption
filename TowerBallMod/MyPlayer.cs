@@ -14,9 +14,6 @@ internal class MyPlayer : Player
 
     public static Dictionary<int, float> currentHoldFrames = new Dictionary<int, float>(16);
 
-    private static ConstructorInfo base_Player;
-
-    private static DynamicData BaseData;
 
     public static Dictionary<int, int> HasBasketBall = new Dictionary<int, int>(16);
     public static Dictionary<int, ArrowList> PlayerArrows = new Dictionary<int, ArrowList>(16);
@@ -30,7 +27,7 @@ internal class MyPlayer : Player
     public static void ctor(On.TowerFall.Player.orig_Added orig, TowerFall.Player self)
     {
         orig(self);
-        if(self.Level.Session.MatchSettings.CurrentModeName == "TowerBall/TowerBallRoundLogic")
+        if(self.Level.Session.MatchSettings.Mode == ModRegisters.GameModeType<TowerBall.TowerBall>())
         {
             ExampleModModule.TowerBallMode = true;
         }
