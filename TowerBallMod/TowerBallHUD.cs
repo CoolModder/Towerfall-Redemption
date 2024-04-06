@@ -57,9 +57,9 @@ public class TowerBallHUD : Entity
 			Draw.Rect(350f, 7f, 30f, 16f, colorB);
             if (roundLogic.timed)
             {
-                Draw.Rect(196f, 5f, 54f, 20f, Color.Black);
-                Draw.Rect(197f, 6f, 52f, 18f, Color.White);
-                Draw.Rect(198f, 7f, 50f, 16f, colorC);
+                Draw.Rect(181f, 5f, 54f, 20f, Color.Black);
+                Draw.Rect(182f, 6f, 52f, 18f, Color.White);
+                Draw.Rect(183f, 7f, 50f, 16f, colorC);
                 TimeSpan time = TimeSpan.FromSeconds(roundLogic.secondsleft);
                 Draw.OutlineTextCentered(TFGame.Font, time.ToString(@"mm\:ss"), new Vector2(209f, 16f), Color.White, 2f);
                 if (roundLogic.overtime)

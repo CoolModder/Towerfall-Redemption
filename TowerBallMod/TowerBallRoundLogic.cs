@@ -2,7 +2,9 @@ using Microsoft.Xna.Framework;
 using Monocle;
 using TowerFall;
 using FortRise;
-using STimer = System.Timers.Timer;
+using System;
+using System.Collections.Generic;
+using System.Timers;
 
 namespace TowerBall;
 
@@ -40,7 +42,7 @@ public class TowerBallRoundLogic : RoundLogic
 
 	public int lastThrower;
 
-	public STimer roundTimer;
+	public Timer roundTimer;
 
 	public bool overtime = false;
 
@@ -73,7 +75,7 @@ public class TowerBallRoundLogic : RoundLogic
 		SpawnPlayersTeams();
 		base.Players = TFGame.PlayerAmount;
 		List<Vector2> xMLPositions = Session.CurrentLevel.GetXMLPositions("BigTreasureChest");
-		ballPos = xMLPositions[new Random().Next(xMLPositions.Count)];
+		ballPos = xMLPositions[0];
 		SpawnBallChest();
 		List<Vector2> xMLPositions2 = Session.CurrentLevel.GetXMLPositions("Basket");
 		base.Session.CurrentLevel.Add(new BasketBallBasket(null, xMLPositions2[0]));
@@ -85,13 +87,13 @@ public class TowerBallRoundLogic : RoundLogic
 		Session.MatchSettings.Variants.TeamRevive.Value = false;
 		if (base.Session.MatchSettings.Variants.GetCustomVariant("TimedRounds"))
 		{
-			roundTimer = new STimer(1000);
+			roundTimer = new Timer(1000);
 			roundTimer.AutoReset = true;
 			secondsleft = 30 * Session.MatchSettings.GoalScore;
 			roundTimer.Elapsed += TimerMinus;
 			
 
-			timed = true;
+            timed = true;
 		}
 		else
 		{
@@ -177,7 +179,12 @@ public class TowerBallRoundLogic : RoundLogic
 				}
 			}
 		}
-		Session.CurrentLevel.LightingLayer.SetSpotlight(list.ToArray());
+		if (Session.Scores[(int)allegiance] < Session.MatchSettings.GoalScore)
+		{
+			Session.Scores[(int)allegiance] = Session.MatchSettings.GoalScore;
+		}
+
+        Session.CurrentLevel.LightingLayer.SetSpotlight(list.ToArray());
 		Session.CurrentLevel.OrbLogic.DoSlowMoKill();
 		Session.MatchSettings.LevelSystem.StopVersusMusic();
 		hud.RemoveSelf();
@@ -267,12 +274,13 @@ public class TowerBallRoundLogic : RoundLogic
                 }
                 return;
 			}
-		}
+        }
 		Allegiance allegiance = Allegiance.Blue;
 		if (Session.Scores[1] == Session.GetHighestScore())
 		{
 			allegiance = Allegiance.Red;
 		}
+		
 		List<LevelEntity> list = new List<LevelEntity>();
 		for (int i = 0; i < 4; i++)
 		{
@@ -286,7 +294,15 @@ public class TowerBallRoundLogic : RoundLogic
 				}
 			}
 		}
-		Session.CurrentLevel.LightingLayer.SetSpotlight(list.ToArray());
+		
+		if (overtime)
+		{
+            if (Session.Scores[(int)allegiance] < Session.MatchSettings.GoalScore)
+            {
+                Session.Scores[(int)allegiance] = Session.MatchSettings.GoalScore;
+            }
+        }
+        Session.CurrentLevel.LightingLayer.SetSpotlight(list.ToArray());
 		Session.CurrentLevel.OrbLogic.DoSlowMoKill();
 		Session.MatchSettings.LevelSystem.StopVersusMusic();
 		Sounds.sfx_finalKill.Play();

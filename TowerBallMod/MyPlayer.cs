@@ -14,7 +14,7 @@ internal class MyPlayer : Player
 
     public static Dictionary<int, float> currentHoldFrames = new Dictionary<int, float>(16);
 
-
+    public static bool Dunk;
     public static Dictionary<int, int> HasBasketBall = new Dictionary<int, int>(16);
     public static Dictionary<int, ArrowList> PlayerArrows = new Dictionary<int, ArrowList>(16);
     public static Dictionary<int, Image> BasketBallImages = new Dictionary<int, Image>(16);
@@ -42,6 +42,7 @@ internal class MyPlayer : Player
         {
             Origin = new Vector2(5f, 5f)
         };
+        Dunk = !self.Level.Session.MatchSettings.Variants.GetCustomVariant("NoDunking");
     }
 
     
@@ -146,7 +147,7 @@ internal class MyPlayer : Player
         if (HasBasketBall[self.PlayerIndex] > 0 && TFGame.PlayerInputs[self.PlayerIndex].GetState().JumpPressed && self.CollideCheck(GameTags.JumpThru, self.Position + Vector2.UnitY) && !self.CollideCheck(GameTags.Solid, self.Position + Vector2.UnitY * 3f) && ExampleModModule.TowerBallMode)
         {
             Entity entity = self.CollideFirst(GameTags.JumpThru, self.Position + Vector2.UnitY);
-            if (entity is BasketBallBasket)
+            if (entity is BasketBallBasket && Dunk)
             {
                 bool flag2 = self.Position.X > 160f;
                 Sounds.sfx_devTimeFinalDummy.Play(self.X);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using FortRise;
 using Monocle;
 using MonoMod.ModInterop;
@@ -38,6 +39,7 @@ public class ExampleModModule : FortModule
     
         manager.AddVariant(new CustomVariantInfo("TimedRounds", MenuAtlas["variants/timedRounds"], "Towerball rounds are now timed", CustomVariantFlags.None), true);
         manager.AddVariant(new CustomVariantInfo("HoopTreasure", MenuAtlas["variants/hoopTreasure"], "Every hoop spawns treasure", CustomVariantFlags.None), true);
+        manager.AddVariant(new CustomVariantInfo("NoDunking", MenuAtlas["variants/noDunking"], CustomVariantFlags.None), true);
     }
     public override void Load()
     {
