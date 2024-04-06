@@ -34,7 +34,7 @@ Credits: Original mod by Suyoo (at https://suyo.be/towerball/), Ported by CoolMo
 Ball Sound by Zmobie licensed under the Creative Commons 0 License. http://www.freesound.org/people/zmobie/sounds/319765/
 
 
-Latest Release: https://github.com/CoolModder/Towerfall-Redemeption/releases/tag/v3.0.0-Ball
+Latest Release: https://github.com/CoolModder/Towerfall-Redemeption/releases/tag/v3.1.0-Ball
 ### Seasonal Chest Mod
 Change up the chests near holidays!
 
