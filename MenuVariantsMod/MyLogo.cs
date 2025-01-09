@@ -13,7 +13,7 @@ using MonoMod.Utils;
 using System.Diagnostics;
 
 
-public class MyLogo : Logo
+public class MyLogo 
 {
     private static ConstructorInfo base_Logo;
 
@@ -38,7 +38,7 @@ public class MyLogo : Logo
         self.RemoveAll();
         var towerTarget = LogoData.Get<Vector2>("towerTarget");
         var coreTarget = LogoData.Get<Vector2>("towerTarget");
-        if (MenuVariantsMod.MenuVariantModModule.Vanilla[MenuVariantModModule.Settings.MenuVariant] == true)
+        if (MenuVariantsMod.MenuVariantModModule.Vanilla[MenuVariantModModule.Settings.MenuVariant])
         {
             if (MenuVariantModModule.Settings.MenuVariant == 0)
             {

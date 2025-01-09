@@ -8,6 +8,8 @@ using MonoMod.RuntimeDetour;
 using System.Diagnostics;
 using System.Drawing;
 using MonoMod.Utils;
+using OnTower = IL.FortRise.OnTower;
+using TFGame = On.TowerFall.TFGame;
 
 namespace MenuVariantsMod;
 
@@ -20,7 +22,7 @@ public class MenuVariantModModule : FortModule
 
     public static MenuVariantModModule Instance;
     public static List<bool> Vanilla;
-    public static int SettingLogoCount;
+    public static FortContent s_Content;
 
     public static List<string> MenuVariantNames = new List<string>();
     public MenuVariantModModule() 
@@ -30,72 +32,74 @@ public class MenuVariantModModule : FortModule
     public override Type SettingsType => typeof(ModSettings);
     public static ModSettings Settings => (ModSettings)Instance.InternalSettings;
 
-    public override void LoadContent()
-    {
-        
-    }
-
     public override void Load()
     {
-        var _separator = Path.DirectorySeparatorChar.ToString();
-        var _customLogos = "Content" + _separator + "Mod" + _separator + "CustomLogos" + _separator;
-        Directory.CreateDirectory(_customLogos);
-        MenuVariantModModule.MenuVariantNames.Add("ASCENSION");
-        MenuVariantModModule.MenuVariantNames.Add("DARK WORLD");
-        LogoLoad.Load();
-        BezelLoad.Load();
-        Console.WriteLine("Custom Logos are here");
         On.TowerFall.Logo.ctor += MyLogo.ctor;
-        On.TowerFall.TFGame.LoadContent += MyBezel.MyLoad;
+        On.TowerFall.TFGame.LoadContent += TFGameOnLoadContent;
         typeof(ModExports).ModInterop();
+    }
+    
+    public override void LoadContent()
+    {
+        s_Content = Content;
+        
+        string _separator = Path.DirectorySeparatorChar.ToString();
+        string _customLogos = "Mods" + _separator + "MenuVariantsMod" + _separator + "Content" + _separator + "CustomLogos" + _separator ; 
+        Directory.CreateDirectory(_customLogos);
+        
+        string _customBezels = "Mods" + _separator + "MenuVariantsMod" + _separator + "Content" + _separator + "CustomBezels" + _separator; 
+        Directory.CreateDirectory(_customBezels);
+        
+        MenuVariantNames.Add("ASCENSION");
+        MenuVariantNames.Add("DARK WORLD");
+        
+        LogoLoad.Load(Content);
+        BezelLoad.Load(Content);
+        
+        MyBezel.MyLoad();
     }
 
     public override void Unload()
     {
         On.TowerFall.Logo.ctor -= MyLogo.ctor;
-        On.TowerFall.TFGame.LoadContent -= MyBezel.MyLoad;
+        On.TowerFall.TFGame.LoadContent -= TFGameOnLoadContent;
     }
-    public override void CreateModSettings(List<OptionsButton> optionList)
+
+    private void TFGameOnLoadContent(TFGame.orig_LoadContent orig, TowerFall.TFGame self)
     {
-        var optionButton = new OptionsButton("TITLE MODE");
-        optionButton.SetCallbacks(
-            ()=> {optionButton.State = SettingName();}, 
-            ()=> {Settings.MenuVariant--; SettingName(); }, 
-            ()=>{Settings.MenuVariant++; SettingName(); },
-            null
-        );
-        optionList.Add(optionButton);
-        var optionBezelButton = new OptionsButton("BEZEL MODE");
-        optionBezelButton.SetCallbacks(
-            () => { optionBezelButton.State = SideSettingName(); },
-            () => { Settings.BezelVariant--; SideSettingName(); },
-            () => { Settings.BezelVariant++; SideSettingName(); },
-            null
-        );
-        optionList.Add(optionButton);
-        optionList.Add(optionBezelButton);
-        string SideSettingName()
+        orig(self);
+        if (Settings.BezelVariant > 0 && Settings.BezelVariant < BezelLoad.BezelList.Count)
         {
-            optionBezelButton.CanLeft = Settings.BezelVariant > 0;
-            optionBezelButton.CanRight = Settings.BezelVariant < BezelLoad.BezelNames.Count - 1;
-            Refresher.RefreshBezel();
-            return BezelLoad.BezelNames[Settings.BezelVariant];
+            var LoadedBezel = BezelLoad.BezelList[Settings.BezelVariant - 1];
+            var atlas = LoadedBezel.Atlas;
+            Screen.LeftImage = atlas[LoadedBezel.Left];
+            Screen.RightImage = atlas[LoadedBezel.Right];
         }
-        string SettingName()
-        {
-            Refresher.RefreshLogo();
-            optionButton.CanLeft = Settings.MenuVariant > 0;
-            optionButton.CanRight = Settings.MenuVariant < MenuVariantNames.Count - 1;
-            return MenuVariantNames[Settings.MenuVariant];
-        }
-
     }
 
-
+    public override void CreateModSettings(TextContainer textContainer)
+    {
+        var logoSelect = new TextContainer.SelectionOption("Logo", MenuVariantNames.ToArray());
+        logoSelect.Value = (MenuVariantNames[Settings.MenuVariant], Settings.MenuVariant);
+        logoSelect.OnValueChanged = value =>
+        {
+            Settings.MenuVariant = value.Item2;
+            Refresher.RefreshLogo();
+        };
+        var bezelSelect = new TextContainer.SelectionOption("Bezel", BezelLoad.BezelNames.ToArray());
+        bezelSelect.Value = (BezelLoad.BezelNames[Settings.BezelVariant], Settings.BezelVariant);
+        bezelSelect.OnValueChanged = value =>
+        {
+            Settings.BezelVariant = value.Item2;
+            Refresher.RefreshBezel();
+        };
+        
+        textContainer.Add(logoSelect);
+        textContainer.Add(bezelSelect);
+    }
 }
 
 // Harmony can be supported
-
 [HarmonyPatch(typeof(MainMenu), "BoolToString")]
 public class MyPatcher 
 {
@@ -116,7 +120,7 @@ Example of interppting with libraries
 Learn more: https://github.com/MonoMod/MonoMod/blob/master/README-ModInterop.md
 */
 
-[ModExportName("ExampleModExport")]
+[ModExportName("MenuVariantMod")]
 public static class ModExports 
 {
     public static int Add(int x, int y) => x + y;

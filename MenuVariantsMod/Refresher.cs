@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Xml;
-using HarmonyLib;
+﻿using System.Reflection;
 using Microsoft.Xna.Framework;
 using Monocle;
 using TowerFall;
-using MenuVariantsMod;
-using MonoMod.Cil;
-using MonoMod.RuntimeDetour.HookGen;
 using MonoMod.Utils;
-using System.Diagnostics;
-
 
 namespace MenuVariantsMod
 {
-
     public class Refresher
     {
         private static ConstructorInfo base_Logo;
@@ -54,7 +44,7 @@ namespace MenuVariantsMod
             var coreTarget = LogoData.Get<Vector2>("towerTarget");
             MyLogo.Instance.RemoveAll();
                 
-            if (MenuVariantsMod.MenuVariantModModule.Vanilla[MenuVariantModModule.Settings.MenuVariant] == true)
+            if (MenuVariantModModule.Vanilla[MenuVariantModModule.Settings.MenuVariant])
             {
                 if (MenuVariantModModule.Settings.MenuVariant == 0)
                 {
@@ -91,7 +81,7 @@ namespace MenuVariantsMod
                     LogoData.Set("letters", letters);
                     LogoData.Set("lettersY", lettersY);
                     LogoData.Set("darkWorldMode", false);
-                    Console.WriteLine("Ascension goes Brr");
+                    
                     MyLogo.Instance.Add(bg, ascension, ascensionCore, arrow, title, titleLight);
                     MyLogo.Instance.Add(letters);
                     LogoData.Set("dark", null);

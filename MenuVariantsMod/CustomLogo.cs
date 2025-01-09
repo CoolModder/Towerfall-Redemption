@@ -1,17 +1,10 @@
 ﻿using Monocle;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 using System.Xml;
-using System.Security.Cryptography.X509Certificates;
 using Microsoft.Xna.Framework;
 
 namespace MenuVariantsMod
 {
-    public class CustomLogo //Just the class for logos.... 
+    public class CustomLogo
     {
         public bool VanillaBg;
         public bool VanillaArrow;
@@ -45,6 +38,5 @@ namespace MenuVariantsMod
             Atlas = atlas;
             BgOrigin = xml.ChildPosition("BgOrigin", defaultValue: new Vector2(148f, 74f));
         }
-
     }
 }
