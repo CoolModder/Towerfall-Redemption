@@ -26,7 +26,6 @@ public class MyLogo
     public static Image[] letters;
     public static float[] lettersY;
 
-    public static float lightMult = 1f;
     public static SineWave lightSine;
 
     public static Logo Instance;
@@ -138,20 +137,19 @@ public class MyLogo
         {
             var LoadedLogo = LogoLoad.LogoList[MenuVariantModModule.Settings.MenuVariant-2];
             var atlas = LoadedLogo.Atlas;
-            if (LoadedLogo.VanillaTitle == true)
+            if (LoadedLogo.VanillaTitle)
             {
                 title = new Image(TFGame.MenuAtlas[LoadedLogo.Title]);
                 titleLight = new Image(TFGame.MenuAtlas[LoadedLogo.TitleLight]);
             }
             else
             {
-                Console.WriteLine(LoadedLogo.Title);
                 title = new Image(atlas[LoadedLogo.Title]);
                 titleLight = new Image(atlas[LoadedLogo.TitleLight]);
             }
             title.Origin = new Vector2(126f, 37f);
             titleLight.Origin = new Vector2(126f, 37f);
-            if (LoadedLogo.VanillaArrow == true)
+            if (LoadedLogo.VanillaArrow)
             {
                 arrow = new Image(TFGame.MenuAtlas[LoadedLogo.Arrow]);
             }
@@ -160,7 +158,7 @@ public class MyLogo
                 arrow = new Image(atlas[LoadedLogo.Arrow]);
             }
             arrow.Origin = new Vector2(156f, 24f);
-            if (LoadedLogo.VanillaBg == true)
+            if (LoadedLogo.VanillaBg)
             {
                bg = new Image(TFGame.MenuAtlas[LoadedLogo.Bg]);
                bg.Origin = new Vector2(148f, 74f);
@@ -170,7 +168,7 @@ public class MyLogo
                 bg = new Image(atlas[LoadedLogo.Bg]);
                 bg.Origin = new Vector2(LoadedLogo.BgOrigin.X, LoadedLogo.BgOrigin.Y);
             }
-            if (LoadedLogo.VanillaAscension == true)
+            if (LoadedLogo.VanillaAscension)
             {
                 ascension = new Image(TFGame.MenuAtlas[LoadedLogo.Ascension]);
             }

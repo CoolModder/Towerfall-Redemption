@@ -12,7 +12,7 @@
     <NoWarn>1701;1702;0104;1061;0246;0118;0123</NoWarn>
     <WarningLevel>0</WarningLevel>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
-    <OutputPath>..\Towerfall - Ascension\Mods\MenuVariantsMod\</OutputPath>
+    <OutputPath>..\..\Towerfall - Ascension\Mods\MenuVariantsMod\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath> 
   </PropertyGroup>
@@ -21,7 +21,7 @@
     <NoWarn>1701;1702;0104;1061;0246;0118;0123</NoWarn>
     <WarningLevel>0</WarningLevel>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
-    <OutputPath>..\Towerfall - Ascension\Mods\MenuVariantsMod\</OutputPath>
+    <OutputPath>..\..\Towerfall - Ascension\Mods\MenuVariantsMod\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
   </PropertyGroup>

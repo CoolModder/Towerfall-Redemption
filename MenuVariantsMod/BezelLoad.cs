@@ -7,22 +7,19 @@ namespace MenuVariantsMod
     public class BezelLoad
     {
         public static List<CustomBezel> BezelList = new();
-        public static List<string> BezelNames = new List<string>();
+        public static List<string> BezelNames = new();
+        
+        private static readonly string CUSTOM_BEZELS_DIR = Path.Combine("Mods", "MenuVariantsMod", "Content", "CustomBezels");
+        
         public static void Load(FortContent content) {
-            var _separator = Path.DirectorySeparatorChar.ToString();
-            var _customLogos = "Content" + _separator + "Mod" + _separator + "CustomBezels" + _separator;
-            string[] directories = Directory.GetDirectories(_customLogos);
-            string[] array = directories;
+            string[] directories = Directory.GetDirectories(CUSTOM_BEZELS_DIR);
             BezelNames.Add("DEFAULT");
             BezelList = new List<CustomBezel>();
-            foreach (string text in array)
+            foreach (string customBezelPath in directories)
             {
-                Console.WriteLine(text);
-                var text2 = text.Replace("Content" + _separator, "");
-                Atlas atlas = AtlasExt.CreateAtlas(content, text2 + _separator + "atlas.xml", text2 + _separator + "atlas.png", true, ContentAccess.Content);
-                var BezelData = Calc.LoadXML(text + _separator + "BezelData.xml");
+                Atlas atlas = AtlasExt.CreateAtlas(content, Path.Combine(customBezelPath, "atlas.xml"), Path.Combine(customBezelPath,"atlas.png"));
+                var BezelData = Calc.LoadXML(Path.Combine(customBezelPath, "BezelData.xml"));
                 var TrueBezelData = BezelData["BezelData"];
-                Console.WriteLine(atlas);
                 if (atlas == null)
                 {
                     Debugger.Break();
