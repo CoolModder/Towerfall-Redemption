@@ -16,7 +16,7 @@ public class MenuVariantModModule : FortModule
     public static MenuVariantModModule Instance;
     public static List<bool> Vanilla;
 
-    public static List<string> MenuVariantNames = new List<string>();
+    public static List<string> MenuVariantNames = new();
     public MenuVariantModModule() 
     {
         Instance = this;
@@ -29,12 +29,11 @@ public class MenuVariantModModule : FortModule
         On.TowerFall.Logo.ctor += MyLogo.ctor;
         typeof(ModExports).ModInterop();
     }
-    
     public override void LoadContent()
     {
-        string customLogos = Path.Combine("Mods", "MenuVariantsMod", "Content", "CustomLogos");
+        string customLogos = Path.Combine("Mods", Content.MetadataPath.Replace("mod:", ""), "Content", "CustomLogos");
         Directory.CreateDirectory(customLogos);
-        string customBezels = Path.Combine("Mods", "MenuVariantsMod", "Content", "CustomBezels");
+        string customBezels = Path.Combine("Mods", Content.MetadataPath.Replace("mod:", ""), "Content", "CustomBezels");
         Directory.CreateDirectory(customBezels);
         
         MenuVariantNames.Add("ASCENSION");

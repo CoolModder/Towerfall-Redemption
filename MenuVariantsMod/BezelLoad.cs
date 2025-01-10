@@ -9,16 +9,19 @@ namespace MenuVariantsMod
         public static List<CustomBezel> BezelList = new();
         public static List<string> BezelNames = new();
         
-        private static readonly string CUSTOM_BEZELS_DIR = Path.Combine("Mods", "MenuVariantsMod", "Content", "CustomBezels");
+        private static readonly string CUSTOM_BEZELS_DIR ="Content/CustomBezels";
         
-        public static void Load(FortContent content) {
-            string[] directories = Directory.GetDirectories(CUSTOM_BEZELS_DIR);
+        public static void Load(FortContent content) 
+        {
             BezelNames.Add("DEFAULT");
             BezelList = new List<CustomBezel>();
-            foreach (string customBezelPath in directories)
+            
+            foreach (RiseCore.Resource resource in content[CUSTOM_BEZELS_DIR].Childrens)
             {
-                Atlas atlas = AtlasExt.CreateAtlas(content, Path.Combine(customBezelPath, "atlas.xml"), Path.Combine(customBezelPath,"atlas.png"));
-                var BezelData = Calc.LoadXML(Path.Combine(customBezelPath, "BezelData.xml"));
+                Atlas atlas = AtlasExt.CreateAtlas(content, $"{resource.Path}/atlas.xml", $"{resource.Path}/atlas.png", ContentAccess.ModContent);
+                
+                RiseCore.Resource bezelDataResource = content[$"{resource.Path}/BezelData.xml"];
+                var BezelData = Calc.LoadXML(bezelDataResource.Stream);
                 var TrueBezelData = BezelData["BezelData"];
                 if (atlas == null)
                 {

@@ -1,6 +1,5 @@
 using Monocle;
 using FortRise;
-using TowerFall;
 
 namespace MenuVariantsMod;
 

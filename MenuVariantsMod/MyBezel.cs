@@ -5,6 +5,9 @@ public class MyBezel
 {
     public static void MyLoad() 
     {
+        if (MenuVariantModModule.Settings.BezelVariant > 0 && !BezelLoad.BezelList.Any())
+            MenuVariantModModule.Settings.BezelVariant = 0;
+        
         if (MenuVariantModModule.Settings.BezelVariant > 0)
         {
             var LoadedBezel = BezelLoad.BezelList[MenuVariantModModule.Settings.BezelVariant - 1];

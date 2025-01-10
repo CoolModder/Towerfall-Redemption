@@ -37,6 +37,10 @@ public class MyLogo
         self.RemoveAll();
         var towerTarget = LogoData.Get<Vector2>("towerTarget");
         var coreTarget = LogoData.Get<Vector2>("towerTarget");
+        
+        if (MenuVariantModModule.Settings.MenuVariant >= MenuVariantModModule.Vanilla.Count)
+            MenuVariantModModule.Settings.MenuVariant = 0;
+            
         if (MenuVariantsMod.MenuVariantModModule.Vanilla[MenuVariantModModule.Settings.MenuVariant])
         {
             if (MenuVariantModModule.Settings.MenuVariant == 0)
@@ -135,7 +139,7 @@ public class MyLogo
         }
         else
         {
-            var LoadedLogo = LogoLoad.LogoList[MenuVariantModModule.Settings.MenuVariant-2];
+            var LoadedLogo = LogoLoad.LogoList[MenuVariantModModule.Settings.MenuVariant - 2];
             var atlas = LoadedLogo.Atlas;
             if (LoadedLogo.VanillaTitle)
             {

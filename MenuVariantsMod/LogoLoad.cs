@@ -7,20 +7,23 @@ namespace MenuVariantsMod
     public class LogoLoad
     {
         public static List<CustomLogo> LogoList;
+        private static readonly string CUSTOM_LOGOS_DIR = "Content/CustomLogos";
         
-        private static readonly string CUSTOM_LOGOS_DIR =  Path.Combine("Mods", "MenuVariantsMod", "Content", "CustomLogos" );
-        
-        public static void Load(FortContent content) {
+        public static void Load(FortContent content) 
+        {
             MenuVariantModModule.Vanilla = new List<bool>();
             MenuVariantModModule.Vanilla.Add(true);
             MenuVariantModModule.Vanilla.Add(true);
             
-            string[] directories = Directory.GetDirectories(CUSTOM_LOGOS_DIR);
             LogoList = new List<CustomLogo>();
-            foreach (string customLogoPath in directories)
+            foreach (RiseCore.Resource resource in content[CUSTOM_LOGOS_DIR].Childrens)
             {
-                Atlas atlas = AtlasExt.CreateAtlas(content, Path.Combine(customLogoPath,"atlas.xml" ), Path.Combine(customLogoPath,"atlas.png"));
-                var LogoData = Calc.LoadXML(Path.Combine(customLogoPath, "LogoData.xml") );
+                if (resource.Childrens == null)
+                    continue;
+                
+                Atlas atlas = AtlasExt.CreateAtlas(content, $"{resource.Path}/atlas.xml" , $"{resource.Path}/atlas.png", ContentAccess.ModContent);
+                RiseCore.Resource logoDataResource = content[$"{resource.Path}/LogoData.xml"];
+                var LogoData = Calc.LoadXML(logoDataResource.Stream);
                 var TrueLogoData = LogoData["LogoData"];
                 
                 if (atlas == null)
