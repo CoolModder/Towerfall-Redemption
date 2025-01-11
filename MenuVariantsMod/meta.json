@@ -1,7 +1,7 @@
 {
 	"name": "MenuVariantsMod",
-	"version": "1.0.0",
-	"author": "CoolModder",
-	"description": "Adds setting to change your mneu theme! Includes TowerSus!",
+	"version": "1.1.0",
+	"author": "CoolModder, Lync, Teuria",
+	"description": "Adds setting to change your menu theme!",
 	"dll": "MenuVariantsMod.dll"
 }

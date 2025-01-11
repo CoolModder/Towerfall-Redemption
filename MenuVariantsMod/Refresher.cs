@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Xml;
-using HarmonyLib;
+﻿using System.Reflection;
 using Microsoft.Xna.Framework;
 using Monocle;
 using TowerFall;
-using MenuVariantsMod;
-using MonoMod.Cil;
-using MonoMod.RuntimeDetour.HookGen;
 using MonoMod.Utils;
-using System.Diagnostics;
-
 
 namespace MenuVariantsMod
 {
-
     public class Refresher
     {
         private static ConstructorInfo base_Logo;
@@ -54,7 +44,7 @@ namespace MenuVariantsMod
             var coreTarget = LogoData.Get<Vector2>("towerTarget");
             MyLogo.Instance.RemoveAll();
                 
-            if (MenuVariantsMod.MenuVariantModModule.Vanilla[MenuVariantModModule.Settings.MenuVariant] == true)
+            if (MenuVariantModModule.Vanilla[MenuVariantModModule.Settings.MenuVariant])
             {
                 if (MenuVariantModModule.Settings.MenuVariant == 0)
                 {
@@ -91,7 +81,7 @@ namespace MenuVariantsMod
                     LogoData.Set("letters", letters);
                     LogoData.Set("lettersY", lettersY);
                     LogoData.Set("darkWorldMode", false);
-                    Console.WriteLine("Ascension goes Brr");
+                    
                     MyLogo.Instance.Add(bg, ascension, ascensionCore, arrow, title, titleLight);
                     MyLogo.Instance.Add(letters);
                     LogoData.Set("dark", null);
@@ -154,20 +144,19 @@ namespace MenuVariantsMod
             {
                 var LoadedLogo = LogoLoad.LogoList[MenuVariantModModule.Settings.MenuVariant - 2];
                 var atlas = LoadedLogo.Atlas;
-                if (LoadedLogo.VanillaTitle == true)
+                if (LoadedLogo.VanillaTitle)
                 {
                     title = new Image(TFGame.MenuAtlas[LoadedLogo.Title]);
                     titleLight = new Image(TFGame.MenuAtlas[LoadedLogo.TitleLight]);
                 }
                 else
                 {
-                    Console.WriteLine(LoadedLogo.Title);
                     title = new Image(atlas[LoadedLogo.Title]);
                     titleLight = new Image(atlas[LoadedLogo.TitleLight]);
                 }
                 title.Origin = new Vector2(126f, 37f);
                 titleLight.Origin = new Vector2(126f, 37f);
-                if (LoadedLogo.VanillaArrow == true)
+                if (LoadedLogo.VanillaArrow)
                 {
                     arrow = new Image(TFGame.MenuAtlas[LoadedLogo.Arrow]);
                 }
@@ -176,7 +165,7 @@ namespace MenuVariantsMod
                     arrow = new Image(atlas[LoadedLogo.Arrow]);
                 }
                 arrow.Origin = new Vector2(156f, 24f);
-                if (LoadedLogo.VanillaBg == true)
+                if (LoadedLogo.VanillaBg)
                 {
                     bg = new Image(TFGame.MenuAtlas[LoadedLogo.Bg]);
                     bg.Origin = new Vector2(148f, 74f);
@@ -186,7 +175,7 @@ namespace MenuVariantsMod
                     bg = new Image(atlas[LoadedLogo.Bg]);
                     bg.Origin = new Vector2(LoadedLogo.BgOrigin.X, LoadedLogo.BgOrigin.Y);
                 }
-                if (LoadedLogo.VanillaAscension == true)
+                if (LoadedLogo.VanillaAscension)
                 {
                     ascension = new Image(TFGame.MenuAtlas[LoadedLogo.Ascension]);
                 }
