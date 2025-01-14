@@ -13,7 +13,6 @@ public class LandMineArrow : Arrow
     private bool used, canDie;
     private Image normalImage;
     private Image buriedImage;
-    private bool canExplode;
 
     public static ArrowInfo CreateGraphicPickup() 
     {

@@ -1,5 +1,3 @@
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using FortRise;
 using Microsoft.Xna.Framework;
 using Monocle;
@@ -16,7 +14,10 @@ public class PrismTrapArrow : Arrow
     private Image normalImage;
     private Image buriedImage;
 
-
+    public PrismTrapArrow() : base()
+    {
+    }
+    
     public static ArrowInfo CreateGraphicPickup() 
     {
         var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["PrismTrapArrowPickup"], 12, 12, 0);
@@ -27,14 +28,11 @@ public class PrismTrapArrow : Arrow
         arrowInfo.Name = "Prism Trap Arrows";
         return arrowInfo;
     }
-
-    public PrismTrapArrow() : base()
-    {
-    }
+    
     protected override void Init(LevelEntity owner, Vector2 position, float direction)
     {
         base.Init(owner, position, direction);
-        used = (canDie = false);
+        used = canDie = false;
         StopFlashing();
     }
     protected override void CreateGraphics()
@@ -69,19 +67,18 @@ public class PrismTrapArrow : Arrow
     {
         return !used && base.CanCatch(catcher);
     }
-    protected override void HitWall(TowerFall.Platform platform)
+    protected override void HitWall(Platform platform)
     {
-        if (!used)
+        if (!used && platform is not JumpThru)
         {
-            this.used = true;
-            Add(new Coroutine(PrismTrap.CreatePrismTrap(Level, Position, buriedImage.Rotation, PlayerIndex, () => canDie = true)));
+            used = true;
+            Add(new Coroutine(PrismTrap.CreatePrismTrap(platform as Solid, Level, Position, buriedImage.Rotation, PlayerIndex, () => canDie = true)));
         }
 
         base.HitWall(platform);
     }
     public override void Update()
     {
-       
         base.Update();
         if (canDie)
         { 
