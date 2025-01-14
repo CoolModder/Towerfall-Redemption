@@ -10,14 +10,14 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningLevel>9999</WarningLevel>
-    <OutputPath>C:\Users\lyncon.baez\dev\Towerfall - Ascension\Mods\OopsAllArrowsMod</OutputPath>
+    <OutputPath>..\..\Mods\OopsAllArrowsMod</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <WarningLevel>9999</WarningLevel>
-    <OutputPath>C:\Users\lyncon.baez\dev\Towerfall - Ascension\Mods\OopsAllArrowsMod</OutputPath>
+    <OutputPath>..\..\Mods\OopsAllArrowsMod</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
   </PropertyGroup>
@@ -38,20 +38,20 @@
 
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>..\..\Towerfall - Ascension\0Harmony.dll</HintPath>
+      <HintPath>..\..\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FNA">
-      <HintPath>..\..\Towerfall - Ascension\FNA.dll</HintPath>
+      <HintPath>..\..\FNA.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MMHOOK_TowerFall">
-      <HintPath>..\..\Towerfall - Ascension\MMHOOK_TowerFall.dll</HintPath>
+      <HintPath>..\..\MMHOOK_TowerFall.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="TowerFall">
-      <HintPath>..\..\Towerfall - Ascension\TowerFall.exe</HintPath>
+      <HintPath>..\..\TowerFall.exe</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
