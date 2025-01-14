@@ -58,70 +58,6 @@ public class PrismTrap : Actor
         Add(image);
     }
 
-    private float FindRotationOnImpact()
-    {
-        int vertCount = 0;
-        int horzCount = 0;
-        bool[] directions = new bool[4];
-        if (CollideCheck(riding, Position + new Vector2(0, -4)))
-        {
-            vertCount++;
-            directions[0] = true;
-        }
-        if (CollideCheck(riding, Position + new Vector2(0, 4)))
-        {
-            vertCount++;
-            directions[1] = true;
-        }
-        if (CollideCheck(riding, Position + new Vector2(-4, 0)))
-        {
-            horzCount++;
-            directions[2] = true;
-        }
-        if (CollideCheck(riding, Position + new Vector2(4, 0)))
-        {
-            horzCount++;
-            directions[3] = true;
-        }
-
-        if (vertCount == 2)
-        {
-            if (directions[2])
-            {
-                // Left
-                return -3.141593f;
-            }
-            else
-            {
-                // Right
-                return 0;
-            }
-        }
-        else if (horzCount == 2)
-        {
-            if (directions[0])
-            {
-                // Up
-                return -1.570796f;
-            }
-            else
-            {
-                // Down
-                return 1.570796f;
-            }
-        }
-        
-        // Down
-        return 1.570796f;
-    }
-
-    public override void Added()
-    {
-        base.Added();
-        
-    }
-
-
     private void StartFalling()
     {
         riding = null;
@@ -173,7 +109,9 @@ public class PrismTrap : Actor
             listener.OnEntityRemoved += StartFalling;
             riding.Add(listener);
         }
-        image.Rotation = FindRotationOnImpact();
+
+        Position.Y += 3;
+        image.Rotation = 1.570796f;
     }
 
     public override bool IsRiding(Solid solid)

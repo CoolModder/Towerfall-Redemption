@@ -1,7 +1,5 @@
-// TowerFall.Ice
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Monocle;
 using TowerFall;
@@ -9,27 +7,88 @@ using TowerFall;
 namespace OopsAllArrowsMod;
 public class LandMine : Actor
 {
-    private FlashingImage image;
+    public override bool FinishPushOnSquishRiding => true;
     public int OwnerIndex { get; private set; }
+    
+    private FlashingImage image;
+    private Listener listener;
+    
     private Solid riding;
-    private bool used = false;
-    public LandMine(Vector2 position, float rotation) : base(position)
+    private bool used;
+    private bool isFalling;
+    private float fallSpeed;
+    
+    public LandMine(Vector2 position, float rotation, Solid platform) : base(position)
     {
-        Position = position;
-        base.Depth = 150;
         Tag(GameTags.PlayerCollider, GameTags.ExplosionCollider, GameTags.ShockCollider, GameTags.LavaCollider, GameTags.Target, GameTags.LightSource);
+        
+        Position = position;
+        Depth = 150;
         ScreenWrap = true;
         Pushable = false;
-        base.Collider = new WrapHitbox(8f, 8f, -4f, -4f);
+        isFalling = false;
+        used = false;
+        Seek = true;
+        
+        riding = platform;
+        if (riding != null)
+        {
+            listener = new Listener();
+            listener.OnEntityRemoved += StartFalling;
+            riding.Add(listener);
+        }
+            
+        Collider = new WrapHitbox(8f, 8f, -4f, -4f);
+        
         image = new FlashingImage(OopsArrowsModModule.ArrowAtlas["LandMine"]);
         image.CenterOrigin();
         image.Rotation = rotation;
         Add(image);
-        Seek = true;
     }
-    public static IEnumerator CreateLandMine(Level level, Vector2 at, float rotation, int ownerIndex, Action onComplete)
+
+    private void StartFalling()
     {
-        LandMine MyLandMine = new LandMine(at, rotation);
+        riding = null;
+        isFalling = true;
+        listener.OnEntityRemoved -= StartFalling;
+        listener = null;
+    }
+
+    public override void Update()
+    { 
+        base.Update();
+        if (!isFalling && riding != null && (!riding.Collidable || riding.MarkedForRemoval))
+           StartFalling();
+        
+        if (isFalling)
+        { 
+            if (!CheckBelow())
+                fallSpeed = Calc.Approach(fallSpeed, 3.6f, 0.2f * Engine.TimeMult);
+            image.Rotation = Calc.Approach(image.Rotation, 1.570796f, Engine.TimeMult * 0.1f);
+            MoveV(fallSpeed * Engine.TimeMult, HitFloor);
+        }
+    }
+
+    private void HitFloor(Platform solid)
+    {
+        fallSpeed = 0;
+        isFalling = false;
+        
+        riding = solid as Solid;
+        if (riding != null)
+        {
+            listener = new Listener();
+            listener.OnEntityRemoved += StartFalling;
+            riding.Add(listener);
+        }
+        
+        Position.Y += 3;
+        image.Rotation = 1.570796f;
+    }
+
+    public static IEnumerator CreateLandMine(Solid platform, Level level, Vector2 at, float rotation, int ownerIndex, Action onComplete)
+    {
+        LandMine MyLandMine = new LandMine(at, rotation, platform);
         MyLandMine.OwnerIndex = ownerIndex;
         level.Add(MyLandMine);
         yield return 0.000001f;
@@ -41,9 +100,15 @@ public class LandMine : Actor
         image.DrawOutline();
         base.DoWrapRender();
     }
+    
     public override bool IsRiding(Solid solid)
     {
         return riding == solid;
+    }
+    
+    public override bool IsRiding(JumpThru jumpThru)
+    {
+        return false;
     }
 
     public override void Removed()
@@ -51,40 +116,34 @@ public class LandMine : Actor
         riding = null;
     }
 
-    public override bool IsRiding(JumpThru jumpThru)
+    private void Use(Level level)
     {
-        return false;
+        used = true;
+        Collidable = false;
+        Explosion.Spawn(level, Position, OwnerIndex, false, false, false);
+        Untag(GameTags.PlayerCollider, GameTags.ExplosionCollider, GameTags.ShockCollider, GameTags.LavaCollider, GameTags.Target, GameTags.LightSource);
+        RemoveSelf();
     }
+    
     public override void OnPlayerCollide(Player player)
     {
         if (!used)
         {
-            used = true;
-            Collidable = false;
-            Explosion.Spawn(player.Level, Position, OwnerIndex, false, false, false);
-            Untag(GameTags.PlayerCollider, GameTags.ExplosionCollider, GameTags.ShockCollider, GameTags.LavaCollider, GameTags.Target, GameTags.LightSource);
-            RemoveSelf();
+            Use(player.Level);
         }
     }
+    
     public override void OnExplode(Explosion explosion, Vector2 normal)
     {
         if (!used)
         {
-            used = true;
-            Collidable = false;
-            Explosion.Spawn(explosion.Level, Position, OwnerIndex, false, false, false);
-            Untag(GameTags.PlayerCollider, GameTags.ExplosionCollider, GameTags.ShockCollider, GameTags.LavaCollider, GameTags.Target, GameTags.LightSource);
-            RemoveSelf();
+            Use(explosion.Level);
         }
     }
     public override bool OnArrowHit(Arrow arrow)
     {   if (!used)
         {
-            used = true;
-            Collidable = false;
-            Explosion.Spawn(arrow.Level, Position, OwnerIndex, false, false, false);
-            Untag(GameTags.PlayerCollider, GameTags.ExplosionCollider, GameTags.ShockCollider, GameTags.LavaCollider, GameTags.Target, GameTags.LightSource);
-            RemoveSelf();
+            Use(arrow.Level);
         }
         return true;
     }
@@ -92,11 +151,7 @@ public class LandMine : Actor
     {
         if (!used)
         {
-            used = true;
-            Collidable = false;
-            Explosion.Spawn(shock.Level, Position, OwnerIndex, false, false, false);
-            Untag(GameTags.PlayerCollider, GameTags.ExplosionCollider, GameTags.ShockCollider, GameTags.LavaCollider, GameTags.Target, GameTags.LightSource);
-            RemoveSelf();
+            Use(shock.Level);
         }
     }
 
@@ -104,11 +159,7 @@ public class LandMine : Actor
     {
         if (!used)
         {
-            used = true;
-            Collidable = false;
-            Explosion.Spawn(lava.Level, Position, OwnerIndex, false, false, false);
-            Untag(GameTags.PlayerCollider, GameTags.ExplosionCollider, GameTags.ShockCollider, GameTags.LavaCollider, GameTags.Target, GameTags.LightSource);
-            RemoveSelf();
+            Use(lava.Level);
         }
     }
 

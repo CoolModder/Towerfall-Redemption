@@ -13,6 +13,10 @@ public class LandMineArrow : Arrow
     private bool used, canDie;
     private Image normalImage;
     private Image buriedImage;
+    
+    public LandMineArrow() : base()
+    {
+    }
 
     public static ArrowInfo CreateGraphicPickup() 
     {
@@ -24,27 +28,14 @@ public class LandMineArrow : Arrow
         arrowInfo.Name = "Land Mine Arrows";
         return arrowInfo;
     }
-    public override void HitLava()
-    {
-        Explosion.Spawn(base.Level, Position, base.PlayerIndex, false, triggerBomb: false, bombTrap: false);
-        RemoveSelf();
-    }
 
-    public override void OnPlayerCollide(Player player)
-    {
-        Collidable = false;
-        Explosion.Spawn(player.Level, Position, PlayerIndex, false, false, false);
-        RemoveSelf();
-    }
-    public LandMineArrow() : base()
-    {
-    }
     protected override void Init(LevelEntity owner, Vector2 position, float direction)
     {
         base.Init(owner, position, direction);
         used = (canDie = false);
         StopFlashing();
     }
+    
     protected override void CreateGraphics()
     {
         normalImage = new Image(OopsArrowsModModule.ArrowAtlas["LandMineArrow"]);
@@ -55,6 +46,12 @@ public class LandMineArrow : Arrow
         Add(Graphics);
     }
 
+    public override void OnPlayerCollide(Player player)
+    {
+        Collidable = false;
+        Explosion.Spawn(player.Level, Position, PlayerIndex, false, false, false);
+        RemoveSelf();
+    }
     protected override void InitGraphics()
     {
         normalImage.Visible = true;
@@ -77,19 +74,26 @@ public class LandMineArrow : Arrow
     {
         return !used && base.CanCatch(catcher);
     }
+    
     protected override void HitWall(TowerFall.Platform platform)
     {
-        if (!used)
+        if (!used && platform is not JumpThru)
         {
             this.used = true;
-            Add(new Coroutine(LandMine.CreateLandMine(Level, Position, buriedImage.Rotation, PlayerIndex, () => canDie = true)));
+            Add(new Coroutine( LandMine.CreateLandMine(platform as Solid, Level, Position, buriedImage.Rotation, PlayerIndex, () => canDie = true)));
         }
 
         base.HitWall(platform);
     }
+    
+    public override void HitLava()
+    {
+        Explosion.Spawn(base.Level, Position, base.PlayerIndex, false, triggerBomb: false, bombTrap: false);
+        RemoveSelf();
+    }
+    
     public override void Update()
     {
-       
         base.Update();
         if (canDie)
         { 
