@@ -5,7 +5,22 @@ using FortRise;
 
 namespace OopsAllArrowsMod;
 
-[CustomArrows("LandMine", "CreateGraphicPickup")]
+[CustomArrowPickup("OopsAllArrowsMod/LandMineArrow", typeof(LandMineArrow))]
+public class LandMineArrowPickup : ArrowTypePickup
+{
+    public LandMineArrowPickup(Vector2 position, Vector2 targetPosition, ArrowTypes type) : base(position, targetPosition, type)
+    {
+        Name = "Land Mine Arrows";
+
+        var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["LandMineArrowPickup"], 12, 12, 0);
+        graphic.Add(0, 0.3f, new int[2] { 0, 0 });
+        graphic.Play(0, false);
+        graphic.CenterOrigin();
+        AddGraphic(graphic);
+    }
+}
+
+[CustomArrows("OopsAllArrowsMod/LandMine", nameof(CreateHud))]
 public class LandMineArrow : Arrow
 {
     // This is automatically been set by the mod loader
@@ -15,15 +30,9 @@ public class LandMineArrow : Arrow
     private Image buriedImage;
     private bool canExplode;
 
-    public static ArrowInfo CreateGraphicPickup() 
+    public static Subtexture CreateHud() 
     {
-        var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["LandMineArrowPickup"], 12, 12, 0);
-        graphic.Add(0, 0.3f, new int[2] { 0, 0 });
-        graphic.Play(0, false);
-        graphic.CenterOrigin();
-        var arrowInfo = ArrowInfo.Create(graphic, OopsArrowsModModule.ArrowAtlas["LandMineArrowHud"]);
-        arrowInfo.Name = "Land Mine Arrows";
-        return arrowInfo;
+        return OopsArrowsModModule.ArrowAtlas["LandMineArrowHud"];
     }
     public override void HitLava()
     {

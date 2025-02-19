@@ -5,7 +5,22 @@ using TowerFall;
 using FortRise;
 namespace OopsAllArrowsMod;
 
-[CustomArrows("Tornado", "CreateGraphicPickup")]
+[CustomArrowPickup("OopsAllArrowsMod/TornadoArrow", typeof(TornadoArrow))]
+public class TornadoArrowPickup : ArrowTypePickup
+{
+    public TornadoArrowPickup(Vector2 position, Vector2 targetPosition, ArrowTypes type) : base(position, targetPosition, type)
+    {
+        Name = "Tornado Arrows";
+
+        var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["TornadoArrowPickup"], 12, 12, 0);
+        graphic.Add(0, 0.3f, new int[2] { 0, 0 });
+        graphic.Play(0, false);
+        graphic.CenterOrigin();
+        AddGraphic(graphic);
+    }
+}
+
+[CustomArrows("Tornado", nameof(CreateHud))]
 public class TornadoArrow : Arrow
 {
     // This is automatically been set by the mod loader
@@ -15,15 +30,9 @@ public class TornadoArrow : Arrow
     private Image buriedImage;
 
 
-    public static ArrowInfo CreateGraphicPickup() 
+    public static Subtexture CreateHud() 
     {
-        var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["TornadoArrowPickup"], 12, 12, 0);
-        graphic.Add(0, 0.3f, new int[2] { 0, 0 });
-        graphic.Play(0, false);
-        graphic.CenterOrigin();
-        var arrowInfo = ArrowInfo.Create(graphic, OopsArrowsModModule.ArrowAtlas["TornadoArrowHud"]);
-        arrowInfo.Name = "Tornado Arrows";
-        return arrowInfo;
+        return OopsArrowsModModule.ArrowAtlas["TornadoArrowHud"];
     }
 
     public TornadoArrow() : base()

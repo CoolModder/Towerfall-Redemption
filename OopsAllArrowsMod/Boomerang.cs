@@ -3,11 +3,26 @@ using Monocle;
 using TowerFall;
 using FortRise;
 using System;
-using System.Diagnostics;
 
 namespace OopsAllArrowsMod;
 
-[CustomArrows("Boomerang", "CreateGraphicPickup")]
+[CustomArrowPickup("OopsAllArrowsMod/BoomerangArrow", typeof(BoomerangArrow))]
+public class BoomerangArrowPickup : ArrowTypePickup
+{
+    public BoomerangArrowPickup(Vector2 position, Vector2 targetPosition, ArrowTypes type) : base(position, targetPosition, type)
+    {
+        Name = "Boomerang Arrows";
+
+        var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["BoomerangArrowPickup"], 12, 12, 0);
+        graphic.Add(0, 0.3f, new int[2] { 0, 0 });
+        graphic.Play(0, false);
+        graphic.CenterOrigin();
+        AddGraphic(graphic);
+    }
+}
+
+
+[CustomArrows("OopsAllArrowsMod/Boomerang", nameof(CreateHud))]
 public class BoomerangArrow : Arrow
 {
     // This is automatically been set by the mod loader
@@ -19,16 +34,9 @@ public class BoomerangArrow : Arrow
     private const float SPEED = 6f;
     protected override float StartSpeed => 6f;
 
-    public static ArrowInfo CreateGraphicPickup() 
+    public static Subtexture CreateHud() 
     {
-        var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["BoomerangArrowPickup"], 12, 12, 0);
-        graphic.Add(0, 0.3f, new int[2] { 0, 0 });
-        graphic.Play(0, false);
-        graphic.CenterOrigin();
-        var arrowInfo = ArrowInfo.Create(graphic, OopsArrowsModModule.ArrowAtlas["BoomerangArrowHud"]);
-        arrowInfo.Name = "Boomerang Arrows";
-
-        return arrowInfo;
+        return OopsArrowsModModule.ArrowAtlas["BoomerangArrowHud"];
     }
 
     public BoomerangArrow() : base()

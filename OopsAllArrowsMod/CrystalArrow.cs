@@ -8,7 +8,24 @@ using TowerFall;
 
 namespace OopsAllArrowsMod;
 
-//[CustomArrows("CrystalArrow", "CreateGraphicPickup")]
+// Just uncomment them if you want to add it
+
+// [CustomArrowPickup("OopsAllArrowsMod/CrystalArrow", typeof(CrystalArrow))]
+public class CrystalArrowPickup : ArrowTypePickup
+{
+    public CrystalArrowPickup(Vector2 position, Vector2 targetPosition, ArrowTypes type) : base(position, targetPosition, type)
+    {
+        Name = "Crystal Arrows";
+
+        var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["CrystalArrowPickup"], 12, 12, 0);
+        graphic.Add(0, 0.3f, new int[2] { 0, 0 });
+        graphic.Play(0, false);
+        graphic.CenterOrigin();
+        AddGraphic(graphic);
+    }
+}
+
+//[CustomArrows("OopsAllArrowsMod/Crystal", nameof(CreateHud))]
 public class CrystalArrow : Arrow
 {
     // This is automatically been set by the mod loader
@@ -18,15 +35,9 @@ public class CrystalArrow : Arrow
     private Image buriedImage;
 
 
-    public static ArrowInfo CreateGraphicPickup() 
+    public static Subtexture CreateHud() 
     {
-        var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["CrystalArrowPickup"], 12, 12, 0);
-        graphic.Add(0, 0.3f, new int[2] { 0, 0 });
-        graphic.Play(0, false);
-        graphic.CenterOrigin();
-        var arrowInfo = ArrowInfo.Create(graphic, OopsArrowsModModule.ArrowAtlas["CrystalArrowHud"]);
-        arrowInfo.Name = "Crystal Arrows";
-        return arrowInfo;
+        return OopsArrowsModModule.ArrowAtlas["CrystalArrowHud"];
     }
 
     public CrystalArrow() : base()

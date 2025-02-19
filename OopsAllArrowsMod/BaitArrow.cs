@@ -1,15 +1,27 @@
 using System.Collections.Generic;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using FortRise;
 using Microsoft.Xna.Framework;
 using Monocle;
-using MonoMod.Utils;
 using TowerFall;
 
 namespace OopsAllArrowsMod;
 
-[CustomArrows("Bait", "CreateGraphicPickup")]
+[CustomArrowPickup("OopsAllArrowsMod/BaitArrow", typeof(BaitArrow))]
+public class BaitArrowPickup : ArrowTypePickup
+{
+    public BaitArrowPickup(Vector2 position, Vector2 targetPosition, ArrowTypes type) : base(position, targetPosition, type)
+    {
+        Name = "Bait Arrows";
+
+        var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["BaitArrowPickup"], 12, 12, 0);
+        graphic.Add(0, 0.3f, new int[2] { 0, 0 });
+        graphic.Play(0, false);
+        graphic.CenterOrigin();
+        AddGraphic(graphic);
+    }
+}
+
+[CustomArrows("OopsAllArrowsMod/Bait", nameof(CreateHud))]
 public class BaitArrow : Arrow
 {
     // This is automatically been set by the mod loader
@@ -21,15 +33,9 @@ public class BaitArrow : Arrow
     private Image buriedImage;
 
 
-    public static ArrowInfo CreateGraphicPickup() 
+    public static Subtexture CreateHud() 
     {
-        var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["BaitArrowPickup"], 12, 12, 0);
-        graphic.Add(0, 0.3f, new int[2] { 0, 0 });
-        graphic.Play(0, false);
-        graphic.CenterOrigin();
-        var arrowInfo = ArrowInfo.Create(graphic, OopsArrowsModModule.ArrowAtlas["BaitArrowHud"]);
-        arrowInfo.Name = "Bait Arrows";
-        return arrowInfo;
+        return OopsArrowsModModule.ArrowAtlas["BaitArrowHud"];
     }
 
     public BaitArrow() : base()

@@ -62,10 +62,9 @@ namespace OopsAllArrowsMod
             if (!self.Level.Session.MatchSettings.Variants.GetCustomVariant("InfiniteWarping"))
             {
                 var playerdata = DynamicData.For(self);
-                Arrow newarrow;
                 if (arrow.CanCatch(self) && !arrow.IsCollectible && arrow.CannotHit != self && (!self.HasShield || !arrow.Dangerous) && arrow != playerdata.Get("lastCaught"))
                 {
-                    if (arrow.ArrowType == RiseCore.ArrowsRegistry["Freaky"].Types)
+                    if (arrow.ArrowType == ModRegisters.ArrowType<FreakyArrow>())
                     {
                         arrow.OnPlayerCatch(self);
                         Sounds.sfx_cyanWarp.Play();
@@ -88,7 +87,7 @@ namespace OopsAllArrowsMod
         }
         public static bool CollectArrowPatchs(On.TowerFall.Player.orig_CollectArrows orig, global::TowerFall.Player self, ArrowTypes[] arrows)
         {
-            if (arrows != null && arrows.Length == 1 && arrows[0] == RiseCore.ArrowsRegistry["MiniMechArrow"].Types)
+            if (arrows != null && arrows.Length == 1 && arrows[0] == ModRegisters.ArrowType<MiniMechArrow>())
             {
                 return true;
             }

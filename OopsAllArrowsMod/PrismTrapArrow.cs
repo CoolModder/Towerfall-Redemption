@@ -7,7 +7,22 @@ using TowerFall;
 
 namespace OopsAllArrowsMod;
 
-[CustomArrows("PrismTrap", "CreateGraphicPickup")]
+[CustomArrowPickup("OopsAllArrowsMod/PrismTrapArrow", typeof(PrismTrapArrow))]
+public class PrismTrapArrowPickup : ArrowTypePickup
+{
+    public PrismTrapArrowPickup(Vector2 position, Vector2 targetPosition, ArrowTypes type) : base(position, targetPosition, type)
+    {
+        Name = "Prism Trap Arrows";
+
+        var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["PrismTrapArrowPickup"], 12, 12, 0);
+        graphic.Add(0, 0.3f, new int[2] { 0, 0 });
+        graphic.Play(0, false);
+        graphic.CenterOrigin();
+        AddGraphic(graphic);
+    }
+}
+
+[CustomArrows("OopsAllArrowsMod/PrismTrap", nameof(CreateHud))]
 public class PrismTrapArrow : Arrow
 {
     // This is automatically been set by the mod loader
@@ -17,15 +32,9 @@ public class PrismTrapArrow : Arrow
     private Image buriedImage;
 
 
-    public static ArrowInfo CreateGraphicPickup() 
+    public static Subtexture CreateHud() 
     {
-        var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["PrismTrapArrowPickup"], 12, 12, 0);
-        graphic.Add(0, 0.3f, new int[2] { 0, 0 });
-        graphic.Play(0, false);
-        graphic.CenterOrigin();
-        var arrowInfo = ArrowInfo.Create(graphic, OopsArrowsModModule.ArrowAtlas["PrismTrapArrowHud"]);
-        arrowInfo.Name = "Prism Trap Arrows";
-        return arrowInfo;
+        return OopsArrowsModModule.ArrowAtlas["PrismTrapArrowHud"];
     }
 
     public PrismTrapArrow() : base()

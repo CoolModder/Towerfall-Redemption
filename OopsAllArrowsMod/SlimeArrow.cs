@@ -4,7 +4,22 @@ using TowerFall;
 using FortRise;
 namespace OopsAllArrowsMod;
 
-[CustomArrows("Slime", "CreateGraphicPickup")]
+[CustomArrowPickup("OopsAllArrowsMod/SlimeArrow", typeof(SlimeArrow))]
+public class SlimeArrowPickup : ArrowTypePickup
+{
+    public SlimeArrowPickup(Vector2 position, Vector2 targetPosition, ArrowTypes type) : base(position, targetPosition, type)
+    {
+        Name = "Slime Arrows";
+
+        var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["SlimeArrowPickup"], 12, 12, 0);
+        graphic.Add(0, 0.3f, new int[2] { 0, 0 });
+        graphic.Play(0, false);
+        graphic.CenterOrigin();
+        AddGraphic(graphic);
+    }
+}
+
+[CustomArrows("OopsAllArrowsMod/Slime", nameof(CreateHud))]
 public class SlimeArrow : Arrow
 {
     // This is automatically been set by the mod loader
@@ -15,15 +30,9 @@ public class SlimeArrow : Arrow
     private Image buriedImage;
 
 
-    public static ArrowInfo CreateGraphicPickup() 
+    public static Subtexture CreateHud() 
     {
-        var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["SlimeArrowPickup"], 12, 12, 0);
-        graphic.Add(0, 0.3f, new int[2] { 0, 0 });
-        graphic.Play(0, false);
-        graphic.CenterOrigin();
-        var arrowInfo = ArrowInfo.Create(graphic, OopsArrowsModModule.ArrowAtlas["SlimeArrowHud"]);
-        arrowInfo.Name = "Slime Arrows";
-        return arrowInfo;
+        return OopsArrowsModModule.ArrowAtlas["SlimeArrowHud"];
     }
 
     public SlimeArrow() : base()

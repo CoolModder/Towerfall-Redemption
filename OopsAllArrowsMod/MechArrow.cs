@@ -8,7 +8,22 @@ using TowerFall;
 
 namespace OopsAllArrowsMod;
 
-[CustomArrows("Mech", "CreateGraphicPickup")]
+[CustomArrowPickup("OopsAllArrowsMod/MechArrow", typeof(MechArrow))]
+public class MechArrowPickup : ArrowTypePickup
+{
+    public MechArrowPickup(Vector2 position, Vector2 targetPosition, ArrowTypes type) : base(position, targetPosition, type)
+    {
+        Name = "Mech Arrows";
+
+        var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["MechArrowPickup"], 12, 12, 0);
+        graphic.Add(0, 0.3f, new int[2] { 0, 0 });
+        graphic.Play(0, false);
+        graphic.CenterOrigin();
+        AddGraphic(graphic);
+    }
+}
+
+[CustomArrows("OopsAllArrowsMod/Mech", nameof(CreateHud))]
 public class MechArrow : TriggerArrow
 {
     // This is automatically been set by the mod loader
@@ -20,16 +35,9 @@ public class MechArrow : TriggerArrow
     private Alarm explodeAlarm;
     public bool CanExplode;
     private Counter cannotPickupCounter;
-    public static ArrowInfo CreateGraphicPickup() 
+    public static Subtexture CreateHud() 
     {
-        var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["MechArrowPickup"], 12, 12, 0);
-        graphic.Add(0, 0.3f, new int[2] { 0, 0 });
-        graphic.Play(0, false);
-        graphic.CenterOrigin();
-        var arrowInfo = ArrowInfo.Create(graphic, OopsArrowsModModule.ArrowAtlas["MechArrowHud"]);
-        arrowInfo.Name = "Mech Arrows";
-
-        return arrowInfo;
+        return OopsArrowsModModule.ArrowAtlas["MechArrowHud"];
     }
 
     public MechArrow() : base()
@@ -117,7 +125,7 @@ public class MechArrow : TriggerArrow
         base.HitWall(platform);
         cannotPickupCounter.Set(15);
     }
-    public virtual void Bury(ArrowCushion buryIn, float moveIn = 0f, bool drawHead = false)
+    public override void Bury(ArrowCushion buryIn, float moveIn = 0f, bool drawHead = false)
     {
         base.Bury(buryIn, moveIn, drawHead);
         cannotPickupCounter.Set(15);
@@ -234,21 +242,21 @@ public class MechArrow : TriggerArrow
             {
                 if (!Level.Session.MatchSettings.Variants.GetCustomVariant("DoubleSpread"))
                 {
-                    var middle = Arrow.Create(RiseCore.ArrowsID["MiniMechArrow"], Owner, Position, Direction);
-                    var top = Arrow.Create(RiseCore.ArrowsID["MiniMechArrow"], Owner, Position + new Vector2(0, 1), Direction + 0.6011317f);
-                    var bottom = Arrow.Create(RiseCore.ArrowsID["MiniMechArrow"], Owner, Position - new Vector2(0, 1), Direction - 0.6011317f);
+                    var middle = Arrow.Create(ModRegisters.ArrowType<MiniMechArrow>(), Owner, Position, Direction);
+                    var top = Arrow.Create(ModRegisters.ArrowType<MiniMechArrow>(), Owner, Position + new Vector2(0, 1), Direction + 0.6011317f);
+                    var bottom = Arrow.Create(ModRegisters.ArrowType<MiniMechArrow>(), Owner, Position - new Vector2(0, 1), Direction - 0.6011317f);
                     Level.Add(middle, top, bottom);
                     canDie = true;
                     used = true;
                 }
                 else
                 {
-                    var corebottom = Arrow.Create(RiseCore.ArrowsID["MiniMechArrow"], Owner, Position - new Vector2(0, 0.5f), Direction - 0.151f);
-                    var coretop = Arrow.Create(RiseCore.ArrowsID["MiniMechArrow"], Owner, Position + new Vector2(0, 0.5f), Direction + 0.151f);
-                    var top = Arrow.Create(RiseCore.ArrowsID["MiniMechArrow"], Owner, Position + new Vector2(0, 1), Direction + 0.4511317f);
-                    var bottom = Arrow.Create(RiseCore.ArrowsID["MiniMechArrow"], Owner, Position - new Vector2(0, 1), Direction - 0.4511317f);
-                    var finaltop = Arrow.Create(RiseCore.ArrowsID["MiniMechArrow"], Owner, Position + new Vector2(0, 1.5f), Direction + 0.7011317f);
-                    var finalbottom = Arrow.Create(RiseCore.ArrowsID["MiniMechArrow"], Owner, Position - new Vector2(0, 1.5f), Direction - 0.7011317f);
+                    var corebottom = Arrow.Create(ModRegisters.ArrowType<MiniMechArrow>(), Owner, Position - new Vector2(0, 0.5f), Direction - 0.151f);
+                    var coretop = Arrow.Create(ModRegisters.ArrowType<MiniMechArrow>(), Owner, Position + new Vector2(0, 0.5f), Direction + 0.151f);
+                    var top = Arrow.Create(ModRegisters.ArrowType<MiniMechArrow>(), Owner, Position + new Vector2(0, 1), Direction + 0.4511317f);
+                    var bottom = Arrow.Create(ModRegisters.ArrowType<MiniMechArrow>(), Owner, Position - new Vector2(0, 1), Direction - 0.4511317f);
+                    var finaltop = Arrow.Create(ModRegisters.ArrowType<MiniMechArrow>(), Owner, Position + new Vector2(0, 1.5f), Direction + 0.7011317f);
+                    var finalbottom = Arrow.Create(ModRegisters.ArrowType<MiniMechArrow>(), Owner, Position - new Vector2(0, 1.5f), Direction - 0.7011317f);
                     Level.Add(corebottom, coretop, finaltop, finalbottom, top, bottom);
                     canDie = true;
                     used = true;
