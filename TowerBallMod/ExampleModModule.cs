@@ -2,6 +2,7 @@
 using FortRise;
 using Monocle;
 using MonoMod.ModInterop;
+using TowerFall;
 
 namespace TowerBall;
 
@@ -14,7 +15,6 @@ public class ExampleModModule : FortModule
 
     public string LoadPath;
     public static ExampleModModule Instance;
-    public static SFX BasketBallBounce;
     public static bool TowerBallMode;
 
     public ExampleModModule() 
@@ -27,7 +27,6 @@ public class ExampleModModule : FortModule
     public override void LoadContent()
     {
         LoadPath = Audio.LOAD_PREFIX;
-        BasketBallBounce = Content.LoadSFX("SFX/BOUNCYBALL.wav");
         Atlas = Content.LoadAtlas("Atlas/atlas.xml", "Atlas/atlas.png");
         MenuAtlas = Content.LoadAtlas("Atlas/menuAtlas.xml", "Atlas/menuAtlas.png");
     }

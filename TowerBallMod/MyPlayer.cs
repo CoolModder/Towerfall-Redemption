@@ -51,8 +51,7 @@ internal class MyPlayer : Player
             PlayerArrows[self.PlayerIndex] = self.Arrows;
             if (HasBasketBall[self.PlayerIndex] > 0)
             {
-                var arrowsRegistry = RiseCore.ArrowsRegistry["TowerBall/BasketBall"];
-                DynamicData.For(self).Set("Arrows", new ArrowList(new ArrowTypes[] { arrowsRegistry.Types }));
+                DynamicData.For(self).Set("Arrows", new ArrowList(new ArrowTypes[] { ModRegisters.ArrowType<BasketBall>() }));
                 ((TowerBallRoundLogic)self.Level.Session.RoundLogic).lastThrower = self.PlayerIndex;
                 HasBasketBall[self.PlayerIndex] = 0;
             }
@@ -66,8 +65,7 @@ internal class MyPlayer : Player
 
     public static bool CollectArrows(On.TowerFall.Player.orig_CollectArrows orig, global::TowerFall.Player self, ArrowTypes[] arrows)
     { 
-        var arrowsRegistry = RiseCore.ArrowsRegistry["TowerBall/BasketBall"];
-        if (arrows != null && arrows.Length == 1 && arrows[0] ==  arrowsRegistry.Types && ExampleModModule.TowerBallMode)
+        if (arrows != null && arrows.Length == 1 && arrows[0] == ModRegisters.ArrowType<BasketBall>() && ExampleModModule.TowerBallMode)
         {
             HasBasketBall[self.PlayerIndex] = 1;
             touchedGroundSinceCollect[self.PlayerIndex] = true;

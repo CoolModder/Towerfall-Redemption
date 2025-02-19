@@ -19,6 +19,7 @@ public class TowerBall : CustomGameMode
 		NameColor = Color.OrangeRed;
 		Icon = ExampleModModule.MenuAtlas["gamemodes/TowerBall"];
 		TeamMode = true;
+		TeamMinimumPlayers = 2;
     }
 
     public override void InitializeSounds() {}
@@ -83,7 +84,7 @@ public class TowerBallRoundLogic : RoundLogic
 		Session.MatchSettings.Variants.TriggerCorpses.Value = false;
 		overtime = false;
 		Session.MatchSettings.Variants.TeamRevive.Value = false;
-		if (base.Session.MatchSettings.Variants.GetCustomVariant("TimedRounds"))
+		if (base.Session.MatchSettings.Variants.GetCustomVariant("TowerBall/TimedRounds"))
 		{
 			roundTimer = new STimer(1000);
 			roundTimer.AutoReset = true;
@@ -250,7 +251,7 @@ public class TowerBallRoundLogic : RoundLogic
 		{
 			if (Session.GetHighestScore() < Session.MatchSettings.GoalScore)
 			{
-                if (base.Session.MatchSettings.Variants.GetCustomVariant("HoopTreasure"))
+                if (base.Session.MatchSettings.Variants.GetCustomVariant("TowerBall/HoopTreasure"))
                 {
                     SpawnTreasureChestsVersus();
                 }
@@ -261,7 +262,7 @@ public class TowerBallRoundLogic : RoundLogic
 		{
 			if (!overtime)
 			{
-                if (base.Session.MatchSettings.Variants.GetCustomVariant("HoopTreasure"))
+                if (base.Session.MatchSettings.Variants.GetCustomVariant("TowerBall/HoopTreasure"))
                 {
                     SpawnTreasureChestsVersus();
                 }
@@ -318,8 +319,7 @@ public class TowerBallRoundLogic : RoundLogic
 
 	public void DropBall(Player p, Vector2 pos, Facing face)
 	{
-		var arrowsRegistry = RiseCore.ArrowsRegistry["TowerBall/BasketBall"];
-		Arrow arrow = Arrow.Create(arrowsRegistry.Types, p, pos, (face == Facing.Right) ? 0f : ((float)Math.PI));
+		Arrow arrow = Arrow.Create(ModRegisters.ArrowType<BasketBall>(), p, pos, (face == Facing.Right) ? 0f : ((float)Math.PI));
 		arrow.Drop((int)face);
 		arrow.Speed.Y *= 0.5f;
 		arrowQueue.Add(arrow);
@@ -327,8 +327,7 @@ public class TowerBallRoundLogic : RoundLogic
 
 	public void DropBall(Player p, Vector2 pos)
 	{
-		var arrowsRegistry = RiseCore.ArrowsRegistry["TowerBall/BasketBall"];
-		Arrow arrow = Arrow.Create(arrowsRegistry.Types, p, pos, 4.712389f);
+		Arrow arrow = Arrow.Create(ModRegisters.ArrowType<BasketBall>(), p, pos, 4.712389f);
 		arrow.Drop(0);
 		arrow.Speed.X = (arrow.Speed.Y = 0f);
 		arrowQueue.Add(arrow);

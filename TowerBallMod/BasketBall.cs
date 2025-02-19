@@ -5,6 +5,8 @@ using FortRise;
 using System;
 
 namespace TowerBall;
+
+
 [CustomArrows("TowerBall/BasketBall", "CreateGraphicPickup")]
 public class BasketBall : ToyArrow
 {
@@ -32,7 +34,6 @@ public class BasketBall : ToyArrow
 
 	public Hitbox ballColliderOtherArrow;
 
-	public SFX MyBasketBallBounce;
     public override ArrowTypes ArrowType { get; set; }
     private bool used, canDie;
     private static Action<TriggerArrow, LevelEntity, Vector2, float> BaseInit;
@@ -81,7 +82,6 @@ public class BasketBall : ToyArrow
 		};
 		scaleWiggler = Wiggler.Create(20, 4f, null, onChange);
 		Add(scaleWiggler);
-		MyBasketBallBounce = ExampleModModule.BasketBallBounce;
 
     }
 
@@ -104,8 +104,7 @@ public class BasketBall : ToyArrow
 			{
 				if ((int)cantCollectCounter <= 0 && (player.Allegiance == ThrownTeam || ThrownTeam == Allegiance.Neutral))
 				{
-					var arrowRegistry = RiseCore.ArrowsRegistry["TowerBall/BasketBall"];
-					player.CollectArrows(arrowRegistry.Types);
+					player.CollectArrows(ModRegisters.ArrowType<BasketBall>());
 					RemoveSelf();
 					return false;
 				}
@@ -117,10 +116,18 @@ public class BasketBall : ToyArrow
 	private void forceState()
 	{
 		base.State = ArrowStates.Shooting;
-		bool value = base.Level.Session.MatchSettings.Variants.NoSeekingArrows[PlayerIndex];
-		base.Level.Session.MatchSettings.Variants.NoSeekingArrows[PlayerIndex] = true;
+		bool value = false;
+		if (PlayerIndex >= 0)
+		{
+			value = base.Level.Session.MatchSettings.Variants.NoSeekingArrows[PlayerIndex];
+			base.Level.Session.MatchSettings.Variants.NoSeekingArrows[PlayerIndex] = true;
+		}
+
 		base.ShootUpdate();
-		base.Level.Session.MatchSettings.Variants.NoSeekingArrows[PlayerIndex] = value;
+		if (PlayerIndex >= 0)
+		{
+			base.Level.Session.MatchSettings.Variants.NoSeekingArrows[PlayerIndex] = value;
+		}
 	}
 
 	protected override void OnCollideH(Platform platform)
@@ -129,7 +136,7 @@ public class BasketBall : ToyArrow
 		{
 			if (Math.Abs(Speed.X) > 1.5f)
 			{
-                MyBasketBallBounce.Play(base.X, Math.Min(Math.Abs(Speed.Y / 5f), 1f));
+				Sounds.Play("TowerBall/BOUNCYBALL", X, Math.Min(Math.Abs(Speed.Y / 5f), 1f));
             }
 			prevXSpeed *= -1f;
 			int num = (int)Math.Round(Math.Abs(Speed.X)) / 2;
@@ -152,7 +159,7 @@ public class BasketBall : ToyArrow
 			{
 				if (Math.Abs(Speed.Y) > 1.5f)
 				{
-					MyBasketBallBounce.Play(base.X, Math.Min(Math.Abs(Speed.Y / 5f), 1f));
+					Sounds.Play("TowerBall/BOUNCYBALL", X, Math.Min(Math.Abs(Speed.Y / 5f), 1f));
 				}
 				float length = Speed.Length();
 				float angleRadians = Calc.Angle(platform.Position + new Vector2((!flag) ? 15 : 0, 0f), Position);
@@ -201,7 +208,7 @@ public class BasketBall : ToyArrow
 			}
 			if (Math.Abs(Speed.Y) > 1.5f)
 			{
-                MyBasketBallBounce.Play(base.X, Math.Min(Math.Abs(Speed.Y / 5f), 1f));
+				Sounds.Play("TowerBall/BOUNCYBALL", X, Math.Min(Math.Abs(Speed.Y / 5f), 1f));
             }
 			Speed.Y *= -0.9f;
 			if (Math.Abs(Speed.Y) < 1f)
@@ -221,14 +228,11 @@ public class BasketBall : ToyArrow
 		}
 	}
 
-    public static ArrowInfo CreateGraphicPickup()
+    public static Subtexture CreateGraphicPickup()
     {
-		var graphic = new Image(ExampleModModule.Atlas["towerball/ball"]);
-        graphic.CenterOrigin();
-        var arrowInfo = ArrowInfo.Create(graphic, ExampleModModule.Atlas["towerball/ball"]);
-        arrowInfo.Name = "!!!!HACKER!!!!";
-        return arrowInfo;
+		return ExampleModModule.Atlas["towerball/ball"];
     }
+
     public override void EnterFallMode(bool bounce = true, bool zeroX = false, bool sound = true)
 	{
 		fallModeEntered = true;
@@ -268,11 +272,19 @@ public class BasketBall : ToyArrow
 		{
 			cantCollectCounter.Update();
 		}
-		bool value = base.Level.Session.MatchSettings.Variants.NoSeekingArrows[PlayerIndex];
-		base.Level.Session.MatchSettings.Variants.NoSeekingArrows[PlayerIndex] = true;
+		bool value = false;
+		if (PlayerIndex >= 0) 
+		{
+			value = base.Level.Session.MatchSettings.Variants.NoSeekingArrows[PlayerIndex];
+			base.Level.Session.MatchSettings.Variants.NoSeekingArrows[PlayerIndex] = true;
+		}
+
 		fallModeEntered = false;
 		base.Update();
-		base.Level.Session.MatchSettings.Variants.NoSeekingArrows[PlayerIndex] = value;
+		if (PlayerIndex >= 0)
+		{
+			base.Level.Session.MatchSettings.Variants.NoSeekingArrows[PlayerIndex] = value;
+		}
 		if (fallModeEntered)
 		{
 			prevXSpeed = Speed.X;

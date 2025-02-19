@@ -52,8 +52,7 @@ public class BasketBallTreasureChest : TreasureChest
 			{
 				Allegiance allegiance = player.Allegiance;
 				player.Allegiance = Allegiance.Neutral;
-				var arrowRegistry = RiseCore.ArrowsRegistry["TowerBall/BasketBall"];
-				Arrow entity = Arrow.Create(arrowRegistry.Types, player, Position, (float)Math.PI / 2f);
+				Arrow entity = Arrow.Create(ModRegisters.ArrowType<BasketBall>(), player, Position, (float)Math.PI / 2f);
 				player.Allegiance = allegiance;
 				Level.Add(entity);
 			}
