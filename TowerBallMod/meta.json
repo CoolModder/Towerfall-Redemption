@@ -1,7 +1,13 @@
 {
 	"name": "TowerBall",
-	"version": "3.0.0",
+	"version": "4.0.0",
 	"author": "Suyoo, CoolModder, Terria",
 	"description": "TowerBall with 8-Player Support.",
-	"dll": "TowerBall.dll"
+	"dll": "TowerBall.dll",
+	"dependencies": [
+		{
+			"name": "FortRise",
+			"version": "5.1.0"
+		}
+	]
 }

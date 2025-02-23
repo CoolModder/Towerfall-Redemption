@@ -26,15 +26,15 @@
 
   <ItemGroup>
     <Reference Include="FNA">
-      <HintPath>..\..\FNA.dll</HintPath>
+      <HintPath>..\..\..\FNA.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MMHOOK_TowerFall">
-      <HintPath>..\..\MMHOOK_TowerFall.dll</HintPath>
+      <HintPath>..\..\..\MMHOOK_TowerFall.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="TowerFall">
-      <HintPath>..\..\TowerFall.exe</HintPath>
+      <HintPath>..\..\..\TowerFall.exe</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
