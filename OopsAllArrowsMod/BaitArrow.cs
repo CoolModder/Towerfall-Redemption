@@ -20,7 +20,6 @@ public class BaitArrow : Arrow
     private static TowerFall.QuestSpawnPortal SnackPortal;
     private Image buriedImage;
 
-
     public static ArrowInfo CreateGraphicPickup() 
     {
         var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["BaitArrowPickup"], 12, 12, 0);

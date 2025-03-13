@@ -49,8 +49,8 @@ public class Crystal : Actor
     public override void Update()
     {
         base.Update();
-        
     }
+    
     public override bool IsRiding(Solid solid)
     {
         return riding == solid;

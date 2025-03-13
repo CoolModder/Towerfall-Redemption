@@ -4,19 +4,27 @@
     <TargetFramework>net472</TargetFramework>
     <LangVersion>11</LangVersion>
     <ImplicitUsings>disable</ImplicitUsings>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningLevel>9999</WarningLevel>
+    <OutputPath>..\..\Mods\OopsAllArrowsMod</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <WarningLevel>9999</WarningLevel>
+    <OutputPath>..\..\Mods\OopsAllArrowsMod</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MonoMod" Version="22.5.1.1" />
-    <PackageReference Include="MonoMod.RuntimeDetour" Version="22.5.1.1" />
+    <PackageReference Include="MonoMod" Version="22.5.1.1" ExcludeAssets="runtime" />
+    <PackageReference Include="MonoMod.RuntimeDetour" Version="22.5.1.1" ExcludeAssets="runtime"/>
   </ItemGroup>
 
   <ItemGroup>
@@ -31,16 +39,20 @@
   <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\..\0Harmony.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="FNA">
       <HintPath>..\..\FNA.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="MMHOOK_TowerFall">
       <HintPath>..\..\MMHOOK_TowerFall.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="TowerFall">
       <HintPath>..\..\TowerFall.exe</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
 

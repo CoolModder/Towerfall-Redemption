@@ -197,6 +197,7 @@ public class MechArrow : TriggerArrow
     {
         CanExplode = true;
     }
+    
     protected override void SwapToBuriedGraphics()
     {
         Graphics[0].Visible = false;
@@ -234,21 +235,21 @@ public class MechArrow : TriggerArrow
             {
                 if (!Level.Session.MatchSettings.Variants.GetCustomVariant("DoubleSpread"))
                 {
-                    var middle = Arrow.Create(RiseCore.ArrowsID["MiniMechArrow"], Owner, Position, Direction);
-                    var top = Arrow.Create(RiseCore.ArrowsID["MiniMechArrow"], Owner, Position + new Vector2(0, 1), Direction + 0.6011317f);
-                    var bottom = Arrow.Create(RiseCore.ArrowsID["MiniMechArrow"], Owner, Position - new Vector2(0, 1), Direction - 0.6011317f);
+                    var middle = Arrow.Create(RiseCore.ArrowsRegistry["MiniMechArrow"].Types, Owner, Position, Direction);
+                    var top = Arrow.Create(RiseCore.ArrowsRegistry["MiniMechArrow"].Types, Owner, Position + new Vector2(0, 1), Direction + 0.6011317f);
+                    var bottom = Arrow.Create(RiseCore.ArrowsRegistry["MiniMechArrow"].Types, Owner, Position - new Vector2(0, 1), Direction - 0.6011317f);
                     Level.Add(middle, top, bottom);
                     canDie = true;
                     used = true;
                 }
                 else
                 {
-                    var corebottom = Arrow.Create(RiseCore.ArrowsID["MiniMechArrow"], Owner, Position - new Vector2(0, 0.5f), Direction - 0.151f);
-                    var coretop = Arrow.Create(RiseCore.ArrowsID["MiniMechArrow"], Owner, Position + new Vector2(0, 0.5f), Direction + 0.151f);
-                    var top = Arrow.Create(RiseCore.ArrowsID["MiniMechArrow"], Owner, Position + new Vector2(0, 1), Direction + 0.4511317f);
-                    var bottom = Arrow.Create(RiseCore.ArrowsID["MiniMechArrow"], Owner, Position - new Vector2(0, 1), Direction - 0.4511317f);
-                    var finaltop = Arrow.Create(RiseCore.ArrowsID["MiniMechArrow"], Owner, Position + new Vector2(0, 1.5f), Direction + 0.7011317f);
-                    var finalbottom = Arrow.Create(RiseCore.ArrowsID["MiniMechArrow"], Owner, Position - new Vector2(0, 1.5f), Direction - 0.7011317f);
+                    var corebottom = Arrow.Create(RiseCore.ArrowsRegistry["MiniMechArrow"].Types, Owner, Position - new Vector2(0, 0.5f), Direction - 0.151f);
+                    var coretop = Arrow.Create(RiseCore.ArrowsRegistry["MiniMechArrow"].Types, Owner, Position + new Vector2(0, 0.5f), Direction + 0.151f);
+                    var top = Arrow.Create(RiseCore.ArrowsRegistry["MiniMechArrow"].Types, Owner, Position + new Vector2(0, 1), Direction + 0.4511317f);
+                    var bottom = Arrow.Create(RiseCore.ArrowsRegistry["MiniMechArrow"].Types, Owner, Position - new Vector2(0, 1), Direction - 0.4511317f);
+                    var finaltop = Arrow.Create(RiseCore.ArrowsRegistry["MiniMechArrow"].Types, Owner, Position + new Vector2(0, 1.5f), Direction + 0.7011317f);
+                    var finalbottom = Arrow.Create(RiseCore.ArrowsRegistry["MiniMechArrow"].Types, Owner, Position - new Vector2(0, 1.5f), Direction - 0.7011317f);
                     Level.Add(corebottom, coretop, finaltop, finalbottom, top, bottom);
                     canDie = true;
                     used = true;

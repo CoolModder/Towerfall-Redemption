@@ -62,7 +62,6 @@ namespace OopsAllArrowsMod
             if (!self.Level.Session.MatchSettings.Variants.GetCustomVariant("InfiniteWarping"))
             {
                 var playerdata = DynamicData.For(self);
-                Arrow newarrow;
                 if (arrow.CanCatch(self) && !arrow.IsCollectible && arrow.CannotHit != self && (!self.HasShield || !arrow.Dangerous) && arrow != playerdata.Get("lastCaught"))
                 {
                     if (arrow.ArrowType == RiseCore.ArrowsRegistry["Freaky"].Types)
