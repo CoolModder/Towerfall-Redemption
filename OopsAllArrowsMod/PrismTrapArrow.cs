@@ -12,7 +12,7 @@ public class PrismTrapArrowPickup : ArrowTypePickup
 {
     public PrismTrapArrowPickup(Vector2 position, Vector2 targetPosition, ArrowTypes type) : base(position, targetPosition, type)
     {
-        Name = "Prism Trap Arrows";
+        Name = "Prism Trap";
 
         var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["PrismTrapArrowPickup"], 12, 12, 0);
         graphic.Add(0, 0.3f, new int[2] { 0, 0 });

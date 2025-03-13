@@ -9,7 +9,7 @@ public class IceArrowPickup : ArrowTypePickup
 {
     public IceArrowPickup(Vector2 position, Vector2 targetPosition, ArrowTypes type) : base(position, targetPosition, type)
     {
-        Name = "Ice Arrows";
+        Name = "Ice";
 
         var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["IceArrowPickup"], 12, 12, 0);
         graphic.Add(0, 0.3f, new int[2] { 0, 0 });

@@ -11,7 +11,7 @@ public class BaitArrowPickup : ArrowTypePickup
 {
     public BaitArrowPickup(Vector2 position, Vector2 targetPosition, ArrowTypes type) : base(position, targetPosition, type)
     {
-        Name = "Bait Arrows";
+        Name = "Bait";
 
         var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["BaitArrowPickup"], 12, 12, 0);
         graphic.Add(0, 0.3f, new int[2] { 0, 0 });

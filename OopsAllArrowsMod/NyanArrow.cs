@@ -10,7 +10,7 @@ public class NyanArrowPickup : ArrowTypePickup
 {
     public NyanArrowPickup(Vector2 position, Vector2 targetPosition, ArrowTypes type) : base(position, targetPosition, type)
     {
-        Name = "Nyan Arrows";
+        Name = "Nyan";
 
         var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["NyanArrowPickup"], 12, 12, 0);
         graphic.Add(0, 0.3f, new int[2] { 0, 0 });

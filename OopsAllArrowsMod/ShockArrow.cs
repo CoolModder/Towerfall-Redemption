@@ -12,7 +12,7 @@ public class ShockArrowPickup : ArrowTypePickup
 {
     public ShockArrowPickup(Vector2 position, Vector2 targetPosition, ArrowTypes type) : base(position, targetPosition, type)
     {
-        Name = "Shock Arrows";
+        Name = "Shock";
 
         var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["ShockArrowPickup"], 12, 12, 0);
         graphic.Add(0, 0.3f, new int[2] { 0, 0 });
