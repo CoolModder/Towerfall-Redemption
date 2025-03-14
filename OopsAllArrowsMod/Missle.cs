@@ -11,6 +11,8 @@ public class MissleArrowPickup : ArrowTypePickup
     public MissleArrowPickup(Vector2 position, Vector2 targetPosition, ArrowTypes type) : base(position, targetPosition, type)
     {
         Name = "Missle";
+        Color = Calc.HexToColor("C7C7C7");
+        ColorB = Calc.HexToColor("FFC200");
 
         var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["MissleArrowPickup"], 12, 12, 0);
         graphic.Add(0, 0.3f, new int[2] { 0, 0 });

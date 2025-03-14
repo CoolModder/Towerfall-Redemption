@@ -13,6 +13,8 @@ public class PrismTrapArrowPickup : ArrowTypePickup
     public PrismTrapArrowPickup(Vector2 position, Vector2 targetPosition, ArrowTypes type) : base(position, targetPosition, type)
     {
         Name = "Prism Trap";
+        Color = Calc.HexToColor("D399CC");
+        ColorB = Calc.HexToColor("6C0D9C");
 
         var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["PrismTrapArrowPickup"], 12, 12, 0);
         graphic.Add(0, 0.3f, new int[2] { 0, 0 });

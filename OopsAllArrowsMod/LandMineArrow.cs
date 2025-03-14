@@ -11,6 +11,8 @@ public class LandMineArrowPickup : ArrowTypePickup
     public LandMineArrowPickup(Vector2 position, Vector2 targetPosition, ArrowTypes type) : base(position, targetPosition, type)
     {
         Name = "Land Mine";
+        Color = Calc.HexToColor("757575");
+        ColorB = Calc.HexToColor("FF1D1D");
 
         var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["LandMineArrowPickup"], 12, 12, 0);
         graphic.Add(0, 0.3f, new int[2] { 0, 0 });

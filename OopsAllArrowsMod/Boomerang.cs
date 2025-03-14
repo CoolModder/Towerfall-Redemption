@@ -12,6 +12,8 @@ public class BoomerangArrowPickup : ArrowTypePickup
     public BoomerangArrowPickup(Vector2 position, Vector2 targetPosition, ArrowTypes type) : base(position, targetPosition, type)
     {
         Name = "Boomerang";
+        Color = Color.White;
+        ColorB = Calc.HexToColor("FF5858");
 
         var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["BoomerangArrowPickup"], 12, 12, 0);
         graphic.Add(0, 0.3f, new int[2] { 0, 0 });
