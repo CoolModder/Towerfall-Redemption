@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <LangVersion>11</LangVersion>
     <ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
@@ -15,8 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MonoMod" Version="22.5.1.1" IncludeAssets="compile" />
-    <PackageReference Include="MonoMod.RuntimeDetour" Version="22.5.1.1" IncludeAssets="compile" />
+    <PackageReference Include="MonoMod.RuntimeDetour" Version="25.2.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,9 +36,8 @@
       <HintPath>..\..\..\MMHOOK_TowerFall.dll</HintPath>
       <Private>false</Private>
     </Reference>
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="TowerFall">
-      <HintPath>..\..\..\TowerFall.exe</HintPath>
+      <HintPath>..\..\..\TowerFall.Patch.dll</HintPath>
       <Private>false</Private>
     </Reference>
   </ItemGroup>

@@ -242,7 +242,7 @@ public class MechArrow : TriggerArrow
         {
             if (!used && CanExplode)
             {
-                if (!Level.Session.MatchSettings.Variants.GetCustomVariant("DoubleSpread"))
+                if (!Level.Session.MatchSettings.Variants.GetCustomVariant("OopsAllArrowsMod/DoubleSpread"))
                 {
                     var middle = Arrow.Create(ModRegisters.ArrowType<MiniMechArrow>(), Owner, Position, Direction);
                     var top = Arrow.Create(ModRegisters.ArrowType<MiniMechArrow>(), Owner, Position + new Vector2(0, 1), Direction + 0.6011317f);

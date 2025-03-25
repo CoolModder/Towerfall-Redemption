@@ -93,7 +93,7 @@ public class BoomerangArrow : Arrow
     }
     protected override void HitWall(TowerFall.Platform platform)
     {
-        if (!used && Level.Session.MatchSettings.Variants.GetCustomVariant("SonicBoom"))
+        if (!used && Level.Session.MatchSettings.Variants.GetCustomVariant("OopsAllArrowsMod/SonicBoom"))
         {
             this.used = true;
             Explosion.Spawn(platform.Level, Position, PlayerIndex, true, false, false);
@@ -117,7 +117,7 @@ public class BoomerangArrow : Arrow
         {
             RemoveSelf();
         }
-        if ((bool)BuriedIn && Level.Session.MatchSettings.Variants.GetCustomVariant("SonicBoom"))
+        if ((bool)BuriedIn && Level.Session.MatchSettings.Variants.GetCustomVariant("OopsAllArrowsMod/SonicBoom"))
         {
             Explosion.Spawn(base.Level, Position, PlayerIndex, true, false, false);
             canDie = true;

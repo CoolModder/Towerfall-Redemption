@@ -101,7 +101,7 @@ public class BaitArrow : Arrow
             Level.Add(MyPortal, SnackPortal);
             MyPortal.Appear();
             SnackPortal.Appear();
-            if (!Level.Session.MatchSettings.Variants.GetCustomVariant("ChaoticBaits"))
+            if (!Level.Session.MatchSettings.Variants.GetCustomVariant("OopsAllArrowsMod/ChaoticBaits"))
             {
                 MyPortal.SpawnEnemy(Calc.Random.Choose<string>("Bat", "Slime", "Crow", "Cultist"));
             }
