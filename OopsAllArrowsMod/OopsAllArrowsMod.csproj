@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <LangVersion>11</LangVersion>
     <ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
@@ -15,8 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MonoMod" Version="22.5.1.1" />
-    <PackageReference Include="MonoMod.RuntimeDetour" Version="22.5.1.1" />
+    <PackageReference Include="MonoMod.RuntimeDetour" Version="25.2.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,33 +28,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>..\..\0Harmony.dll</HintPath>
-    </Reference>
     <Reference Include="FNA">
-      <HintPath>..\..\FNA.dll</HintPath>
+      <HintPath>..\..\..\FNA.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="MMHOOK_TowerFall">
-      <HintPath>..\..\MMHOOK_TowerFall.dll</HintPath>
+      <HintPath>..\..\..\MMHOOK_TowerFall.dll</HintPath>
+      <Private>false</Private>
     </Reference>
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="TowerFall">
-      <HintPath>..\..\TowerFall.exe</HintPath>
+      <HintPath>..\..\..\TowerFall.Patch.dll</HintPath>
+      <Private>false</Private>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Properties\Settings.Designer.cs">
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
 </Project>

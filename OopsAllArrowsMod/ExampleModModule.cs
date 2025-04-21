@@ -1,9 +1,6 @@
 ﻿using FortRise;
 using Monocle;
 using MonoMod.ModInterop;
-using OopsAllArrowsMod;
-using System.Diagnostics;
-using System.Security.Cryptography.X509Certificates;
 using TowerFall;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -31,18 +28,20 @@ public class OopsArrowsModModule : FortModule
 
     public override void LoadContent()
     {
-        // From Terria: I recommend just having a one atlas, cuz that's point of an atlas and takes up less memory.
         ArrowAtlas = Content.LoadAtlas("Atlas/ArrowAtlas.xml", "Atlas/ArrowAtlas.png");
         VariantAtlas = Content.LoadAtlas("Atlas/VariantAtlas.xml", "Atlas/VariantAtlas.png");
         SpriteData = Content.LoadSpriteData("Atlas/SpriteData.xml", ArrowAtlas);
     }
+
+    public override void Initialize()
+    {
+    }
+
     public override void Load()
     {
         MechArrow.Load();
         MyPlayer.Load();
         typeof(ExplosiveImports).ModInterop();
-  
-
     }
     
 
@@ -51,17 +50,17 @@ public class OopsArrowsModModule : FortModule
     {
         base.OnVariantsRegister(manager, noPerPlayer);
 
-        manager.AddArrowVariant(RiseCore.ArrowsRegistry["Ice"], VariantAtlas["variants/startWithIceArrows"], VariantAtlas["variants/excludeIceArrows"]);
-        manager.AddArrowVariant(RiseCore.ArrowsRegistry["Slime"], VariantAtlas["variants/startWithSlimeArrows"], VariantAtlas["variants/excludeSlimeArrows"]);
-        manager.AddArrowVariant(RiseCore.ArrowsRegistry["Bait"], VariantAtlas["variants/startWithBaitArrows"], VariantAtlas["variants/excludeBaitArrows"]);
-        manager.AddArrowVariant(RiseCore.ArrowsRegistry["PrismTrap"], VariantAtlas["variants/startWithPrismTrapArrows"], VariantAtlas["variants/excludePrismTrapArrows"]);
-        manager.AddArrowVariant(RiseCore.ArrowsRegistry["LandMine"], VariantAtlas["variants/startWithLandMineArrows"], VariantAtlas["variants/excludeLandMineArrows"]);
-        manager.AddArrowVariant(RiseCore.ArrowsRegistry["Missle"], VariantAtlas["variants/startWithMissleArrows"], VariantAtlas["variants/excludeMissleArrows"]);
-        manager.AddArrowVariant(RiseCore.ArrowsRegistry["Freaky"], VariantAtlas["variants/startWithFreakyArrows"], VariantAtlas["variants/excludeFreakyArrows"]);
-        manager.AddArrowVariant(RiseCore.ArrowsRegistry["Tornado"], VariantAtlas["variants/startWithTornadoArrows"], VariantAtlas["variants/excludeTornadoArrows"]);
-        manager.AddArrowVariant(RiseCore.ArrowsRegistry["Mech"], VariantAtlas["variants/startWithMechArrows"], VariantAtlas["variants/excludeMechArrows"]);
-        manager.AddArrowVariant(RiseCore.ArrowsRegistry["Boomerang"], VariantAtlas["variants/startWithBoomerangArrows"], VariantAtlas["variants/excludeBoomerangArrows"]);
-        manager.AddArrowVariant(RiseCore.ArrowsRegistry["Nyan"], VariantAtlas["variants/startWithNyanArrows"], VariantAtlas["variants/excludeNyanArrows"]);
+        manager.AddArrowVariant(ModRegisters.ArrowData<IceArrow>(), VariantAtlas["variants/startWithIceArrows"], VariantAtlas["variants/excludeIceArrows"]);
+        manager.AddArrowVariant(ModRegisters.ArrowData<SlimeArrow>(), VariantAtlas["variants/startWithSlimeArrows"], VariantAtlas["variants/excludeSlimeArrows"]);
+        manager.AddArrowVariant(ModRegisters.ArrowData<BaitArrow>(), VariantAtlas["variants/startWithBaitArrows"], VariantAtlas["variants/excludeBaitArrows"]);
+        manager.AddArrowVariant(ModRegisters.ArrowData<PrismTrapArrow>(), VariantAtlas["variants/startWithPrismTrapArrows"], VariantAtlas["variants/excludePrismTrapArrows"]);
+        manager.AddArrowVariant(ModRegisters.ArrowData<LandMineArrow>(), VariantAtlas["variants/startWithLandMineArrows"], VariantAtlas["variants/excludeLandMineArrows"]);
+        manager.AddArrowVariant(ModRegisters.ArrowData<MissleArrow>(), VariantAtlas["variants/startWithMissleArrows"], VariantAtlas["variants/excludeMissleArrows"]);
+        manager.AddArrowVariant(ModRegisters.ArrowData<FreakyArrow>(), VariantAtlas["variants/startWithFreakyArrows"], VariantAtlas["variants/excludeFreakyArrows"]);
+        manager.AddArrowVariant(ModRegisters.ArrowData<TornadoArrow>(), VariantAtlas["variants/startWithTornadoArrows"], VariantAtlas["variants/excludeTornadoArrows"]);
+        manager.AddArrowVariant(ModRegisters.ArrowData<MechArrow>(), VariantAtlas["variants/startWithMechArrows"], VariantAtlas["variants/excludeMechArrows"]);
+        manager.AddArrowVariant(ModRegisters.ArrowData<BoomerangArrow>(), VariantAtlas["variants/startWithBoomerangArrows"], VariantAtlas["variants/excludeBoomerangArrows"]);
+        manager.AddArrowVariant(ModRegisters.ArrowData<NyanArrow>(), VariantAtlas["variants/startWithNyanArrows"], VariantAtlas["variants/excludeNyanArrows"]);
         //manager.AddArrowVariant(RiseCore.ArrowsRegistry["Shock"], VariantAtlas["variants/startWithShockArrows"], VariantAtlas["variants/excludeShockArrows"]);
         manager.AddVariant(new CustomVariantInfo("DoubleSpread", VariantAtlas["variants/doubleSpread"], "MECH ARROWS SPLIT INTO 6 INSTEAD OF 3", CustomVariantFlags.CanRandom), true);
         manager.AddVariant(new CustomVariantInfo("SonicBoom", VariantAtlas["variants/sonicBoom"], "WHY DID I STICK A LANDMINE ON A BOOMERANG?", CustomVariantFlags.CanRandom), true);

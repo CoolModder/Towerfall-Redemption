@@ -4,7 +4,7 @@ using TowerFall;
 using FortRise;
 namespace OopsAllArrowsMod;
 
-[CustomArrows("MiniMechArrow", "CreateGraphicPickup")]
+[CustomArrows("OopsAllArrowsMod/MiniMech", nameof(CreateHud))]
 public class MiniMechArrow : Arrow
 {
     // This is automatically been set by the mod loader
@@ -13,16 +13,9 @@ public class MiniMechArrow : Arrow
     private Image normalImage;
     private Image buriedImage;
 
-    public static ArrowInfo CreateGraphicPickup() 
+    public static Subtexture CreateHud() 
     {
-        var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["MechArrowPickup"], 12, 12, 0);
-        graphic.Add(0, 0.3f, new int[2] { 0, 0 });
-        graphic.Play(0, false);
-        graphic.CenterOrigin();
-        var arrowInfo = ArrowInfo.Create(graphic, OopsArrowsModModule.ArrowAtlas["MechArrowHud"]);
-        arrowInfo.Name = "MiniMech Arrows";
-
-        return arrowInfo;
+        return OopsArrowsModModule.ArrowAtlas["MechArrowHud"];
     }
 
     public MiniMechArrow() : base()

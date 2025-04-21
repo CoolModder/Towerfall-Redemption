@@ -8,7 +8,25 @@ using TowerFall;
 
 namespace OopsAllArrowsMod;
 
-[CustomArrows("Freaky", "CreateGraphicPickup")]
+[CustomArrowPickup("OopsAllArrowsMod/FreakyArrow", typeof(FreakyArrow))]
+public class FreakyArrowPickup : ArrowTypePickup
+{
+    public FreakyArrowPickup(Vector2 position, Vector2 targetPosition, ArrowTypes type) : base(position, targetPosition, type)
+    {
+        Name = "Freaky";
+        Color = Calc.HexToColor("637FD7");
+        ColorB = Calc.HexToColor("D156DC");
+
+        var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["FreakyArrowPickup"], 12, 12, 0);
+        graphic.Add(0, 0.3f, new int[2] { 0, 1 });
+        graphic.Play(0, false);
+        graphic.CenterOrigin();
+        AddGraphic(graphic);
+    }
+}
+
+
+[CustomArrows("OopsAllArrowsMod/Freaky", nameof(CreateHud))]
 public class FreakyArrow : Arrow
 {
     // This is automatically been set by the mod loader
@@ -18,15 +36,9 @@ public class FreakyArrow : Arrow
     private Image buriedImage;
 
 
-    public static ArrowInfo CreateGraphicPickup() 
+    public static Subtexture CreateHud() 
     {
-        var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["FreakyArrowPickup"], 12, 12, 0);
-        graphic.Add(0, 0.3f, new int[2] { 0, 1 });
-        graphic.Play(0, false);
-        graphic.CenterOrigin();
-        var arrowInfo = ArrowInfo.Create(graphic, OopsArrowsModModule.ArrowAtlas["FreakyArrowHud"]);
-        arrowInfo.Name = "Freaky Arrows";
-        return arrowInfo;
+        return OopsArrowsModModule.ArrowAtlas["FreakyArrowHud"];
     }
 
     public FreakyArrow() : base()

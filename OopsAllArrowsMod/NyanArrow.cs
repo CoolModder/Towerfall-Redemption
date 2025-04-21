@@ -5,7 +5,24 @@ using TowerFall;
 using FortRise;
 namespace OopsAllArrowsMod;
 
-[CustomArrows("Nyan", "CreateGraphicPickup")]
+[CustomArrowPickup("OopsAllArrowsMod/NyanArrow", typeof(NyanArrow))]
+public class NyanArrowPickup : ArrowTypePickup
+{
+    public NyanArrowPickup(Vector2 position, Vector2 targetPosition, ArrowTypes type) : base(position, targetPosition, type)
+    {
+        Name = "Nyan";
+        Color = Calc.HexToColor("3F5BB0");
+        ColorB = Calc.HexToColor("FF1D1D");
+
+        var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["NyanArrowPickup"], 12, 12, 0);
+        graphic.Add(0, 0.3f, new int[2] { 0, 0 });
+        graphic.Play(0, false);
+        graphic.CenterOrigin();
+        AddGraphic(graphic);
+    }
+}
+
+[CustomArrows("OopsAllArrowsMod/Nyan", nameof(CreateHud))]
 public class NyanArrow : Arrow
 {
     // This is automatically been set by the mod loader
@@ -20,15 +37,9 @@ public class NyanArrow : Arrow
     private Alarm explodeAlarm;
 
     protected override float SeekTurnRate => (float)Math.PI / 180f;
-    public static ArrowInfo CreateGraphicPickup() 
+    public static Subtexture CreateHud() 
     {
-        var graphic = new Sprite<int>(OopsArrowsModModule.ArrowAtlas["NyanArrowPickup"], 12, 12, 0);
-        graphic.Add(0, 0.3f, new int[2] { 0, 0 });
-        graphic.Play(0, false);
-        graphic.CenterOrigin();
-        var arrowInfo = ArrowInfo.Create(graphic, OopsArrowsModModule.ArrowAtlas["NyanArrowHud"]);
-        arrowInfo.Name = "Nyan Arrows";
-        return arrowInfo;
+        return OopsArrowsModModule.ArrowAtlas["NyanArrowHud"];
     }
 
     public NyanArrow() : base()
